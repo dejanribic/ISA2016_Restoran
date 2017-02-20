@@ -19,7 +19,7 @@
         };
 
         $scope.exists = function () {
-            $http.put('/users/exists', $scope.loggingUser).success(function (response) {
+            $http.put('/sysman/exists', $scope.loggingUser).success(function (response) {
                 if ($scope.loggingUser != null) {
                     console.log($scope.loggingUser);
                     console.log(response);
