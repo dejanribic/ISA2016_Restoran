@@ -34,22 +34,15 @@ public class Sys_ManagerController {
 
 
     @RequestMapping(value = "/exists", method = RequestMethod.PUT)
-    public Sys_Manager exists(@RequestBody Sys_Manager sentUser) {
-        Sys_Manager user = repository.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
-        System.out.println(user);
-
-        List<Sys_Manager> listSvihUsera = repository.findAll();
-        for (Sys_Manager temp : listSvihUsera) {
-            System.out.println(temp.getEmail());
-            System.out.println(temp.getPassword());
-        }
-        return user;
+    public Sys_Manager exists(@RequestBody Sys_Manager sentSys_Manager) {
+        Sys_Manager sys_manager = repository.findByEmailAndPassword(sentSys_Manager.getEmail(), sentSys_Manager.getPassword());
+        return sys_manager;
     }
 
     @RequestMapping(value = "/existsEmail", method = RequestMethod.PUT)
     public boolean existsEmail(@RequestBody String email) {
-        Sys_Manager user = repository.findByEmail(email);
-        if (user == null)
+        Sys_Manager sys_manager = repository.findByEmail(email);
+        if (sys_manager == null)
             return false;
         else
             return true;
@@ -57,8 +50,8 @@ public class Sys_ManagerController {
 
 
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
-    public void create(@RequestBody Sys_Manager newUser) {
-        repository.save(newUser);
+    public void create(@RequestBody Sys_Manager newSys_Manager) {
+        repository.save(newSys_Manager);
     }
 
 }

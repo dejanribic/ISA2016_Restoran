@@ -1,37 +1,40 @@
 package com.desha.Beans;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.sql.Blob;
 
 @Entity
 public class Restaurant {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long restaurant_id;
-
     private String name;
-
+    @Column
     private String description;
 
+    @Column
+    private String coordinates;
 
-    public Restaurant() {
-    }
+    @Column
+    private Integer tablegrid_width;
 
-    public Restaurant(long restaurant_id, String name, String description) {
-        this.restaurant_id = restaurant_id;
+    @Column
+    private Integer tablegrid_height;
+
+    @JsonIgnore
+    @Column
+    private Blob image;
+
+    public Restaurant(){}
+
+    public Restaurant(String name, String description, String coordinates, Integer tablegrid_width, Integer tablegrid_height, Blob image) {
         this.name = name;
         this.description = description;
-    }
-
-    public long getRestaurant_id() {
-        return restaurant_id;
-    }
-
-    public void setRestaurant_id(long restaurant_id) {
-        this.restaurant_id = restaurant_id;
+        this.coordinates = coordinates;
+        this.tablegrid_width = tablegrid_width;
+        this.tablegrid_height = tablegrid_height;
+        this.image = image;
     }
 
     public String getName() {
@@ -49,4 +52,39 @@ public class Restaurant {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public Integer getTablegrid_width() {
+        return tablegrid_width;
+    }
+
+    public void setTablegrid_width(Integer tablegrid_width) {
+        this.tablegrid_width = tablegrid_width;
+    }
+
+    public Integer getTablegrid_height() {
+        return tablegrid_height;
+    }
+
+    public void setTablegrid_height(Integer tablegrid_height) {
+        this.tablegrid_height = tablegrid_height;
+    }
+
+    public Blob getImage() {
+        return image;
+    }
+
+    public void setImage(Blob image) {
+        this.image = image;
+    }
+
+
+
 }
