@@ -14,6 +14,7 @@
             templateUrl: 'html/restorani.html',
             controller: 'RestorauntsController'
         });
+        
 
         $routeProvider.when('/rezervacije', {
             templateUrl: 'html/rezervacije.html',
