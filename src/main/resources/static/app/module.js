@@ -1,9 +1,11 @@
 /**
- * Created by dan.geabunea on 3/29/2016.
+ * Created by Dejan on 3/29/2016.
+ * Angular routing
  */
 (function () {
     'use strict';
 
+    //noinspection JSUnresolvedFunction
     var App = angular.module('app', ['ngRoute', 'ngCookies']);
 
     App.config(['$routeProvider', function ($routeProvider) {
@@ -40,6 +42,8 @@
         });
 
         //$routeProvider.otherwise({});
+
+        //noinspection JSUnresolvedFunction
         $routeProvider.otherwise('/', {
             templateUrl: 'html/login.html',
             controller: 'LoginController'
