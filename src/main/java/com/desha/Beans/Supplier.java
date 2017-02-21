@@ -6,9 +6,11 @@ import javax.persistence.Id;
 
 /**
  * Created by Nenad on 2/20/2017.
+ * DeshaProba
  */
 @Entity
 public class Supplier {
+
 
     @Id
     private String email;
