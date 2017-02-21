@@ -4,6 +4,7 @@
 (function () {
     'use strict';
 
+    //noinspection JSUnresolvedFunction
     var App = angular.module('app', ['ngRoute', 'ngCookies']);
 
     App.config(['$routeProvider', function ($routeProvider) {
@@ -40,6 +41,8 @@
         });
 
         //$routeProvider.otherwise({});
+
+        //noinspection JSUnresolvedFunction
         $routeProvider.otherwise('/', {
             templateUrl: 'html/login.html',
             controller: 'LoginController'
