@@ -39,10 +39,10 @@
             controller: 'LoginController'
         });
 
-        $routeProvider.otherwise({});
-        //$routeProvider.otherwise('/', {
-        //  templateUrl: 'html/login.html',
-        //  controller: 'LoginController'
-        //});
+        //$routeProvider.otherwise({});
+        $routeProvider.otherwise('/', {
+            templateUrl: 'html/login.html',
+            controller: 'LoginController'
+        });
     }]);
 })();

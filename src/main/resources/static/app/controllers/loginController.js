@@ -13,7 +13,7 @@
         $scope.register = function () {
             console.log("usao");
             $http.put('/guests/create', $scope.newUser).success(function (response) {
-                console.log("Poslao sam nest!");
+                // console.log("Poslao sam nest!");
 
             });
         };

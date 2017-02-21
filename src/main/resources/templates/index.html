@@ -1,37 +1,34 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>ISA - Restoran APP</title>
-    <link rel="stylesheet" href="../static/bootstrap.css" th:href="@{bootstrap.css}"/>
-    <link rel="stylesheet" href="../static/app/style.css" th:href="@{app/style.css}"/>
-    <script type="text/javascript" src="/static/angular.min.js" th:src="@{/angular.min.js}"></script>
-    <script type="text/javascript" src="/static/app/module.js" th:src="@{/app/module.js}"></script>
-    <script type="text/javascript" src="/static/app/controllers/restorauntController.js"
-            th:src="@{/app/controllers/restorauntController.js}"></script>
-    <script type="text/javascript" src="/static/app/controllers/accountController.js"
-            th:src="@{/app/controllers/accountController.js}"></script>
-    <script type="text/javascript" src="/static/app/controllers/loginController.js"
-            th:src="@{/app/controllers/loginController.js}"></script>
-    <script type="text/javascript" src="/static/app/controllers/reservationController.js"
-            th:src="@{/app/controllers/reservationController.js}"></script>
-    <script type="text/javascript" src="/static/app/controllers/invitationsController.js"
-            th:src="@{/app/controllers/invitationsController.js}"></script>
-    <script type="text/javascript" src="/static/angular-route.js" th:src="@{/angular-route.js}"></script>
-    <script type="text/javascript" src="/static/angular-cookies.js" th:src="@{/angular-cookies.js}"></script>
+    <title>ISA 2016</title>
 
+    <!-- Boostrap and custom CSS -->
+    <link rel="stylesheet" href="../static/bootstrap.css"/>
+    <link rel="stylesheet" href="../static/app/style.css"/>
+
+    <!-- Angular -->
+    <script type="text/javascript" src="/static/angular.min.js"></script>
+    <script type="text/javascript" src="/static/angular-route.js"></script>
+    <script type="text/javascript" src="/static/angular-cookies.js"></script>
+
+    <!-- JQuery and Bootstrap -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/static/app/login.js" th:src="@{/app/login.js}"></script>
 
-
+    <!-- Custom -->
+    <script type="text/javascript" src="/static/app/module.js"></script>
+    <script type="text/javascript" src="/static/app/login.js"></script>
+    <script type="text/javascript" src="/static/app/controllers/restaurantController.js"></script>
+    <script type="text/javascript" src="/static/app/controllers/accountController.js"></script>
+    <script type="text/javascript" src="/static/app/controllers/loginController.js"></script>
+    <script type="text/javascript" src="/static/app/controllers/reservationController.js"></script>
+    <script type="text/javascript" src="/static/app/controllers/invitationsController.js"></script>
 </head>
 <body ng-app="app">
-
-
+cao buraz.
 <div ng-view="">
-
 </div>
-
 </body>
 </html>
