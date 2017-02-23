@@ -1,0 +1,54 @@
+<form id="add-menu-item-form" role="form" style="display: block;">
+    <div class="form-group">
+        <input type="text" name="name" id="name" tabindex="1" class="form-control"
+               placeholder="Name" value="" ng-model="menuItem.name">
+    </div>
+    <div class="form-group">
+        <input type="text" name="description" id="description" tabindex="1" class="form-control"
+               placeholder="Description" value="" ng-model="menuItem.description">
+    </div>
+    <div class="form-group">
+        <input type="number" name="price" id="price" tabindex="1" class="form-control"
+               placeholder="Price" value="" ng-model="menuItem.price">
+    </div>
+    <div class="form-group">
+        <input type="text" name="type_name" id="type_name" tabindex="1" class="form-control"
+               placeholder="Item type" value="" ng-model="menuItem.type_name">
+    </div>
+    <div class="form-group">
+        <input type="text" name="restaurant_name" id="restaurant_name" tabindex="1" class="form-control"
+               placeholder="Res" value="" ng-model="menuItem.restaurant_name">
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <input type="submit" name="login-submit" id="login-submit" tabindex="4"
+                       class="form-control btn btn-login" value="Dodaj"
+                       ng-click="create()">
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="col-md-6" style="border: 1px solid black">
+    <h1>Jelovnik:</h1>
+    <table id="jelovnik" class="table">
+        <thead>
+        <tr>
+            <th>Naziv</th>
+            <th>Opis</th>
+            <th>Cena</th>
+            <th>Tip</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="it in menuItems">
+            <td>{{it.name}}</td>
+            <td>{{it.description}}</td>
+            <td>{{it.price}}</td>
+            <td>{{it.type_name}}</td>
+            <td><button type="button" class="btn btn-success" data-toggle="modal" ng-click="remove(it)" data-target="#modal-1">Obriši</button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -12,16 +12,16 @@ public class Menu_Item implements Serializable{
 
     @Id
     private String name;
-    @Column
+
     private String description;
-    @Column
+
     private int price;
 
-    @JoinColumn(foreignKey = @ForeignKey(name = "fk_Menu_Item_Menu_Item_Type1"))
+    //@JoinColumn(foreignKey = @ForeignKey(name = "fk_Menu_Item_Menu_Item_Type1"))
     private String type_name;
 
     @Id
-    @JoinColumn(foreignKey = @ForeignKey(name = "fk_Menu_Item_Restaurant1"))
+    //@JoinColumn(foreignKey = @ForeignKey(name = "fk_Menu_Item_Restaurant1"))
     private String restaurant_name;
 
     public Menu_Item(){

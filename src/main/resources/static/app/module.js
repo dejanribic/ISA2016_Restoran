@@ -35,6 +35,11 @@
             controller: 'LoginController'
         });
 
+        $routeProvider.when('/menu-item', {
+            templateUrl: 'html/restaurant-administration.html',
+            controller: 'MenuItemController'
+        });
+
         //noinspection JSUnresolvedFunction
         $routeProvider.otherwise('/', {
             templateUrl: 'html/login.html',

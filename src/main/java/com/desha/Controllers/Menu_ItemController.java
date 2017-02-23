@@ -23,20 +23,25 @@ public class Menu_ItemController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Menu_Item> getAll() { return repository.findAll(); }
 
-    @RequestMapping(value = "/getByEmail/{name}")
+    @RequestMapping(value = "/getByName/{name}")
     public Menu_Item getByName(@PathVariable String name) {
         return repository.findByName(name);
     }
 
 
     @RequestMapping(value = "/exists", method = RequestMethod.PUT)
-    public Menu_Item exists(@RequestBody Menu_Item sentManager) {
-        Menu_Item restaurant = repository.findByName(sentManager.getName());
-        return restaurant;
+    public Menu_Item exists(@RequestBody Menu_Item menu_item) {
+        Menu_Item ret = repository.findByName(menu_item.getName());
+        return ret;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
-    public void create(@RequestBody Menu_Item newMenu_Item) {
-        repository.save(newMenu_Item);
+    public Menu_Item create(@RequestBody Menu_Item newMenu_Item) {
+       return repository.save(newMenu_Item);
+    }
+
+    @RequestMapping(value = "/remove", method = RequestMethod.PUT)
+    public void remove(@RequestBody Menu_Item toDelete) {
+        repository.delete(toDelete);
     }
 }
