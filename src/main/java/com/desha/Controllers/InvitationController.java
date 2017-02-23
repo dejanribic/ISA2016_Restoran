@@ -1,20 +1,13 @@
 package com.desha.Controllers;
 
-import com.desha.Beans.Guest;
-import com.desha.Beans.Invitation;
-import com.desha.Beans.Reservation;
-import com.desha.Repositories.GuestRepository;
-import com.desha.Repositories.InvitationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/invitations")
 public class InvitationController {
+
+/*
 
     private InvitationRepository repository;
     private GuestRepository guestRepository;
@@ -105,5 +98,6 @@ public class InvitationController {
         invitation.setInvited(invitedGuest);
         repository.save(invitation);
     }
+    */
 
 }

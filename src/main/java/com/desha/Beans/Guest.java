@@ -1,16 +1,83 @@
 package com.desha.Beans;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.Id;
 import java.sql.Blob;
-import java.util.List;
 
 @Entity
-public class Guest extends User {
+public class Guest {// extends User {
 
+    @Id
+    @Column
+    private String email;
+
+    @Column
+    private String password;
+
+    @Column
+    private String name;
+
+    @Column
+    private String surname;
+
+    @Column
+    private int confirmed;
+
+    @Column(nullable = true)
+    private Blob image;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public int getConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(int confirmed) {
+        this.confirmed = confirmed;
+    }
+
+    public Blob getImage() {
+        return image;
+    }
+
+    public void setImage(Blob image) {
+        this.image = image;
+    }
+
+
+
+/*
     @Column
     private int visits;
 
@@ -67,4 +134,6 @@ public class Guest extends User {
     public void setAdress(String adress) {
         this.adress = adress;
     }
+    */
+
 }

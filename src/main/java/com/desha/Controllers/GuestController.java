@@ -1,15 +1,8 @@
 package com.desha.Controllers;
 
-import com.desha.Beans.Guest;
-import com.desha.Repositories.GuestRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.sql.Blob;
-import java.util.ArrayList;
-import java.util.List;
-
+/*
 @RestController
+
 @RequestMapping(value = "/guests")
 public class GuestController {
 
@@ -154,6 +147,5 @@ public class GuestController {
         }
 
     }
-
-
 }
+*/

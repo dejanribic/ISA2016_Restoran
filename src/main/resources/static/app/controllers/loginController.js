@@ -6,39 +6,53 @@
         .controller('LoginController', LoginController);
 
     LoginController.$inject = ['$cookies', '$scope', '$http', '$location'];
-    //AccountController.$inject = ['$scope'];
 
     function LoginController($cookies, $scope, $http, $location) {
 
         $scope.register = function () {
-            console.log("usao");
-            $http.put('/guests/create', $scope.newUser).success(function (response) {
-                // console.log("Poslao sam nest!");
-
-            });
+            var pass1 = document.getElementById("passwordreg").value;
+            var pass2 = document.getElementById("confirm-password").value;
+            var ok = true;
+            if (pass1 != pass2) {
+                alert("Passwords Do not match");
+                document.getElementById("passwordreg").style.borderColor = "#E34234";
+                document.getElementById("confirm-password").style.borderColor = "#E34234";
+                ok = false;
+            }
+            else {
+                $http.put('/users/create', $scope.newUser).success(function (response) {
+                    console.log("Kreiram novog korisnika!");
+                    $location.url('/restorani');
+                });
+            }
         };
 
         $scope.exists = function () {
-            $http.put('/sysman/exists', $scope.loggingUser).success(function (response) {
+            $http.put('/users/exists', $scope.loggingUser).success(function (response) {
+                console.log($scope.loggingUser);
+
                 if ($scope.loggingUser != null) {
-                    console.log($scope.loggingUser);
-                    console.log(response);
+                    //console.log($scope.loggingUser);
+                    //console.log(response);
                     $cookies.put('name', response.name);
                     $cookies.put('id', response.user_id);
-                    var favoriteCookie = $cookies.get('name');
-                    console.log(favoriteCookie);
-                    console.log($cookies.get('id'));
-                    // //var favoriteCookie2 = $cookies.get('id');
-                    // //console.log(favoriteCookie2);
+
+                    //var favoriteCookie = $cookies.get('name');
+                    //console.log(favoriteCookie);
+                    //console.log($cookies.get('id'));
                     $location.url('/restorani');
                 } else {
                     $location.url('/');
                 }
             });
-
-
         };
 
+        $scope.forgotPass = function () {
+            $http.post('/users/forgotPass', $scope.loggingUser).success(function (response) {
+                console.log("Zaboravio sifru");
+                $location.url('/');
+            });
+        };
     }
 
     function passwordVerify() {
@@ -69,6 +83,4 @@
             }
         }
     }
-
-
 })();
