@@ -49,7 +49,7 @@ public class UserController {
         //String contentString = "Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n Please confirm your email address by clicking on the following link:\n\nhttps://www.w3schools.com\n\n Thanks!";
 
 
-        String SendGridApiKey = "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";
+        String SendGridApiKey = "placeholder";
         Content content = new Content("text/html", contentString);
         //Content content = new Content("text/plain", contentString);
 
