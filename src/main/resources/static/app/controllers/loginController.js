@@ -43,6 +43,7 @@
 
                 $cookies.put('email', response.email);
                 $cookies.put('type', response.type);
+                $cookies.put('name', response.name);
 
                 /*
                  console.log(response);

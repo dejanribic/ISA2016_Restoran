@@ -1,7 +1,8 @@
 <div class="container">
+
+    <!-- NAV -->
     <nav class="navbar navbar-default">
         <div class="container-fluid">
-            <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#/restorani">Restorani <span class="sr-only">(current)</span></a></li>
@@ -9,12 +10,13 @@
                     <li><a href="#/pozivnice">Pozivnice</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li ><a href="#/nalog">Moj nalog</a></li>
-                    <li><a href="#">Izloguj se</a></li>
+                    <li><a href="#/nalog">{{profileName}}</a></li>
+                    <li><a href="#">Log out</a></li>
                 </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
+            </div>
+        </div>
     </nav>
+    <!-- NAV END -->
 
     <div class="row">
         <div class="col-md-6" style="border: 1px solid black">
@@ -36,14 +38,18 @@
                     <td>{{res.ocena}}</td>
                     <td>{{res.ocenaP}}</td>
                     <td>{{res.description}}</td>
-                    <td><button type="button" class="btn btn-success" data-toggle="modal" ng-click="zapocniRezervaciju(res)" data-target="#modal-1">Rezervisi</button></td>
+                    <td>
+                        <button type="button" class="btn btn-success" data-toggle="modal"
+                                ng-click="zapocniRezervaciju(res)" data-target="#modal-1">Rezervisi
+                        </button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
         <div class="col-md-6" style="border: 1px solid black;">
             <h1>Poseceni restorani:</h1>
-            <table class="table" >
+            <table class="table">
                 <thead>
                 <tr>
                     <th>Naziv</th>
@@ -58,7 +64,10 @@
                     <td>{{res.restaurant.name}}</td>
                     <td>{{res.dateTime | date:'dd/MM/yyyy HH:mm:ss'}}</td>
                     <td>4.7</td>
-                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-4">Oceni</button></td>
+                    <td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-4">Oceni
+                        </button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -110,7 +119,9 @@
 
                     <div class="modal-footer">
                         <a href="" class="btn btn-default" data-dismiss="modal">Odustani</a>
-                        <button type="button"  ng-disabled="trajanje==null && datum==null" data-dismiss="modal" class="btn btn-primary" data-toggle="modal" data-target="#modal-2" >Dalje</button>
+                        <button type="button" ng-disabled="trajanje==null && datum==null" data-dismiss="modal"
+                                class="btn btn-primary" data-toggle="modal" data-target="#modal-2">Dalje
+                        </button>
                     </div>
                 </div>
             </div>
@@ -163,7 +174,9 @@
 
                     <div class="modal-footer">
                         <a href="" class="btn btn-default" data-dismiss="modal">Odustani</a>
-                        <button type="button" ng-disabled="broj_stola==null" data-dismiss="modal" class="btn btn-primary" data-toggle="modal" data-target="#modal-3" >Dalje</button>
+                        <button type="button" ng-disabled="broj_stola==null" data-dismiss="modal"
+                                class="btn btn-primary" data-toggle="modal" data-target="#modal-3">Dalje
+                        </button>
                     </div>
                 </div>
             </div>
@@ -216,7 +229,11 @@
                                                 <tbody>
                                                 <tr ng-repeat="friend in friends">
                                                     <td>{{friend.name +" "+ friend.surname}}</td>
-                                                    <td><button class="btn btn-success" ng-click="pozoviPrijatelja(friend.user_id)">Pozovi</button></td>
+                                                    <td>
+                                                        <button class="btn btn-success"
+                                                                ng-click="pozoviPrijatelja(friend.user_id)">Pozovi
+                                                        </button>
+                                                    </td>
                                                 </tr>
 
                                                 </tbody>
@@ -233,7 +250,9 @@
 
                     <div class="modal-footer">
                         <a href="" class="btn btn-default" data-dismiss="modal">Odustani</a>
-                        <button type="button" data-dismiss="modal" class="btn btn-primary" ng-click="rezervisi()" data-toggle="modal">Dalje</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-primary" ng-click="rezervisi()"
+                                data-toggle="modal">Dalje
+                        </button>
                     </div>
                 </div>
             </div>
@@ -294,7 +313,8 @@
 
                     <div class="modal-footer">
                         <a href="" class="btn btn-default" data-dismiss="modal">Odustani</a>
-                        <button type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal">Oceni</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal">Oceni
+                        </button>
                     </div>
                 </div>
             </div>

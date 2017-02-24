@@ -12,7 +12,7 @@
 
         $routeProvider.when('/restorani', {
             templateUrl: 'html/restorani.html',
-            controller: 'RestorauntsController'
+            controller: 'RestaurantController'
         });
 
         $routeProvider.when('/rezervacije', {

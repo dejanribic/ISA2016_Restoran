@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
@@ -45,9 +44,11 @@ public class UserController {
 
         guests.save(newGuest);
 
-        //String contentString = "<h2>Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n Please confirm your  = = = email address by clicking on the following link:</h2>\n\n<a href=\"localhost:3000/users/confirmUser/" + newGuest.getEmail() + "\">Click me!</a>\n\n";
+        // Regular EMAIL
         String contentString = "Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n Please confirm your email address by clicking on the following link:\n\nhttp://localhost:3000/users/confirmUser/" + newGuest.getEmail() + "\n\n Thanks!";
-        //String contentString = "Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n Please confirm your email address by clicking on the following link:\n\nhttps://www.w3schools.com\n\n Thanks!";
+
+        // HTML EMAIL
+        // String contentString = "<h2>Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n Please confirm your  = = = email address by clicking on the following link:</h2>\n\n<a href=\"localhost:3000/users/confirmUser/" + newGuest.getEmail() + "\">Click me!</a>\n\n";
 
         Content content = new Content("text/html", contentString);
         //Content content = new Content("text/plain", contentString);
@@ -99,6 +100,7 @@ public class UserController {
 
         if (guest != null) {
             returnGuest.setEmail(guest.getEmail());
+            returnGuest.setName(guest.getName());
             returnGuest.setPassword(guest.getPassword());
             returnGuest.setType(1);
         }
@@ -123,51 +125,14 @@ public class UserController {
 
         // Employee
 
+        /*
         System.out.println(returnGuest);
         System.out.println(returnGuest.getEmail());
         System.out.println(returnGuest.getPassword());
         System.out.println(returnGuest.getType());
-
+        */
 
         return returnGuest;
 
     }
-
-    /*@RequestMapping(value = "/exists", method = RequestMethod.PUT)
-    public Guest exists(@RequestBody Guest sentUser) {
-        Guest guest = guests.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
-        Manager manager = managers.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
-        Sys_Manager sys_manager = sys_managers.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
-        Supplier supplier = suppliers.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
-
-        Guest returnGuest = new Guest();
-
-        if (guest != null) {
-            System.out.println(guest);
-            System.out.println(guest.getEmail());
-            System.out.println(guest.getPassword());
-
-            return guest;
-        }
-
-        if (manager != null) {
-            returnGuest.setEmail(manager.getEmail());
-            returnGuest.setPassword(manager.getPassword());
-        }
-
-        if (supplier != null) {
-            returnGuest.setEmail(supplier.getEmail());
-            returnGuest.setPassword(supplier.getPassword());
-        }
-        if (sys_manager != null) {
-            returnGuest.setEmail(sys_manager.getEmail());
-            returnGuest.setPassword(sys_manager.getPassword());
-        }
-
-        System.out.println(returnGuest.getEmail());
-        System.out.println(returnGuest.getPassword());
-
-        return returnGuest;
-    }
-    */
 }
