@@ -27,7 +27,7 @@
                     <th>Naziv</th>
                     <th>Ocena</th>
                     <th>Ocena prijatelja</th>
-                    <th>Udaljenost</th>
+                    <th>Opis</th>
                     <th>Action</th>
                     <th>&nbsp;</th>
                 </tr>
@@ -80,19 +80,19 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h3 class="modal-title">Rezervacija - korak 1</h3>
+                        <h3 class="modal-title">Reservation - step one</h3>
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-12" style="border: 1px solid black">
+                            <div class="col-md-12">
                                 <table class="table">
                                     <tbody>
                                     <tr>
-                                        <td>Naziv:</td>
+                                        <td>Restaurant name:</td>
                                         <td>{{restoran.name}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Datum:</td>
+                                        <td>Date:</td>
                                         <td>
                                             <form>
                                                 <input type="date" name="bday" ng-model="datum">
@@ -100,27 +100,25 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Trajanje:</td>
+                                        <td>Length of reservation:</td>
                                         <td>
                                             <select ng-model="trajanje">
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
-                                                <option value="4">4</option>
                                             </select>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <a href="" class="btn btn-default" data-dismiss="modal">Odustani</a>
+                        <a href="" class="btn btn-default" data-dismiss="modal">Cancel</a>
                         <button type="button" ng-disabled="trajanje==null && datum==null" data-dismiss="modal"
-                                class="btn btn-primary" data-toggle="modal" data-target="#modal-2">Dalje
+                                class="btn btn-primary" data-toggle="modal" data-target="#modal-2">Next step
                         </button>
                     </div>
                 </div>
@@ -128,34 +126,33 @@
         </div>
     </div>
 
-
     <div class="container">
         <div class="modal fade" id="modal-2">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h3 class="modal-title">Rezervacija - korak 2</h3>
+                        <h3 class="modal-title">Reservation - step two</h3>
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-12" style="border: 1px solid black">
+                            <div class="col-md-12">
                                 <table class="table">
                                     <tbody>
                                     <tr>
-                                        <td>Naziv:</td>
+                                        <td>Restaurant name:</td>
                                         <td>{{restoran.name}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Datum:</td>
+                                        <td>Date:</td>
                                         <td>{{datum}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Trajanje:</td>
+                                        <td>Length of reservation:</td>
                                         <td>{{trajanje + " sata"}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Broj stola:</td>
+                                        <td>Table number:</td>
                                         <td>
                                             <select ng-model="broj_stola">
                                                 <option value="1">1</option>
@@ -189,27 +186,27 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h3 class="modal-title">Rezervacija - korak 3</h3>
+                        <h3 class="modal-title">Reservation - step three</h3>
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-12" style="border: 1px solid black">
+                            <div class="col-md-12">
                                 <table class="table">
                                     <tbody>
                                     <tr>
-                                        <td>Naziv:</td>
+                                        <td>Restaurant name:</td>
                                         <td>{{restoran.name}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Datum:</td>
+                                        <td>Date:</td>
                                         <td>{{datum}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Trajanje:</td>
+                                        <td>Length of reservation:</td>
                                         <td>{{trajanje + " sata"}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Broj stola:</td>
+                                        <td>Table number:</td>
                                         <td>{{broj_stola}}</td>
                                     </tr>
                                     <tr>
@@ -249,16 +246,15 @@
                     </div>
 
                     <div class="modal-footer">
-                        <a href="" class="btn btn-default" data-dismiss="modal">Odustani</a>
+                        <a href="" class="btn btn-default" data-dismiss="modal">Cancel</a>
                         <button type="button" data-dismiss="modal" class="btn btn-primary" ng-click="rezervisi()"
-                                data-toggle="modal">Dalje
+                                data-toggle="modal">Next
                         </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 
     <div class="container">
         <div class="modal fade" id="modal-4">
@@ -320,6 +316,4 @@
             </div>
         </div>
     </div>
-
-
 </div>

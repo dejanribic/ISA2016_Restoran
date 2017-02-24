@@ -81,6 +81,11 @@ public class UserController {
         return "<h1>You have succesfully confirmed your account.</h1><h2><a href=\"http://localhost:3000\">Go back!</a></h2>";
     }
 
+    @RequestMapping(value = "/getOne/{email}")
+    public Guest getById(@PathVariable String email) {
+        return guests.findByEmail(email);
+    }
+
     @RequestMapping(value = "/exists", method = RequestMethod.PUT)
     public UserLogin exists(@RequestBody UserLogin sentUser) {
 

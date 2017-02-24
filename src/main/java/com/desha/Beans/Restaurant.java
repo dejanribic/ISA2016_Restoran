@@ -2,7 +2,9 @@ package com.desha.Beans;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Blob;
 
 @Entity
@@ -26,7 +28,8 @@ public class Restaurant {
     @Column
     private Blob image;
 
-    public Restaurant(){}
+    public Restaurant() {
+    }
 
     public Restaurant(String name, String description, String coordinates, Integer tablegrid_width, Integer tablegrid_height, Blob image) {
         this.name = name;
@@ -84,7 +87,4 @@ public class Restaurant {
     public void setImage(Blob image) {
         this.image = image;
     }
-
-
-
 }

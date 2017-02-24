@@ -19,17 +19,18 @@
             $scope.restaurants = response;
         });
 
+        $http.get('/guests/friends/' + $cookies.get("email")).success(function (response) {
+            console.log($cookies.get("email"));
+            console.log(response);
+            $scope.friends = response;
+        });
+
         $http.get('/reservations/allInactive/' + $cookies.get('id')).success(function (response) {
             $scope.visited = response;
             $http.get('/invitations/pastVisits/' + $cookies.get('id')).success(function (response) {
                 $scope.visited = $scope.visited.concat(response);
             });
         });
-
-        $http.get('/guests/friends/' + $cookies.get('id')).success(function (response) {
-            $scope.friends = response;
-        });
-
 
         $scope.zapocniRezervaciju = function (res) {
             $scope.restoran = res;
@@ -40,6 +41,7 @@
 
 
         var pozvaniPrijatelji = new Array();
+
         $scope.pozoviPrijatelja = function (id) {
             pozvaniPrijatelji.push(id);
             for (var i = 0; i < $scope.friends.length; i++) {
@@ -54,8 +56,8 @@
         }
 
 
-        $scope.rezervisi = function (id) {
-            $http.get('/users/getOne/' + $cookies.get('id')).success(function (response) {
+        $scope.rezervisi = function (email) {
+            $http.get('/users/getOne/' + $cookies.get('email')).success(function (response) {
                 $scope.host = response;
                 var rezervacija = {
                     restaurant: $scope.restoran,

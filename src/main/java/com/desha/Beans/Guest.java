@@ -1,9 +1,13 @@
 package com.desha.Beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.sql.Blob;
+import java.util.List;
 
 @Entity
 public class Guest {// extends User {
@@ -75,15 +79,24 @@ public class Guest {// extends User {
         this.image = image;
     }
 
+    @JsonIgnore
+    @ManyToMany
+    private List<Guest> friends;
+
+    public List<Guest> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<Guest> friends) {
+        this.friends = friends;
+    }
 
 
 /*
     @Column
     private int visits;
 
-    @JsonIgnore
-    @ManyToMany
-    private List<Guest> friends;
+
 
     @JsonIgnore
     @ManyToMany
@@ -101,14 +114,6 @@ public class Guest {// extends User {
 
     public void setRequests(List<Guest> requests) {
         this.requests = requests;
-    }
-
-    public List<Guest> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(List<Guest> friends) {
-        this.friends = friends;
     }
 
     public int getVisits() {

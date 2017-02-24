@@ -1,37 +1,54 @@
 package com.desha.Controllers;
 
-/*
+
+import com.desha.Beans.Friend;
+import com.desha.Beans.Guest;
+import com.desha.Repositories.FriendRepository;
+import com.desha.Repositories.GuestRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 
 @RequestMapping(value = "/guests")
 public class GuestController {
 
-    private GuestRepository repository;
+    private GuestRepository guests;
+    private FriendRepository friends;
 
     @Autowired
-    public GuestController(GuestRepository repository) {
-        this.repository = repository;
+    public GuestController(GuestRepository guests, FriendRepository friends) {
+        this.guests = guests;
+        this.friends = friends;
     }
-
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Guest> getAll() {
-        return repository.findAll();
+        return guests.findAll();
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
     public void create(@RequestBody Guest newGuest) {
-        repository.save(newGuest);
+        guests.save(newGuest);
     }
 
-    @RequestMapping(value = "/friends/{id}")
-    public List<Guest> getAllFriends(@PathVariable long id) {
-        Guest guest = repository.findOne(id);
-        if (guest != null)
-            return guest.getFriends();
-        else
-            return null;
+    @RequestMapping(value = "/friends/{email:.+}")
+    public List<Guest> getAllFriends(@PathVariable String email) {
+
+        List<Friend> friendsOfGuest = friends.findByGuestEmail(email);
+
+        ArrayList<Guest> guestFriends = new ArrayList<>();
+
+        for (Friend f : friendsOfGuest) {
+            guestFriends.add(guests.findByEmail(f.getFriendMail()));
+        }
+        return guestFriends;
     }
+
+    /*
 
     @RequestMapping(value = "/requests/{id}")
     public List<Guest> getAllRequests(@PathVariable long id) {
@@ -147,5 +164,5 @@ public class GuestController {
         }
 
     }
+    */
 }
-*/
