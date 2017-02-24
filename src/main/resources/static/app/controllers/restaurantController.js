@@ -1,6 +1,7 @@
 (function () {
     'use strict';
 
+    //noinspection JSUnresolvedFunction
     angular
         .module('app')
         .controller('RestaurantController', RestaurantController);
@@ -9,14 +10,10 @@
     function RestaurantController($cookies, $http, $scope) {
 
         if ($cookies.get("name") != null && $cookies.get("name") != "")
-        // VIKTOR NE ZNA DA PUCA.
             $scope.profileName = $cookies.get("name");
         else {
-            // VIKTOR NE ZNA DA PUCA.
             $scope.profileName = $cookies.get("email");
         }
-        // VIKTOR NE ZNA DA PUCA.
-        
 
         $http.get('/restaurants/all').success(function (response) {
             $scope.restaurants = response;
@@ -28,7 +25,6 @@
                 $scope.visited = $scope.visited.concat(response);
             });
         });
-
 
         $http.get('/guests/friends/' + $cookies.get('id')).success(function (response) {
             $scope.friends = response;
@@ -74,9 +70,6 @@
                     }
                 });
             });
-
-
         };
-
     }
 })();
