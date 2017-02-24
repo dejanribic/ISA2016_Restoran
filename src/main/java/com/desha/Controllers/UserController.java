@@ -1,15 +1,13 @@
 package com.desha.Controllers;
 
-import com.desha.Beans.Guest;
-import com.desha.Beans.Manager;
-import com.desha.Beans.Supplier;
-import com.desha.Beans.Sys_Manager;
+import com.desha.Beans.*;
 import com.desha.Repositories.GuestRepository;
 import com.desha.Repositories.ManagerRepository;
 import com.desha.Repositories.SupplierRepository;
 import com.desha.Repositories.Sys_ManagerRepository;
 import com.sendgrid.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -24,6 +22,9 @@ public class UserController {
     private Sys_ManagerRepository sys_managers;
     private ManagerRepository managers;
     private SupplierRepository suppliers;
+
+    @Value("${sendGridAPIKey}")
+    private String sendGridAPIKey;
 
     @Autowired
     public UserController(GuestRepository guests, Sys_ManagerRepository sys_managers, ManagerRepository managers, SupplierRepository suppliers) {
@@ -48,8 +49,6 @@ public class UserController {
         String contentString = "Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n Please confirm your email address by clicking on the following link:\n\nhttp://localhost:3000/users/confirmUser/" + newGuest.getEmail() + "\n\n Thanks!";
         //String contentString = "Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n Please confirm your email address by clicking on the following link:\n\nhttps://www.w3schools.com\n\n Thanks!";
 
-
-        String SendGridApiKey = "placeholder";
         Content content = new Content("text/html", contentString);
         //Content content = new Content("text/plain", contentString);
 
@@ -60,16 +59,13 @@ public class UserController {
 
         Mail mail = new Mail(from, subject, to, content);
 
-        SendGrid sg = new SendGrid(SendGridApiKey);
+        SendGrid sg = new SendGrid(sendGridAPIKey);
         Request request = new Request();
         try {
             request.method = Method.POST;
             request.endpoint = "mail/send";
             request.body = mail.build();
             Response response = sg.api(request);
-            //System.out.println(response.statusCode);
-            //System.out.println(response.body);
-            //System.out.println(response.headers);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -80,20 +76,71 @@ public class UserController {
         Guest guest = guests.findByEmail(email);
         guest.setConfirmed(1);
         guests.save(guest);
+
         return "<h1>You have succesfully confirmed your account.</h1><h2><a href=\"http://localhost:3000\">Go back!</a></h2>";
     }
 
     @RequestMapping(value = "/exists", method = RequestMethod.PUT)
+    public UserLogin exists(@RequestBody UserLogin sentUser) {
+
+        Guest guest = guests.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
+        Manager manager = managers.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
+        Sys_Manager sys_manager = sys_managers.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
+        Supplier supplier = suppliers.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
+
+        UserLogin returnGuest = new UserLogin();
+
+        // User Types:
+        // Guest = 0
+        // Manager = 1
+        // Supplier = 2
+        // Sys_Manager = 3
+        // Employee = 4
+
+        if (guest != null) {
+            returnGuest.setEmail(guest.getEmail());
+            returnGuest.setPassword(guest.getPassword());
+            returnGuest.setType(1);
+        }
+
+        if (manager != null) {
+            returnGuest.setEmail(manager.getEmail());
+            returnGuest.setPassword(manager.getPassword());
+            returnGuest.setType(2);
+        }
+
+        if (supplier != null) {
+            returnGuest.setEmail(supplier.getEmail());
+            returnGuest.setPassword(supplier.getPassword());
+            returnGuest.setType(3);
+        }
+        if (sys_manager != null) {
+            returnGuest.setEmail(sys_manager.getEmail());
+            returnGuest.setPassword(sys_manager.getPassword());
+            returnGuest.setType(4);
+        }
+
+
+        // Employee
+
+        System.out.println(returnGuest);
+        System.out.println(returnGuest.getEmail());
+        System.out.println(returnGuest.getPassword());
+        System.out.println(returnGuest.getType());
+
+
+        return returnGuest;
+
+    }
+
+    /*@RequestMapping(value = "/exists", method = RequestMethod.PUT)
     public Guest exists(@RequestBody Guest sentUser) {
         Guest guest = guests.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
         Manager manager = managers.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
         Sys_Manager sys_manager = sys_managers.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
         Supplier supplier = suppliers.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
 
-        //System.out.println(guest);
-        //System.out.println(manager);
-        //System.out.println(sys_manager);
-        //System.out.println(supplier);
+        Guest returnGuest = new Guest();
 
         if (guest != null) {
             System.out.println(guest);
@@ -104,41 +151,23 @@ public class UserController {
         }
 
         if (manager != null) {
-            Guest returnGuest = new Guest();
             returnGuest.setEmail(manager.getEmail());
             returnGuest.setPassword(manager.getPassword());
-
-            System.out.println(returnGuest);
-            System.out.println(returnGuest.getEmail());
-            System.out.println(returnGuest.getPassword());
-
-            return returnGuest;
         }
 
         if (supplier != null) {
-            Guest returnGuest = new Guest();
             returnGuest.setEmail(supplier.getEmail());
             returnGuest.setPassword(supplier.getPassword());
-
-            System.out.println(returnGuest);
-            System.out.println(returnGuest.getEmail());
-            System.out.println(returnGuest.getPassword());
-
-            return returnGuest;
-
         }
         if (sys_manager != null) {
-            Guest returnGuest = new Guest();
             returnGuest.setEmail(sys_manager.getEmail());
             returnGuest.setPassword(sys_manager.getPassword());
-
-            System.out.println(returnGuest);
-            System.out.println(returnGuest.getEmail());
-            System.out.println(returnGuest.getPassword());
-
-            return returnGuest;
-
         }
-        return null;
+
+        System.out.println(returnGuest.getEmail());
+        System.out.println(returnGuest.getPassword());
+
+        return returnGuest;
     }
+    */
 }
