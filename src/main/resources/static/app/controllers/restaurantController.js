@@ -9,10 +9,14 @@
     function RestaurantController($cookies, $http, $scope) {
 
         if ($cookies.get("name") != null && $cookies.get("name") != "")
+        // VIKTOR NE ZNA DA PUCA.
             $scope.profileName = $cookies.get("name");
         else {
+            // VIKTOR NE ZNA DA PUCA.
             $scope.profileName = $cookies.get("email");
         }
+        // VIKTOR NE ZNA DA PUCA.
+        
 
         $http.get('/restaurants/all').success(function (response) {
             $scope.restaurants = response;
