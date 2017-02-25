@@ -39,6 +39,10 @@
             templateUrl: 'html/restaurant-administration.html',
             controller: 'MenuItemController'
         });
+        $routeProvider.when('/demand', {
+            templateUrl: 'html/demand.html',
+            controller: 'DemandController'
+        });
 
         //noinspection JSUnresolvedFunction
         $routeProvider.otherwise('/', {

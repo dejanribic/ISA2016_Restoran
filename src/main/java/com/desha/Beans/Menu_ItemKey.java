@@ -15,7 +15,7 @@ public class Menu_ItemKey implements Serializable {
     private String name;
 
     @Id
-    @JoinColumn(foreignKey = @ForeignKey(name = "fk_Menu_Item_Restaurant1"))
+    //@JoinColumn(foreignKey = @ForeignKey(name = "fk_Menu_Item_Restaurant1"))
     private String restaurant_name;
 
     public Menu_ItemKey(String name, String restaurant_name) {
@@ -23,7 +23,8 @@ public class Menu_ItemKey implements Serializable {
         this.restaurant_name = restaurant_name;
     }
 
-    public Menu_ItemKey(){}
+    public Menu_ItemKey() {
+    }
 
     public String getName() {
         return name;

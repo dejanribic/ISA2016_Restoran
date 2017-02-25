@@ -1,0 +1,55 @@
+<div class="col-md-6" style="border: 1px solid black">
+    <form id="add-demand-form" role="form" style="display: block;">
+        <div class="form-group">
+            <input type="text" name="name" id="name" tabindex="1" class="form-control"
+                   placeholder="Naziv namirnice" value="" ng-model="demand.name">
+        </div>
+        <div class="form-group">
+            <input type="number" name="ammount" id="ammount" tabindex="1" class="form-control"
+                   placeholder="Količina" value="" ng-model="demand.ammount">
+        </div>
+        <div class="form-group">
+            <input type="date" name="start" id="start" tabindex="1" class="form-control"
+                   placeholder="Od datuma" value="" ng-model="demand.start">
+        </div>
+        <div class="form-group">
+            <input type="date" name="end" id="end" tabindex="1" class="form-control"
+                   placeholder="Do datuma" value="" ng-model="demand.end">
+        </div>
+
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="submit" name="login-submit" id="login-submit" tabindex="4"
+                           class="form-control btn btn-success" value="Dodaj ponudu"
+                           ng-click="create()">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="col-md-6" style="border: 1px solid black">
+    <h1>Ponude:</h1>
+    <table id="ponude" class="table">
+        <thead>
+        <tr>
+            <th>Naziv</th>
+            <th>Količina</th>
+            <th>Od datuma</th>
+            <th>Do datuma</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="dm in demands">
+            <td>{{dm.name}}</td>
+            <td>{{dm.ammount}}</td>
+            <td>{{dm.start}}</td>
+            <td>{{dm.end}}</td>
+            <td>
+                <button type="button" class="btn btn-success"  ng-click="remove(dm)">Obriši</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
