@@ -26,14 +26,10 @@ public class Friend implements Serializable {
     @Column
     private int accepted;
 
-    @Column
-    private int pending;
-
-    public Friend(String guest_email, String friend_email, int accepted, int pending) {
+    public Friend(String guest_email, String friend_email, int accepted) {
         this.guestEmail = guest_email;
         this.friendEmail = friend_email;
         this.accepted = accepted;
-        this.pending = pending;
     }
 
     public Friend() {
@@ -61,13 +57,5 @@ public class Friend implements Serializable {
 
     public void setAccepted(int accepted) {
         this.accepted = accepted;
-    }
-
-    public int getPending() {
-        return pending;
-    }
-
-    public void setPending(int pending) {
-        this.pending = pending;
     }
 }

@@ -38,7 +38,8 @@ public class GuestController {
     @RequestMapping(value = "/friends/{email:.+}")
     public List<Guest> getAllFriends(@PathVariable String email) {
 
-        List<Friend> friendsOfGuest = friends.findByGuestEmail(email);
+        //List<Friend> friendsOfGuest = friends.findByGuestEmail(email);
+        List<Friend> friendsOfGuest = friends.findByGuestEmailAndAccepted(email, 1);
 
         ArrayList<Guest> guestFriends = new ArrayList<>();
 
@@ -60,7 +61,53 @@ public class GuestController {
 
         if (guest != null & friend != null) {
             friends.delete(friends.findByGuestEmailAndFriendEmail(guest.getEmail(), friend.getEmail()));
+            friends.delete(friends.findByGuestEmailAndFriendEmail(friend.getEmail(), guest.getEmail()));
         }
+    }
+
+    @RequestMapping(value = "/addable/{email:.+}/{friendSearch}")
+    public List<Guest> getAddableFriends(@PathVariable String email, @PathVariable String friendSearch) {
+        System.out.println(email);
+        System.out.println(friendSearch);
+
+        Guest guest = guests.findByEmail(email);
+        ArrayList<Guest> possibleFriends;
+
+        // Ako sadrzi razmak (ime i prezime)
+        if (friendSearch.contains(" ")) {
+            String name = friendSearch.split(" ")[0];
+            String surname = friendSearch.split(" ")[1];
+            System.out.println("name = " + name);
+            System.out.println("surname = " + surname);
+
+            possibleFriends = guests.findByNameAndSurname(name, surname);
+        }
+
+        // Ako ne sadrzi razmak (jedna rec - ime)
+        else {
+            possibleFriends = guests.findByName(friendSearch);
+        }
+
+        for (Guest g : possibleFriends) {
+            System.out.println(g.getName());
+            System.out.println(g.getSurname());
+            System.out.println(g.getEmail());
+        }
+
+        List<Guest> allGuests = guests.findAll();
+
+        ArrayList<Guest> addableGuests = new ArrayList<>();
+        return null;
+        /*
+        for (Guest g : allGuests) {
+            if (!guest.getFriends().contains(g))
+                if (!guest.getRequests().contains(g))
+                    if (!g.getRequests().contains(guest))
+                        addableGuests.add(g);
+        }
+        return addableGuests;
+        */
+
     }
 
     /*
@@ -75,21 +122,7 @@ public class GuestController {
     }
 
 
-    @RequestMapping(value = "/addable/{id}")
-    public List<Guest> getAddableFriends(@PathVariable long id) {
-        Guest guest = repository.findOne(id);
-        List<Guest> allGuests = repository.findAll();
 
-        ArrayList<Guest> addableGuests = new ArrayList<>();
-
-        for (Guest g : allGuests) {
-            if (!guest.getFriends().contains(g))
-                if (!guest.getRequests().contains(g))
-                    if (!g.getRequests().contains(guest))
-                        addableGuests.add(g);
-        }
-        return addableGuests;
-    }
 
 
     @RequestMapping(value = "addFriend/{id}/{friend}")
