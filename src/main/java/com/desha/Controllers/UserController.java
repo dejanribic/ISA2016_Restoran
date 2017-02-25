@@ -35,14 +35,21 @@ public class UserController {
 
     @RequestMapping(value = "/allUsers", method = RequestMethod.GET)
     public List<Guest> getAll() {
-
         return guests.findAll();
+    }
+
+    @RequestMapping(value = "/getOne/{email:.+}")
+    public Guest getById(@PathVariable String email) {
+        return guests.findByEmail(email);
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
     public void create(@RequestBody Guest newGuest) {
 
+        // Cuvanje usera
         guests.save(newGuest);
+
+        // Slanje mail-a:
 
         // Regular EMAIL
         String contentString = "Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n Please confirm your email address by clicking on the following link:\n\nhttp://localhost:3000/users/confirmUser/" + newGuest.getEmail() + "\n\n Thanks!";
@@ -79,11 +86,6 @@ public class UserController {
         guests.save(guest);
 
         return "<h1>You have succesfully confirmed your account.</h1><h2><a href=\"http://localhost:3000\">Go back!</a></h2>";
-    }
-
-    @RequestMapping(value = "/getOne/{email}")
-    public Guest getById(@PathVariable String email) {
-        return guests.findByEmail(email);
     }
 
     @RequestMapping(value = "/exists", method = RequestMethod.PUT)
@@ -130,7 +132,7 @@ public class UserController {
 
         // Employee
 
-        /*
+        /* DIAGNOSTICS:
         System.out.println(returnGuest);
         System.out.println(returnGuest.getEmail());
         System.out.println(returnGuest.getPassword());
@@ -138,6 +140,5 @@ public class UserController {
         */
 
         return returnGuest;
-
     }
 }

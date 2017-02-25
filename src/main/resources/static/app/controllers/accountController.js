@@ -9,11 +9,42 @@
 
     function AccountController($scope, $http, $cookies) {
 
-        console.log('/guests/friends/' + $cookies.get('id'));
+        // Cookie loading
+        if ($cookies.get("name") != null && $cookies.get("name") != "")
+            $scope.profileName = $cookies.get("name");
+        else {
+            $scope.profileName = $cookies.get("email");
+        }
+
+        // Filling the scope
+        $http.get('/users/getOne/' + $cookies.get('email')).success(function (response) {
+            $scope.user = response;
+        });
+
+        $http.get('/guests/friends/' + $cookies.get("email")).success(function (response) {
+            console.log(response);
+            $scope.friends = response;
+        });
+
+
+        // Profile change
+        $scope.izmeniNalog = function () {
+            $http.put('/guests/change', $scope.user);
+        };
+
+        // Delete friend
+        $scope.pripremaZaBrisanje = function (guest) {
+            $scope.zaBrisanje = guest;
+        };
+
+        $scope.obrisi = function () {
+            $http.get('/guests/deleteFriend/' + $cookies.get('email') + '/' + $scope.zaBrisanje.email).success(function (response) {
+                refresh();
+            });
+        };
 
         var refresh = function () {
-            $http.get('/guests/friends/' + $cookies.get('id')).success(function (response) {
-                console.log("I got the data I requested!");
+            $http.get('/guests/friends/' + $cookies.get("email")).success(function (response) {
                 $scope.friends = response;
             });
 
@@ -26,19 +57,14 @@
                 console.log("I got the data I requested!");
                 $scope.addable = response;
             });
-            $http.get('/users/getOne/' + $cookies.get('id')).success(function (response) {
-                $scope.user = response;
-            });
         }
 
-        refresh();
+        //refresh();
 
-        $scope.izmeniNalog = function () {
 
-            $http.put('/guests/change', $scope.user).success(function (response) {
-
-            });
-        };
+        //// ------------------------------------------------------------------------------------------
+        //// DOVDE URADJENO. --------------------------------------------------------------------------
+        //// ------------------------------------------------------------------------------------------
 
         $scope.dodaj = function (friend_id) {
             console.log('/guests/sendRequest/' + $cookies.get('id') + '/' + friend_id);
@@ -51,19 +77,6 @@
 
         $scope.prikayi = function () {
             console.log($scope.file);
-        };
-
-        $scope.pripremaZaBrisanje = function (guest) {
-            $scope.zaBrisanje = guest;
-            console.log('pripremio za brisanje: ' + $scope.zaBrisanje.name);
-        };
-
-        $scope.obrisi = function () {
-            $http.get('/guests/deleteFriend/' + $cookies.get('id') + '/' + $scope.zaBrisanje.user_id).success(function (response) {
-                console.log('Obriso!');
-                refresh();
-            });
-
         };
 
         $scope.prihvati = function (friend_id) {

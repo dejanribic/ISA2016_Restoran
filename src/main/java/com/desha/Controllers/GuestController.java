@@ -48,6 +48,21 @@ public class GuestController {
         return guestFriends;
     }
 
+    @RequestMapping(value = "/change", method = RequestMethod.PUT)
+    public void change(@RequestBody Guest guest) {
+        guests.save(guest);
+    }
+
+    @RequestMapping(value = "deleteFriend/{myEmail:.+}/{friendEmail:.+}")
+    public void deleteFriend(@PathVariable String myEmail, @PathVariable String friendEmail) {
+        Guest guest = guests.findByEmail(myEmail);
+        Guest friend = guests.findByEmail(friendEmail);
+
+        if (guest != null & friend != null) {
+            friends.delete(friends.findByGuestEmailAndFriendEmail(guest.getEmail(), friend.getEmail()));
+        }
+    }
+
     /*
 
     @RequestMapping(value = "/requests/{id}")

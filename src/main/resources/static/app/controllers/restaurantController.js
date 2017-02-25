@@ -20,8 +20,6 @@
         });
 
         $http.get('/guests/friends/' + $cookies.get("email")).success(function (response) {
-            console.log($cookies.get("email"));
-            console.log(response);
             $scope.friends = response;
         });
 

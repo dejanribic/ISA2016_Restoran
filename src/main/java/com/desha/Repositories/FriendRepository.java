@@ -9,4 +9,6 @@ import java.util.List;
 public interface FriendRepository extends JpaRepository<Friend, FriendKey> {
 
     List<Friend> findByGuestEmail(String email);
+
+    Friend findByGuestEmailAndFriendEmail(String email1, String email2);
 }
