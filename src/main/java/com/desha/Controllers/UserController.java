@@ -9,6 +9,8 @@ import com.sendgrid.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.io.IOException;
 import java.util.List;
@@ -130,7 +132,12 @@ public class UserController {
         }
 
 
+
         // Employee
+
+        // Postavi usera na session
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        attr.setAttribute("user", returnGuest, ServletRequestAttributes.SCOPE_SESSION);
 
         /* DIAGNOSTICS:
         System.out.println(returnGuest);
