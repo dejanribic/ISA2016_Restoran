@@ -1,6 +1,7 @@
 package com.desha.Controllers;
 
 import com.desha.Beans.Demand;
+import com.desha.Beans.UserLogin;
 import com.desha.Repositories.DemandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,10 +31,7 @@ public class DemandController {
 
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
     public Demand create(@RequestBody Demand newDemand) {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        attr.setAttribute("restaurant", "r", ServletRequestAttributes.SCOPE_SESSION);
-        String resName = (String) attr.getAttribute("restaurant", ServletRequestAttributes.SCOPE_SESSION);
-        newDemand.setRestaurantName(resName);
+        newDemand.setRestaurantName("r");
         return repository.save(newDemand);
     }
 

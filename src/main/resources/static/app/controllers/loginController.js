@@ -70,13 +70,15 @@
                     else if (response.type == 3) {
                     }
                     else if (response.type == 4) {
+                        $location.url('/sysman')
                     }
                     else if (response.type == 5) {
                     }
                     else if (response.type = 0) {
                     }
-
-                    $location.url('/restorani');
+                    else {
+                        $location.url('/restorani');
+                    }
                 });
             }
         };

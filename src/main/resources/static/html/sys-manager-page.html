@@ -1,0 +1,91 @@
+<div class="col-md-6" style="border: 1px solid black">
+    <h1>Restaurants:</h1>
+    <table id="restaurants" class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="res in restaurants">
+
+            <td>{{res.name}}</td>
+            <td>
+                <button type="button" class="btn btn-success" ng-click="loadManagers(res)">Show managers</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <form id="add-restaurant-form" role="form" style="display: block;">
+        <div class="form-group">
+            <input type="text" class="form-control"
+                   placeholder="Restaurant name" ng-model="restaurant.name">
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="submit" class="form-control btn btn-login" value="Add restaurant"
+                           ng-click="createRes()">
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div class="col-md-6" style="border: 1px solid black">
+    <h1 id="managers-head">Managers:</h1>
+    <table id="managers" class="table">
+        <thead>
+        <tr>
+            <th>Email</th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="man in managers">
+            <td>{{man.managerEmail}}</td>
+            <td>
+                <button type="button" class="btn btn-success" ng-click="removeMan(man)">Remove manager</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <form id="add-manager-form" role="form" style="display: block;">
+        <div class="form-group">
+            <input type="email" class="form-control"
+                   placeholder="Manager email" ng-model="manager.managerEmail">
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="submit"
+                           class="form-control btn btn-login" value="Add manager to restaurant"
+                           ng-click="createManager()">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="col-md-6" style="border: 1px solid black">
+    <h1>System managers:</h1>
+
+    <form id="add-sys-manager-form" role="form" style="display: block;">
+        <div class="form-group">
+            <input type="email" class="form-control"
+                   placeholder="Manager email" ng-model="sysManager.email">
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="submit"
+                           class="form-control btn btn-login" value="Add system manager"
+                           ng-click="createSystemManager()">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

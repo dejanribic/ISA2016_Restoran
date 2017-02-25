@@ -1,5 +1,6 @@
 package com.desha.Controllers;
 
+import com.desha.Beans.ReturnMessage;
 import com.desha.Beans.Sys_Manager;
 import com.desha.Repositories.Sys_ManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,20 @@ public class Sys_ManagerController {
 
 
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
-    public void create(@RequestBody Sys_Manager newSys_Manager) {
-        repository.save(newSys_Manager);
+    public ReturnMessage create(@RequestBody Sys_Manager newSys_Manager) {
+        ReturnMessage ret = new ReturnMessage();
+
+        if(repository.findByEmail(newSys_Manager.getEmail())!=null){
+            ret.setMessage("System manager with that email already exists.");
+        }else{
+            newSys_Manager.setPassword("");
+            if(repository.save(newSys_Manager)!=null){
+                //TODO send mail
+                ret.setMessage("System manager "+newSys_Manager.getEmail() +" registered.");
+            }
+        }
+
+        return ret;
     }
 
 }

@@ -43,6 +43,10 @@
             templateUrl: 'html/demand.html',
             controller: 'DemandController'
         });
+        $routeProvider.when('/sysman', {
+            templateUrl: 'html/sys-manager-page.html',
+            controller: 'RestaurantCreateController'
+        });
 
         //noinspection JSUnresolvedFunction
         $routeProvider.otherwise('/', {

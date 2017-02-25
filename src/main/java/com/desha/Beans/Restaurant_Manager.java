@@ -32,7 +32,7 @@ public class Restaurant_Manager {
         return managerEmail;
     }
 
-    public void setManagerEmail(String email) {
+    public void setManagerEmail(String managerEmail) {
         this.managerEmail = managerEmail;
     }
 
