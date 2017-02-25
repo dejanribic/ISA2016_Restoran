@@ -12,7 +12,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="active"><a href="#/nalog">{{profileName}}</a></li>
-                    <li><a href="#">Log out</a></li>
+                    <li><a href="" ng-click="logout()">Log out</a></li>
                 </ul>
             </div>
         </div>
@@ -91,7 +91,12 @@
 
         <!-- ADD FRIENDS -->
         <div class="col-md-4">
-            <h1>Add friends:</h1>
+            <h1>
+                <span>
+                    Add friends:
+                </span>
+                <button class="btn btn-primary pull-right" ng-click="trazi()">Find</button>
+            </h1>
             <div class="form-group">
                 <input ng-model="friendSearch" type="text" class="form-control" placeholder="Search...">
             </div>
@@ -103,19 +108,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="gst in addable">
-                    <td>{{gst.name + " " + gst.surname}}</td>
+                <tr ng-repeat="addableFriend in addable">
+                    <td>{{addableFriend.name + " " + addableFriend.surname}}</td>
                     <td>
-                        <button class="btn btn-success" ng-click="dodaj(gst.user_id)">Dodaj</button>
+                        <button class="btn btn-success" ng-click="dodaj(addableFriend.email)">Add</button>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <button class="btn btn-success" ng-click="trazi()">Find</button>
+
         </div>
         <!-- ADD FRIENDS END -->
 
-        <!-- ADD FRIENDS END -->
+        <!-- FRIEND REQUESTS -->
         <div class="col-md-4">
             <h1>Friend requests:</h1>
             <div class="form-group">
@@ -132,15 +137,17 @@
                 <tr ng-repeat="request in requests">
                     <td>{{request.name + " " + request.surname}}</td>
                     <td>
-                        <button class="btn btn-primary" ng-click="prihvati(request.user_id)">Accept</button>
+                        <button class="btn btn-primary" ng-click="prihvati(request.email)">Accept</button>
                     </td>
                     <td>
-                        <button class="btn btn-danger" ng-click="prihvati(request.user_id)">Decline</button>
+                        <button class="btn btn-danger" ng-click="odbi(request.email)">Decline</button>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
+        <!-- FRIEND REQUESTS END-->
+
     </div>
     <!-- BOTTOM END -->
 

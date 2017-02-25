@@ -4,13 +4,13 @@ import com.desha.Beans.Friend;
 import com.desha.Beans.FriendKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface FriendRepository extends JpaRepository<Friend, FriendKey> {
 
-    List<Friend> findByGuestEmail(String email);
+    ArrayList<Friend> findByGuestEmailAndAccepted(String email, int accepted);
 
-    List<Friend> findByGuestEmailAndAccepted(String email, int accepted);
+    ArrayList<Friend> findByFriendEmailAndAccepted(String email, int accepted);
 
     Friend findByGuestEmailAndFriendEmail(String email1, String email2);
 }

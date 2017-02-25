@@ -5,14 +5,16 @@
         .module('app')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['$scope', '$http', '$cookies'];
+    AccountController.$inject = ['$scope', '$http', '$cookies', '$location'];
 
-    function AccountController($scope, $http, $cookies) {
+    function AccountController($scope, $http, $cookies, $location) {
 
         $scope.friendSearch = "";
 
         // Refresh page function
         var refresh = function () {
+            $scope.friendSearch = "";
+
             $http.get('/guests/friends/' + $cookies.get("email")).success(function (response) {
                 $scope.friends = response;
             });
@@ -27,10 +29,13 @@
         }
 
         // Cookie loading
-        if ($cookies.get("name") != null && $cookies.get("name") != "")
+        if ($cookies.get("name") != null) {
             $scope.profileName = $cookies.get("name");
-        else {
+        }
+        else if ($cookies.get("email") != null) {
             $scope.profileName = $cookies.get("email");
+        } else {
+            $scope.profileName = "X";
         }
 
         // Filling the scope with the current user
@@ -59,9 +64,9 @@
         };
 
         // Add friend
-        $scope.dodaj = function (friend_id) {
-            $http.get('/guests/sendRequest/' + $cookies.get('email') + '/' + friend_id).success(function (response) {
-                refresh();
+        $scope.dodaj = function (friendEmail) {
+            $http.get('/guests/sendRequest/' + $cookies.get('email') + '/' + friendEmail).success(function (response) {
+                $scope.trazi();
             });
 
         };
@@ -70,15 +75,32 @@
         $scope.trazi = function () {
             var friendSearch = $scope.friendSearch;
             $http.get('/guests/addable/' + $cookies.get('email') + '/' + friendSearch).success(function (response) {
+                $scope.addable = response;
             });
         }
 
         // Accept request
-        $scope.prihvati = function (friend_id) {
-            //value = "acceptRequest/{id}/{friend}")
-            $http.get('/guests/acceptRequest/' + $cookies.get('id') + '/' + friend_id).success(function (response) {
+        $scope.prihvati = function (email) {
+            $http.get('/guests/acceptRequest/' + $cookies.get('email') + '/' + email).success(function (response) {
                 refresh();
             });
+        };
+
+        // Decline request
+        $scope.odbi = function (email) {
+            $http.get('/guests/declineRequest/' + $cookies.get('email') + '/' + email).success(function (response) {
+                refresh();
+            });
+        };
+
+        // Log out
+        $scope.logout = function () {
+            var cookies = $cookies.getAll();
+            angular.forEach(cookies, function (v, k) {
+                console.log(cookies);
+                $cookies.remove(k);
+            });
+            $location.url('/');
         };
     }
 })();

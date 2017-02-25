@@ -67,19 +67,14 @@ public class GuestController {
 
     @RequestMapping(value = "/addable/{email:.+}/{friendSearch}")
     public List<Guest> getAddableFriends(@PathVariable String email, @PathVariable String friendSearch) {
-        System.out.println(email);
-        System.out.println(friendSearch);
 
-        Guest guest = guests.findByEmail(email);
         ArrayList<Guest> possibleFriends;
+        ArrayList<Guest> addableFriends = new ArrayList<>();
 
         // Ako sadrzi razmak (ime i prezime)
         if (friendSearch.contains(" ")) {
             String name = friendSearch.split(" ")[0];
             String surname = friendSearch.split(" ")[1];
-            System.out.println("name = " + name);
-            System.out.println("surname = " + surname);
-
             possibleFriends = guests.findByNameAndSurname(name, surname);
         }
 
@@ -88,129 +83,49 @@ public class GuestController {
             possibleFriends = guests.findByName(friendSearch);
         }
 
-        for (Guest g : possibleFriends) {
-            System.out.println(g.getName());
-            System.out.println(g.getSurname());
-            System.out.println(g.getEmail());
-        }
-
-        List<Guest> allGuests = guests.findAll();
-
-        ArrayList<Guest> addableGuests = new ArrayList<>();
-        return null;
-        /*
-        for (Guest g : allGuests) {
-            if (!guest.getFriends().contains(g))
-                if (!guest.getRequests().contains(g))
-                    if (!g.getRequests().contains(guest))
-                        addableGuests.add(g);
-        }
-        return addableGuests;
-        */
-
-    }
-
-    /*
-
-    @RequestMapping(value = "/requests/{id}")
-    public List<Guest> getAllRequests(@PathVariable long id) {
-        Guest guest = repository.findOne(id);
-        if (guest != null)
-            return guest.getRequests();
-        else
-            return null;
-    }
-
-
-
-
-
-    @RequestMapping(value = "addFriend/{id}/{friend}")
-    public void addFriend(@PathVariable long id, @PathVariable long friend) {
-        Guest guest = repository.findOne(id);
-        Guest newFriend = repository.findOne(friend);
-        if (guest != null & newFriend != null) {
-            List<Guest> currentFriends = guest.getFriends();
-            currentFriends.add(newFriend);
-            guest.setFriends(currentFriends);
-            repository.save(guest);
-
-            List<Guest> currentFriends2 = newFriend.getFriends();
-            currentFriends2.add(guest);
-            newFriend.setFriends(currentFriends2);
-            repository.save(newFriend);
-        }
-    }
-
-    @RequestMapping(value = "sendRequest/{id}/{friend}")
-    public void sendRequest(@PathVariable long id, @PathVariable long friend) {
-        Guest guest = repository.findOne(id);
-        Guest requested = repository.findOne(friend);
-
-        if (guest != null & requested != null) {
-            if (!guest.getFriends().contains(requested) & !requested.getFriends().contains(guest) & !guest.getRequests().contains(requested) & !requested.getRequests().contains(guest)) {
-                requested.getRequests().add(guest);
-                repository.save(requested);
-            }
-        }
-
-    }
-
-    @RequestMapping(value = "acceptRequest/{id}/{friend}")
-    public void acceptRequest(@PathVariable long id, @PathVariable long friend) {
-        Guest guest = repository.findOne(id);
-        Guest requested = repository.findOne(friend);
-        if (guest != null & requested != null) {
-            if (guest.getRequests().contains(requested)) {
-                guest.getRequests().remove(requested);
-                if (!guest.getFriends().contains(requested)) {
-                    guest.getFriends().add(requested);
-                    requested.getFriends().add(guest);
-                    System.out.println("Dodao sam!");
-                    repository.save(guest);
-                    repository.save(requested);
+        for (Guest possibleFriend : possibleFriends) {
+            if (!email.equals(possibleFriend.getEmail())) {
+                Friend f = friends.findByGuestEmailAndFriendEmail(email, possibleFriend.getEmail());
+                if (f == null) {
+                    addableFriends.add(possibleFriend);
                 }
             }
         }
+
+        return addableFriends;
     }
 
-    @RequestMapping(value = "/change", method = RequestMethod.PUT)
-    public void change(@RequestBody Guest guest) {
-        repository.save(guest);
+    @RequestMapping(value = "sendRequest/{email:.+}/{friendEmail:.+}")
+    public void sendRequest(@PathVariable String email, @PathVariable String friendEmail) {
+        Friend newFriendship = new Friend(email, friendEmail, 0);
+        friends.save(newFriendship);
     }
 
-    @RequestMapping(value = "/changeImage/{id}", method = RequestMethod.PUT)
-    public void changeImage(@PathVariable long id, @RequestBody Blob image) {
-        //Guest guest = repository.findOne(id);
-        //guest.setImage(image);
-        //repository.save(guest);
-    }
+    @RequestMapping(value = "/requests/{email:.+}")
+    public List<Guest> getAllRequests(@PathVariable String email) {
+        ArrayList<Guest> requestedFriends = new ArrayList<>();
 
-    @RequestMapping(value = "declineRequest/{id}/{friend}")
-    public void declineRequest(@PathVariable long id, @PathVariable long friend) {
-        Guest guest = repository.findOne(id);
-        Guest requested = repository.findOne(friend);
-        if (guest != null & requested != null) {
-            if (guest.getRequests().contains(requested) & !guest.getFriends().contains(requested)) {
-                guest.getRequests().remove(requested);
-                repository.save(guest);
-            }
+        ArrayList<Friend> requests = friends.findByFriendEmailAndAccepted(email, 0);
+        for (Friend f : requests) {
+            requestedFriends.add(guests.findByEmail(f.getGuestMail()));
         }
+        return requestedFriends;
     }
 
-    @RequestMapping(value = "deleteFriend/{id}/{friend}")
-    public void deleteFriend(@PathVariable long id, @PathVariable long friend) {
-        Guest guest = repository.findOne(id);
-        Guest requested = repository.findOne(friend);
-        if (guest != null & requested != null) {
-            if (guest.getFriends().contains(requested) & requested.getFriends().contains(guest)) {
-                guest.getFriends().remove(requested);
-                requested.getFriends().remove(guest);
-                repository.save(guest);
-                repository.save(requested);
-            }
-        }
+    @RequestMapping(value = "acceptRequest/{me:.+}/{friend:.+}")
+    public void acceptRequest(@PathVariable String me, @PathVariable String friend) {
+        Friend oldFriendship = friends.findByGuestEmailAndFriendEmail(friend, me);
+        oldFriendship.setAccepted(1);
 
+        Friend newFriendship = new Friend(me, friend, 1);
+
+        friends.save(oldFriendship);
+        friends.save(newFriendship);
     }
-    */
+
+    @RequestMapping(value = "declineRequest/{me:.+}/{friend:.+}")
+    public void declineRequest(@PathVariable String me, @PathVariable String friend) {
+        Friend oldFriendship = friends.findByGuestEmailAndFriendEmail(friend, me);
+        friends.delete(oldFriendship);
+    }
 }
