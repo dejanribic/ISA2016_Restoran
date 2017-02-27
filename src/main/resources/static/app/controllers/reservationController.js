@@ -25,15 +25,20 @@
             $http.get('/reservations/allActive/' + $cookies.get('email')).success(function (response) {
 
                 $scope.reservations = response;
-                console.log(response);
+                //console.log(response);
 
                 var currRes = response;
                 for (var i = 0; i < response.length; i++) {
 
-                    var datum = currRes.start;
-                    currRes.start.ispis = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getTime());
+                    //var time = currRes[i].start;
+                    //var date = new Date(time);
+
+                    var datum = new Date(currRes[i].start);
+                    //console.log(datum);
+
+                    currRes[i].ispisDatuma = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
                     $scope.reservationsWithInvitations.push(currRes[i]);
-                    console.log(currRes[i]);
+                    //console.log(currRes[i]);
                 }
 
 
