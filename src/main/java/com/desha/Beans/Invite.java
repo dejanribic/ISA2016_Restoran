@@ -27,12 +27,12 @@ public class Invite implements Serializable {
     private String restaurantName;
 
     @Column
-    private int accepted;
+    private boolean accepted;
 
     public Invite() {
     }
 
-    public Invite(String guestEmail, String friendEmail, int reservationId, String restaurantName, int accepted) {
+    public Invite(String guestEmail, String friendEmail, int reservationId, String restaurantName, boolean accepted) {
         this.guestEmail = guestEmail;
         this.friendEmail = friendEmail;
         this.reservationId = reservationId;
@@ -83,11 +83,11 @@ public class Invite implements Serializable {
         this.restaurantName = restaurantName;
     }
 
-    public int isAccepted() {
+    public boolean isAccepted() {
         return accepted;
     }
 
-    public void setAccepted(int accepted) {
+    public void setAccepted(boolean accepted) {
         this.accepted = accepted;
     }
 }

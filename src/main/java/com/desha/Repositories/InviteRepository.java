@@ -5,8 +5,11 @@ import com.desha.Beans.InviteKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface InviteRepository extends JpaRepository<Invite, InviteKey> {
+    List<Invite> findByReservationId(int id);
 
 //    List<Invite> findByInvited(Guest guest);
 

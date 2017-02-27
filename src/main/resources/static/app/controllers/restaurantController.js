@@ -35,8 +35,6 @@
                 return local
             });
 
-            //document.getElementById('datePicker').value = new Date().toDateInputValue();
-
             $scope.restoran = res;
             $scope.trajanje = '1';
             $scope.datum = new Date().toDateInputValue();

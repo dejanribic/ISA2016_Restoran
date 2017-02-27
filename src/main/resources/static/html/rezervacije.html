@@ -9,10 +9,10 @@
                     <li><a href="#/pozivnice">Pozivnice</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#/nalog">Moj nalog</a></li>
-                    <li><a href="#">Izloguj se</a></li>
+                    <li><a href="#/nalog">{{profileName}}</a></li>
+                    <li><a href="#">Log out</a></li>
                 </ul>
-            </div
+            </div>
         </div>
     </nav>
     <!-- NAV END -->
@@ -39,15 +39,22 @@
                     <td>{{res.reservation.dateTime}}</td>
                     <td>{{res.reservation.duration + " hours"}}</td>
                     -->
-                    <td>{{res.restaurantName}}</td>
-                    <td>{{res.ispisDatuma}}</td>
-                    <td>{{res.forh + " hours"}}</td>
+                    <td>{{res.reservation.restaurantName}}</td>
+                    <td>{{res.reservation.ispisDatuma}}</td>
+                    <td>{{res.reservation.forh + " hours"}}</td>
                     <td>
                         <ul class="list-group">
+                            <!--
                             <li ng-repeat="inv in res.invitations"><input type="checkbox" disabled
-                                                                          ng-checked="inv.confirmed==true">{{" " +
+                                                                          ng-checked="inv.accepted==1">{{" " +
                                 inv.invited.name + " " + inv.invited.surname}}
                             </li>
+                            -->
+                            <li ng-repeat="inv in res.invitations"><input type="checkbox" disabled
+                                                                          ng-checked="inv.accepted==true">{{" " +
+                                inv.friendEmail}}
+                            </li>
+
                         </ul>
                     </td>
                     <td>

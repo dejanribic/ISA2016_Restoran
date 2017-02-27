@@ -42,13 +42,24 @@ public class InviteController {
         Guest invitedGuest = guestRepository.findByEmail(email);
 
         Invite invite = new Invite();
-        invite.setAccepted(0);
+        invite.setAccepted(false);
         invite.setGuestEmail(host.getEmail());
         invite.setFriendEmail(invitedGuest.getEmail());
         invite.setRestaurantName(reservation.getRestaurantName());
         invite.setReservationId(reservation.getId());
 
         repository.save(invite);
+    }
+
+    @RequestMapping(value = "/getInvited", method = RequestMethod.PUT)
+    public List<Invite> getInvited(@RequestBody Reservation reservation) {
+        System.out.println("-----");
+        System.out.println("reservation: " + reservation.toString());
+        List<Invite> spisakBrt = repository.findByReservationId(reservation.getId());
+        for (Invite i : spisakBrt) {
+            System.out.println("invite: " + i.toString());
+        }
+        return spisakBrt;
     }
 
     /*
@@ -108,10 +119,7 @@ public class InviteController {
         return invitable;
     }
 
-    @RequestMapping(value = "/getInvited", method = RequestMethod.PUT)
-    public List<Invite> getInvited(@RequestBody Reservation reservation) {
-        return repository.findByReservation(reservation);
-    }
+
 
 
 

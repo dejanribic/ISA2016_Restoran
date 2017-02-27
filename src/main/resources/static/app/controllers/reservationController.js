@@ -8,6 +8,12 @@
     ReservationController.$inject = ['$cookies', '$http', '$scope'];
     function ReservationController($cookies, $http, $scope) {
 
+        if ($cookies.get("name") != null && $cookies.get("name") != "")
+            $scope.profileName = $cookies.get("name");
+        else {
+            $scope.profileName = $cookies.get("email");
+        }
+
         Date.prototype.toDateInputValue = (function () {
             var local = new Date(this);
             local.setDate(local.getDate() + 1);
@@ -25,50 +31,67 @@
             $http.get('/reservations/allActive/' + $cookies.get('email')).success(function (response) {
 
                 $scope.reservations = response;
-                //console.log(response);
 
                 var currRes = response;
-                for (var i = 0; i < response.length; i++) {
-
-                    //var time = currRes[i].start;
-                    //var date = new Date(time);
-
-                    var datum = new Date(currRes[i].start);
-                    //console.log(datum);
-
-                    currRes[i].ispisDatuma = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
-                    $scope.reservationsWithInvitations.push(currRes[i]);
-                    //console.log(currRes[i]);
-                }
-
-
                 /*
                  for (var i = 0; i < response.length; i++) {
-                 (function (i) {
-                 $http.put('/invitations/getInvited', currRes[i]).success(function (response) {
-                 $scope.reservationsWithInvitations.push({
-                 reservation: currRes[i],
-                 invitations: response
-                 });
-                 });
-                 })(i);
+
+
+                 var datum = new Date(currRes[i].start);
+                 currRes[i].ispisDatuma = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
+                 $scope.reservationsWithInvitations.push(currRes[i]);
                  }
-
-
                  */
+
+                for (var i = 0; i < response.length; i++) {
+                    //console.log('Usli smo u rezervaciju broj: ' + i);
+
+                    (function (i) {
+                        $http.put('/invitations/getInvited', currRes[i]).success(function (response) {
+
+                            //console.log(response2);
+
+                            for (var j = 0; j < response.length; j++) {
+                                //noinspection JSUnresolvedVariable
+                                //console.log(response2[j].friendEmail);
+
+                                //noinspection JSUnresolvedVariable
+                                $http.get('/users/getOne/' + response[j].friendEmail).success(function (response) {
+                                    //console.log(response);
+                                    var ime = response.name;
+                                    var prezime = response.surname;
+                                    console.log(ime + prezime);
+                                    //response2[j].ime = ime;
+                                    //response2[j].prezime = surname;
+                                });
+                            }
+
+                            //noinspection JSUnusedAssignment
+                            var datum = new Date(currRes[i].start);
+                            currRes[i].ispisDatuma = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
+
+
+                            $scope.reservationsWithInvitations.push({
+                                reservation: currRes[i],
+                                invitations: response
+                            });
+                        });
+                    })(i);
+                }
             });
             console.log($scope.reservationsWithInvitations);
         }
 
         var currentReservation;
+
         $scope.getInvitable = function (res) {
 
             //OVDE SKINUTI currRes.start.ispis
 
-            // delete res.start.ispis
+            // delete res.ispisDatuma
 
-            // var propertyToDelete = "ispis";
-            // delete res[ispis];
+            // var propertyToDelete = "ispisDatuma";
+            // delete res[propertyToDelete];
 
             currentReservation = res;
             $http.put('/invitations/invitableFriends', res).success(function (response) {
