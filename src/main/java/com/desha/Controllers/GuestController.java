@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -75,13 +76,14 @@ public class GuestController {
         if (friendSearch.contains(" ")) {
             String name = friendSearch.split(" ")[0];
             String surname = friendSearch.split(" ")[1];
-            possibleFriends = guests.findByNameAndSurname(name, surname);
+            possibleFriends = guests.findByNameAndSurnameAndConfirmed(name, surname, 1);
         }
 
         // Ako ne sadrzi razmak (jedna rec - ime)
         else {
-            possibleFriends = guests.findByName(friendSearch);
+            possibleFriends = guests.findByNameAndConfirmed(friendSearch, 1);
         }
+
 
         for (Guest possibleFriend : possibleFriends) {
             if (!email.equals(possibleFriend.getEmail())) {
@@ -92,6 +94,28 @@ public class GuestController {
             }
         }
 
+        // Brisanje requestovanih iz addable
+        ArrayList<Guest> requestedFriends = new ArrayList<>();
+
+        ArrayList<Friend> requests = friends.findByFriendEmailAndAccepted(email, 0);
+        for (Friend f : requests) {
+            requestedFriends.add(guests.findByEmail(f.getGuestMail()));
+        }
+
+        Iterator<Guest> iteratorAddableFriends = addableFriends.iterator();
+        Iterator<Guest> iteratorFriendRequests = requestedFriends.iterator();
+
+        while (iteratorAddableFriends.hasNext()) {
+            Guest af = iteratorAddableFriends.next();
+            while (iteratorFriendRequests.hasNext()) {
+                Guest rf = iteratorFriendRequests.next();
+                if (af.getEmail().equals(rf.getEmail())) {
+                    iteratorAddableFriends.remove();
+                }
+            }
+        }
+
+        // Vracanje addable
         return addableFriends;
     }
 
