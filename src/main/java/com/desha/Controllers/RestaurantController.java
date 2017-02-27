@@ -4,6 +4,8 @@ import com.desha.Beans.Restaurant;
 import com.desha.Repositories.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
 
@@ -23,7 +25,10 @@ public class RestaurantController {
 
     @RequestMapping(value = "/getByName/{name}")
     public Restaurant getByName(@PathVariable String name) {
-        return repository.findByName(name);
+        Restaurant ret = repository.findByName(name);
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        attr.setAttribute("activeRestaurant", ret, ServletRequestAttributes.SCOPE_SESSION);
+        return ret;
     }
 
 

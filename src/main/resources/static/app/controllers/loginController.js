@@ -67,11 +67,13 @@
                         $location.url('/restorani');
                     }
                     else if (response.type == 2) {
+                        $location.url('/manager');
                     }
                     else if (response.type == 3) {
+                        $location.url('/supplier');
                     }
                     else if (response.type == 4) {
-                        $location.url('/sysman')
+                        $location.url('/sysman');
                     }
                     else if (response.type == 5) {
                     }

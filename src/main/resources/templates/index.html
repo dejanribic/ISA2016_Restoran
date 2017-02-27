@@ -13,6 +13,13 @@
     <script type="text/javascript" src="/static/angular-route.js" th:src="@{/angular-route.js}"></script>
     <script type="text/javascript" src="/static/angular-cookies.js" th:src="@{/angular-cookies.js}"></script>
 
+    <!-- Koristi sockjs biblioteku da se konektuje na /stomp endpoint -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"
+            th:src="@{/sockjs.min.js}"></script>
+    <!-- Koristi stomp biblioteku da se pretplati na brokerov /topic/message endpoint -->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"
+            th:src="@{/stomp.min.js}"></script>
+
     <!-- JQuery and BootstrapJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"
             th:src="@{/jquery-3.1.1.min.js}"></script>
@@ -47,6 +54,8 @@
             th:src="@{/app/controllers/demandController.js}"></script>
     <script type="text/javascript" src="/static/app/controllers/restaurantCreateController.js.js"
             th:src="@{/app/controllers/restaurantCreateController.js}"></script>
+    <script type="text/javascript" src="/static/app/controllers/supplierController.js.js"
+            th:src="@{/app/controllers/supplierController.js}"></script>
 
 </head>
 <body ng-app="app">

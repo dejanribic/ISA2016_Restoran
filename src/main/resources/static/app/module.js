@@ -47,6 +47,15 @@
             templateUrl: 'html/sys-manager-page.html',
             controller: 'RestaurantCreateController'
         });
+        $routeProvider.when('/manager', {
+            templateUrl: 'html/manager-page.html',
+            controller: 'DemandController'
+        });
+        $routeProvider.when('/supplier', {
+            templateUrl: 'html/supplier.html',
+            controller: 'SupplierController'
+        });
+
 
         //noinspection JSUnresolvedFunction
         $routeProvider.otherwise('/', {
