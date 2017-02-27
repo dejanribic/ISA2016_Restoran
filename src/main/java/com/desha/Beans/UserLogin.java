@@ -10,12 +10,30 @@ public class UserLogin {
 
     private int type;
 
+    private String etype;
+
+    private String restname;
+
+    public UserLogin ()
+    {
+        this.etype = "nista";
+        this.restname = "nema";
+    }
+
     public int getType() {
         return type;
     }
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getEtype() {
+        return etype;
+    }
+
+    public void setEtype(String etype) {
+        this.etype = etype;
     }
 
     public String getEmail() {
@@ -40,5 +58,13 @@ public class UserLogin {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRestname() {
+        return restname;
+    }
+
+    public void setRestname(String restname) {
+        this.restname = restname;
     }
 }
