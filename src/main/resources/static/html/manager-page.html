@@ -1,0 +1,15 @@
+<div class="col-md-6" style="border: 1px solid black">
+    <h1>My restaurants:</h1>
+    <table id="restaurants" class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="res in restaurants">
+            <td><a ng-click="goToRestaurant(res)">{{res.restaurantName}}</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

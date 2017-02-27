@@ -2,10 +2,13 @@ package com.desha.Controllers;
 
 import com.desha.Beans.Manager;
 import com.desha.Beans.Restaurant_Manager;
+import com.desha.Beans.UserLogin;
 import com.desha.Repositories.ManagerRepository;
 import com.desha.Repositories.Restaurant_ManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
 
@@ -29,6 +32,15 @@ public class RestaurantManagerController {
         return restaurantManagerRepository.findByRestaurantName(name);
     }
 
+    @RequestMapping(value = "/allByMail", method = RequestMethod.GET)
+    public List<Restaurant_Manager> getByManagerEmail() {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        UserLogin user = (UserLogin) attr.getAttribute("user", ServletRequestAttributes.SCOPE_SESSION);
+        if (user.getType() == 2)
+            return restaurantManagerRepository.findByManagerEmail(user.getEmail());
+        return null;
+    }
+
     @RequestMapping(value = "/remove", method = RequestMethod.PUT)
     public Restaurant_Manager removeRestaurantManager(@RequestBody Restaurant_Manager toRemove) {
 
@@ -38,9 +50,9 @@ public class RestaurantManagerController {
 
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
     public Restaurant_Manager create(@RequestBody Restaurant_Manager newManager) {
-        Manager nm = new Manager(newManager.getManagerEmail(),"");
+        Manager nm = new Manager(newManager.getManagerEmail(), "");
 
-        if(managerRepository.findByEmail(newManager.getManagerEmail())== null) {
+        if (managerRepository.findByEmail(newManager.getManagerEmail()) == null) {
             managerRepository.save(nm);
             // TODO send mail
         }

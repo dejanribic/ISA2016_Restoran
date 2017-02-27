@@ -14,15 +14,18 @@ public class Supplier {
 
     @Id
     private String email;
-    @Column
+
     private String password;
+
+    private String name;
 
     public Supplier() {
     }
 
-    public Supplier(String email, String password) {
+    public Supplier(String email, String password, String name) {
         this.email = email;
         this.password = password;
+        this.name = name;
 
     }
 
@@ -42,4 +45,11 @@ public class Supplier {
         this.password = password;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

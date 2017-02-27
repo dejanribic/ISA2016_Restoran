@@ -1,0 +1,10 @@
+<div class="col-md-6" style="border: 1px solid black">
+
+    <h2>Set password</h2>
+    <input type="password" placeholder="New password" ng-model="pass.new">
+    <input type="password" placeholder="Repeat new password" ng-model="pass.newr">
+    <button type="button" ng-click="setPassword()"
+            ng-disabled="pass.new=='' || pass.new==null || ( pass.new!=pass.newr )" class="btn btn-primary">Change
+        password
+    </button>
+</div>

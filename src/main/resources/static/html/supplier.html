@@ -1,0 +1,135 @@
+<div class="col-md-6" style="border: 1px solid black">
+    <h1>Available demands</h1>
+    <table id="Demands" class="table">
+        <thead>
+        <tr>
+
+            <th>Restaurant name</th>
+            <th>Article name</th>
+            <th>Amount</th>
+            <th>From date</th>
+            <th>To date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="dm in demands">
+            <td>{{dm.restaurantName}}</td>
+            <td>{{dm.name}}</td>
+            <td>{{dm.ammount}}</td>
+            <td>{{dm.start}}</td>
+            <td>{{dm.end}}</td>
+            <td ng-if="!dm.closed">
+                <button type="button" class="btn btn-success" ng-click="setDemand(dm)"
+                        data-toggle="modal" data-target="#modal">Add/Modify offer
+                </button>
+            </td>
+            <td ng-if="dm.closed">
+                Closed
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="col-md-6" style="border: 1px solid black">
+    <h1 id="offer-head">My offers</h1>
+    <table id="offers" class="table">
+        <thead>
+        <tr>
+            <th>Restaurant name</th>
+            <th>Article name</th>
+            <th>Amount</th>
+            <th>Closes on</th>
+            <th>Delivery date</th>
+            <th>Price</th>
+            <th>Modify/Accepted</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="of in offers">
+            <td>{{of.demand.restaurantName}}</td>
+            <td>{{of.demand.name}}</td>
+            <td>{{of.demand.ammount}}</td>
+            <td>{{of.demand.end}}</td>
+            <td ng-if="!of.demand.closed">
+                <input type="date" value="{{of.offer.diliveredUntil|date:'yyyy-MM-dd'}}"
+                       ng-model="of.offer.diliveredUntil"/>
+            </td>
+            <td ng-if="of.demand.closed">
+                {{of.offer.diliveredUntil}}
+            </td>
+            <td ng-if="!of.demand.closed">
+                <input type="int" value="of.offer.price" ng-model="of.offer.price"/>
+            </td>
+            <td ng-if="of.demand.closed">
+                {{of.offer.price}}
+            </td>
+
+            <td ng-if="!of.demand.closed">
+                <button type="button" class="btn btn-success" ng-click="modifyOffer(of.offer)">Modify offer</button>
+            </td>
+            <td ng-if="of.demand.closed">
+                {{of.offer.accepted}}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <div class="modal fade" id="modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Add/Modify offer</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td>Delivery date:</td>
+                                    <td>
+                                        <input type="date" value="{{offerToAdd.diliveredUntil|date:'yyyy-MM-dd'}}"
+                                               name="date" ng-model="offerToAdd.diliveredUntil">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Price:</td>
+                                    <td>
+                                        <input type="number" min="0" name="price" ng-model="offerToAdd.price">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <a href="" id="cancel" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                    <button type="button" ng-click="addOffer()"
+                            ng-disabled="offerToAdd.diliveredUntil==null && offerToAdd.price==null"
+                            data-dismiss="modal" class="btn btn-primary">{{buttonValue}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-6" style="border: 1px solid black">
+    <h1>Account Details</h1>
+    <h2>Change name</h2>
+    <input type="text" ng-model="user.name">
+    <button type="button" ng-click="setName()" class="btn btn-primary">Change name</button>
+    <h2>Change password</h2>
+    <input type="password" placeholder="Old password" ng-model="pass.old">
+    <input type="password" placeholder="New password" ng-model="pass.new">
+    <input type="password" placeholder="Repeat new password" ng-model="pass.newr">
+    <button type="button" ng-click="setPassword()"
+            ng-disabled="pass.new=='' || pass.new==null || ( pass.new!=pass.newr )" class="btn btn-primary">Change
+        password
+    </button>
+</div>
