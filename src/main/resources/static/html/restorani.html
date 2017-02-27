@@ -20,14 +20,14 @@
 
     <div class="row">
         <div class="col-md-6" style="border: 1px solid black">
-            <h1>Svi restorani:</h1>
+            <h1>All restaurants:</h1>
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Naziv</th>
-                    <th>Ocena</th>
-                    <th>Ocena prijatelja</th>
-                    <th>Opis</th>
+                    <th>Name</th>
+                    <th>Rating</th>
+                    <th>Friends Rating</th>
+                    <th>Description</th>
                     <th>Action</th>
                     <th>&nbsp;</th>
                 </tr>
@@ -48,13 +48,13 @@
             </table>
         </div>
         <div class="col-md-6" style="border: 1px solid black;">
-            <h1>Poseceni restorani:</h1>
+            <h1>Visited Restaurants:</h1>
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Naziv</th>
-                    <th>Datum</th>
-                    <th>Ocena</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Rating</th>
                     <th>Action</th>
                     <th>&nbsp;</th>
                 </tr>
@@ -95,7 +95,9 @@
                                         <td>Date:</td>
                                         <td>
                                             <form>
-                                                <input type="date" name="bday" ng-model="datum">
+                                                <input type="datetime-local" id="datepicker" name="bday"
+                                                       ng-model="datum"
+                                                       required>
                                             </form>
                                         </td>
                                     </tr>
@@ -117,7 +119,8 @@
 
                     <div class="modal-footer">
                         <a href="" class="btn btn-default" data-dismiss="modal">Cancel</a>
-                        <button type="button" ng-disabled="trajanje==null && datum==null" data-dismiss="modal"
+                        <button type="button"
+                                data-dismiss="modal"
                                 class="btn btn-primary" data-toggle="modal" data-target="#modal-2">Next step
                         </button>
                     </div>
@@ -145,7 +148,7 @@
                                     </tr>
                                     <tr>
                                         <td>Date:</td>
-                                        <td>{{datum}}</td>
+                                        <td>{{datum.ispis}}</td>
                                     </tr>
                                     <tr>
                                         <td>Length of reservation:</td>
@@ -164,6 +167,15 @@
                                     </tr>
                                     </tbody>
                                 </table>
+
+                                <div id="seat-map">
+                                </div>
+                                <div class="booking-details">
+                                    <h3>Reserved table:</h3>
+                                    <ul id="selected-seats"></ul>
+                                    <h3>Legend:</h3>
+                                    <div id="legend"></div>
+                                </div>
                             </div>
 
                         </div>
@@ -199,7 +211,7 @@
                                     </tr>
                                     <tr>
                                         <td>Date:</td>
-                                        <td>{{datum}}</td>
+                                        <td>{{datum.ispis}}</td>
                                     </tr>
                                     <tr>
                                         <td>Length of reservation:</td>
@@ -211,11 +223,11 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            Dodaj prijatelja:
+                                            Add friends:
                                         </td>
                                         <td>
                                             <div class="form-group" style="width:250px;">
-                                                <input type="text" class="form-control" placeholder="Search">
+                                                <input type="text" class="form-control" placeholder="Search...">
                                             </div>
                                         </td>
                                     </tr>
@@ -228,11 +240,10 @@
                                                     <td>{{friend.name +" "+ friend.surname}}</td>
                                                     <td>
                                                         <button class="btn btn-success"
-                                                                ng-click="pozoviPrijatelja(friend.user_id)">Pozovi
+                                                                ng-click="pozoviPrijatelja(friend.email)">Invite
                                                         </button>
                                                     </td>
                                                 </tr>
-
                                                 </tbody>
                                             </table>
                                         </td>
@@ -244,7 +255,6 @@
 
                         </div>
                     </div>
-
                     <div class="modal-footer">
                         <a href="" class="btn btn-default" data-dismiss="modal">Cancel</a>
                         <button type="button" data-dismiss="modal" class="btn btn-primary" ng-click="rezervisi()"
@@ -262,7 +272,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h3 class="modal-title">Rezervacija - korak 3</h3>
+                        <h3 class="modal-title">Reservation - step 3</h3>
                     </div>
                     <div class="modal-body">
                         <table class="table">

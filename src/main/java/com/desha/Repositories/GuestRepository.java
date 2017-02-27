@@ -14,4 +14,8 @@ public interface GuestRepository extends JpaRepository<Guest, Long> {
     ArrayList<Guest> findByName(String name);
 
     ArrayList<Guest> findByNameAndSurname(String name, String surname);
+
+    ArrayList<Guest> findByNameAndSurnameAndConfirmed(String name, String surname, int confirmed);
+
+    ArrayList<Guest> findByNameAndConfirmed(String friendSearch, int confirmed);
 }

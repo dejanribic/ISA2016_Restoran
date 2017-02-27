@@ -64,6 +64,7 @@
                      */
 
                     if (response.type == 1) {
+                        $location.url('/restorani');
                     }
                     else if (response.type == 2) {
                         $location.url('/manager');

@@ -1,73 +1,90 @@
 package com.desha.Beans;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Entity
-public class Reservation {
+@IdClass(ReservationKey.class)
+public class Reservation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long reservation_id;
+    private int id;
 
-    @ManyToOne
-    private Restaurant restaurant;
+    @Id
+    @Column(name = "restaurant_name")
+    private String restaurantName;
 
-    @ManyToOne
-    private Guest host;
+    @Column
+    private Timestamp start;
 
-    private Date dateTime;
+    @Column
+    private int forh;
 
-    private int duration;
+    // Strani kljuc iz guest
+    @Column(name = "guest_email")
+    private String guestEmail;
 
     public Reservation() {
     }
 
-    public Reservation(long reservation_id, Restaurant restaurant, Guest host, Date dateTime, int duration) {
-        this.reservation_id = reservation_id;
-        this.restaurant = restaurant;
-        this.host = host;
-        this.dateTime = dateTime;
-        this.duration = duration;
+    public Reservation(int id, String restaurant_name, Timestamp start, int forh, String guestEmail) {
+        this.id = id;
+        this.restaurantName = restaurant_name;
+        this.start = start;
+        this.forh = forh;
+        this.guestEmail = guestEmail;
     }
 
-    public long getReservation_id() {
-        return reservation_id;
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", restaurantName='" + restaurantName + '\'' +
+                ", start=" + start +
+                ", forh=" + forh +
+                ", guestEmail='" + guestEmail + '\'' +
+                '}';
     }
 
-    public void setReservation_id(long reservation_id) {
-        this.reservation_id = reservation_id;
+    public int getId() {
+        return id;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public String getRestaurantName() {
+        return restaurantName;
     }
 
-    public Guest getHost() {
-        return host;
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 
-    public void setHost(Guest host) {
-        this.host = host;
+    public Timestamp getStart() {
+        return start;
     }
 
-    public Date getDateTime() {
-        return dateTime;
+    public void setStart(Timestamp start) {
+        this.start = start;
     }
 
-    public void setDateTime(Date dateTime) {
-        this.dateTime = dateTime;
+    public int getForh() {
+        return forh;
     }
 
-    public int getDuration() {
-        return duration;
+    public void setForh(int forh) {
+        this.forh = forh;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public String getGuestEmail() {
+        return guestEmail;
+    }
+
+    public void setGuestEmail(String guestEmail) {
+        this.guestEmail = guestEmail;
     }
 }
