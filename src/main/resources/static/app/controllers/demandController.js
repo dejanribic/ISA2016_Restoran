@@ -20,7 +20,7 @@
 
         $scope.goToRestaurant = function (res) {
             $http.get('/restaurants/getByName/'+res.restaurantName).success(function (response) {
-                $location.url('/demand');
+                $location.url('/resadm');
             });
 
         };

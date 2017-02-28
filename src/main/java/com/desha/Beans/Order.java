@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 
 @Entity
-@Table(name = "MenuOrder")
+@Table(name = "Menu_Order")
 @IdClass(OrderKey.class)
 public class Order implements Serializable {
 

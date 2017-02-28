@@ -16,8 +16,19 @@
         $http.get('/menu-item/all').success(function (response) {
             $scope.menuItems = response;
         });
+        $http.get('/restaurants/getActive').success(function (response) {
+            $scope.restaurant = response;
+        });
+        $http.get('/restaurants/getRating').success(function (response) {
+            $scope.restaurantRating = response;
+        });
+        $http.get('/menu-item/allTypes').success(function (response) {
+            $scope.menuItemTypes = response;
+        });
 
-        $scope.create = function () {
+        $scope.createMenuItem = function () {
+            $scope.menuItem.type_name = $( "#type option:selected" ).text();
+            $scope.menuItem.restname = $scope.restaurant.name;
             $http.put('/menu-item/create', $scope.menuItem).success(reloadMenuItems);
         };
 

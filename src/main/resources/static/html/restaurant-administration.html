@@ -1,46 +1,30 @@
+<div class="col-md-6" style="border: 1px solid black">
+    <h1>{{restaurant.name}}</h1>
+    <div>Rating {{restaurantRating}}</div>
+    <div>Visit graph</div>
+    <h5>Description:</h5>
+    <textarea rows="4" cols="50">{{restaurant.description}}</textarea>
+    <h5>Table grid size:</h5>
+    <input type="text" value="{{restaurant.tablegrid_width}}"/>
+    <input type="text" value="{{restaurant.tablegrid_height}}"/>
+    <h5>Location:</h5>
+    <!-- TODO https://www.w3schools.com/html/html_googlemaps.asp-->
+    <h5>Image:</h5>
+    <!-- TODO http://stackoverflow.com/questions/18571001/file-upload-using-angularjs-->
+    <h5>Tables</h5>
+    <button ng-click="updateRestaurant()">Apply changes</button>
 
-
-<form id="add-menu-item-form" role="form" style="display: block;">
-    <div class="form-group">
-        <input type="text" name="name" id="name" tabindex="1" class="form-control"
-               placeholder="Name" value="" ng-model="menuItem.name">
-    </div>
-    <div class="form-group">
-        <input type="text" name="description" id="description" tabindex="1" class="form-control"
-               placeholder="Description" value="" ng-model="menuItem.description">
-    </div>
-    <div class="form-group">
-        <input type="number" name="price" id="price" tabindex="1" class="form-control"
-               placeholder="Price" value="" ng-model="menuItem.price">
-    </div>
-    <div class="form-group">
-        <input type="text" name="type_name" id="type_name" tabindex="1" class="form-control"
-               placeholder="Item type" value="" ng-model="menuItem.type_name">
-    </div>
-    <div class="form-group">
-        <input type="text" name="restaurantName" id="restaurantName" tabindex="1" class="form-control"
-               placeholder="Res" value="" ng-model="menuItem.restaurantName">
-    </div>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-                <input type="submit" name="add" id="add" tabindex="4"
-                       class="form-control btn btn-login" value="Dodaj stavku"
-                       ng-click="create()">
-            </div>
-        </div>
-    </div>
-</form>
+</div>
 
 <div class="col-md-6" style="border: 1px solid black">
-    <h1>Jelovnik:</h1>
-    <table id="jelovnik" class="table">
+    <h1>Menu:</h1>
+    <table class="table">
         <thead>
         <tr>
-            <th>Naziv</th>
-            <th>Opis</th>
-            <th>Cena</th>
-            <th>Tip</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Type</th>
         </tr>
         </thead>
         <tbody>
@@ -49,8 +33,39 @@
             <td>{{it.description}}</td>
             <td>{{it.price}}</td>
             <td>{{it.type_name}}</td>
-            <td><button type="button" class="btn btn-success" data-toggle="modal" ng-click="remove(it)" data-target="#modal-1">Obriši</button></td>
+            <td>{{it.rating}}</td>
+            <td><button type="button" class="btn btn-success" data-toggle="modal" ng-click="remove(it)">Remove</button></td>
         </tr>
         </tbody>
     </table>
+
+    <form id="add-menu-item-form" role="form" style="display: block;">
+        <div class="form-group">
+            <input type="text"  class="form-control"
+                   placeholder="Name" value="" ng-model="menuItem.name">
+        </div>
+        <div class="form-group">
+            <input type="text"  class="form-control"
+                   placeholder="Description" value="" ng-model="menuItem.description">
+        </div>
+        <div class="form-group">
+            <input type="number"  class="form-control"
+                   placeholder="Price" value="" ng-model="menuItem.price">
+        </div>
+        <div class="form-group">
+            <label for="type">Type</label>
+            <select neme="type" id="type" >
+                <option ng-repeat="ty in menuItemTypes" value="{{ty.name}}">{{ty.name}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="submit"
+                           class="form-control btn btn-login" value="Add menu item"
+                           ng-click="createMenuItem()">
+                </div>
+            </div>
+        </div>
+    </form>
 </div>

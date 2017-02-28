@@ -1,0 +1,61 @@
+<div class="col-md-6" style="border: 1px solid black">
+    <h1>Employees:</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Surname</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="emp in employees">
+            <td><a href="employee/{{emp.email}}">{{emp.email}}</a></td>
+            <!-- TODO go to dedicated employee page to see earnings and rating -->
+            <td>{{it.name}}</td>
+            <td>{{it.surname}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <form id="add-employee-form" role="form" style="display: block;">
+        <div class="form-group">
+            <input type="text"  class="form-control"
+                   placeholder="Email"  ng-model="employee.email">
+        </div>
+        <div class="form-group">
+            <input type="text"  class="form-control"
+                   placeholder="Name" value="" ng-model="employee.name">
+        </div>
+        <div class="form-group">
+            <input type="text"  class="form-control"
+                   placeholder="Surname" value="" ng-model="employee.surname">
+        </div>
+        <div class="form-group">
+            <input type="date"  class="form-control"
+                   placeholder="Date of birth" value="" ng-model="employee.birthday">
+        </div>
+        <div class="form-group">
+            <input type="number"  class="form-control"
+                   placeholder="Size" value="" ng-model="employee.size">
+        </div>
+        <div class="form-group">
+            <input type="number"  class="form-control"
+                   placeholder="Shoe size" value="" ng-model="employee.shoeSize">
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="submit"
+                           class="form-control btn btn-register" value="Add employee"
+                           ng-click="createEmployee()">
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <h1>Schedule</h1>
+    <!--TODO http://angular-ui.github.io/ui-calendar/
+        if user etype konobar add region
+    -->
+</div>

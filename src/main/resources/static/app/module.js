@@ -51,6 +51,14 @@
             templateUrl: 'html/manager-page.html',
             controller: 'DemandController'
         });
+        $routeProvider.when('/manager', {
+            templateUrl: 'html/manager-page.html',
+            controller: 'DemandController'
+        });
+        $routeProvider.when('/resadm', {
+            templateUrl: 'html/restaurant-administration.html',
+            controller: 'MenuItemController'
+        });
         $routeProvider.when('/supplier', {
             templateUrl: 'html/supplier.html',
             controller: 'SupplierController'

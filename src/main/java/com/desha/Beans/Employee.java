@@ -28,7 +28,7 @@ public class Employee implements Serializable {
 
     private int size;
 
-    private int shoeSize;
+    private int shoe;
 
     private Date birthday;
 
@@ -39,12 +39,12 @@ public class Employee implements Serializable {
     public Employee() {
     }
 
-    public Employee(String email, String restaurantName, String password, int size, int shoeSize, Date birthday, String name, String surname) {
+    public Employee(String email, String restaurantName, String password, int size, int shoe, Date birthday, String name, String surname) {
         this.email = email;
         this.restaurantName = restaurantName;
         this.password = password;
         this.size = size;
-        this.shoeSize = shoeSize;
+        this.shoe = shoe;
         this.birthday = birthday;
         this.name = name;
         this.surname = surname;
@@ -82,12 +82,12 @@ public class Employee implements Serializable {
         this.size = size;
     }
 
-    public int getShoeSize() {
-        return shoeSize;
+    public int getShoe() {
+        return shoe;
     }
 
-    public void setShoeSize(int shoeSize) {
-        this.shoeSize = shoeSize;
+    public void setShoe(int shoe) {
+        this.shoe = shoe;
     }
 
     public Date getBirthday() {
