@@ -54,6 +54,24 @@
                     $cookies.put('email', response.email);
                     $cookies.put('type', response.type);
                     $cookies.put('name', response.name);
+                    $cookies.put('etype', response.etype);
+                    $cookies.put('rname', response.restname);
+
+
+                    $scope.etype = $cookies.get('etype') ;
+
+
+           /*         console.log($cookies.get('etype'));
+                    console.log(response.etype);
+                    console.log($scope.etype);
+
+                */
+
+/*                    console.log(response.email);
+                    console.log(response.password);
+                    console.log(response.type);
+*/
+
 
                     /*
                      console.log(response);
@@ -68,21 +86,23 @@
                         $location.url('/restorani');
                     }
                     else if (response.type == 2) {
-                        $location.url('/manager');
+                        $location.url('/restorani');
                     }
                     else if (response.type == 3) {
-                        $location.url('/supplier');
+                        $location.url('/restorani');
                     }
                     else if (response.type == 4) {
-                        $location.url('/sysman');
+                        $location.url('/restorani');
                     }
                     else if (response.type == 5) {
+                        console.log("Uso");
+                        $location.url('/restorani');
+
                     }
                     else if (response.type = 0) {
                     }
-                    else {
-                        $location.url('/restorani');
-                    }
+
+
                 });
             }
         };

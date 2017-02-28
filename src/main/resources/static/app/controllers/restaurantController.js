@@ -9,6 +9,7 @@
     RestaurantController.$inject = ['$cookies', '$http', '$scope', '$location'];
     function RestaurantController($cookies, $http, $scope, $location) {
 
+        $scope.etype = $cookies.get('etype');
         if ($cookies.get("name") != null && $cookies.get("name") != "")
             $scope.profileName = $cookies.get("name");
         else {

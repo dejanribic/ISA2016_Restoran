@@ -140,12 +140,15 @@ public class UserController {
             returnGuest.setEmail(employee.getEmail());
             returnGuest.setPassword(employee.getPassword());
             returnGuest.setType(5);
+            returnGuest.setEtype("nesto");
             returnGuest.setRestname(employee.getRestaurantName());
+            returnGuest.setEtype("konobar");
+           try{
                  if (CWW.getMenu_item_type_name().equals("pice")) {
                     returnGuest.setEtype("pice");
                     System.out.println("ja sam sanker");
-                } else if (CWW.getMenu_item_type_name().equals("pecenje")) {
-                    returnGuest.setEtype("pecenje");
+                } else if (CWW.getMenu_item_type_name().equals("meso")) {
+                    returnGuest.setEtype("meso");
                     System.out.println("ja sam pecenje");
                 } else if (CWW.getMenu_item_type_name().equals("salata")) {
                     returnGuest.setEtype("salata");
@@ -160,6 +163,8 @@ public class UserController {
                     returnGuest.setEtype("konobar");
                     System.out.println("ja sam konobar");
                 }
+            }
+            catch(NullPointerException  e){ }
 
             }
 

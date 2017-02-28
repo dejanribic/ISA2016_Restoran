@@ -12,6 +12,7 @@ import java.sql.Date;
 @Entity
 @IdClass(OfferKey.class)
 public class Offer {
+
     @Id
     @Column(name = "demand_num")
     private int demandNum;

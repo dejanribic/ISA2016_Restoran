@@ -32,5 +32,23 @@ public class RacuniController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     List<Order> getAll() {  return orderrepo.findAll();}
 
+    @RequestMapping(value = "/naplati/{num}/{resid}/{resname}/{gmail}", method = RequestMethod.GET)
+    List<Order> naplati(@PathVariable int num , @PathVariable  int resid , @PathVariable  String resname , @PathVariable  String gmail)
+    {
+        Order temp = orderrepo.findByNumAndResidAndResnameAndGmail(num , resid , resname , gmail );
+
+
+
+        temp.setPaid(true);
+
+        System.out.print("*****************");
+        System.out.print(temp.getNum());
+        System.out.print("*****************");
+
+
+        orderrepo.save(temp);
+
+        return orderrepo.findAll();
+    }
 
 }
