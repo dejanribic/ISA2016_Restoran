@@ -11,4 +11,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface Menu_ItemRepository extends JpaRepository<Menu_Item, Menu_ItemKey> {
     Menu_Item findByName(String name);
 
+    Menu_Item findByNameAndRestname(String name, String restname);
 }
