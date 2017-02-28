@@ -1,20 +1,19 @@
 package com.desha.Beans;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.Id;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.IdClass;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.time.DateTimeException;
 
 /**
  * Created by Viktor on 2/28/2017.
  */
 @Entity
-@IdClass(Work_SheduleKey.class)
-public class Work_Shedule  implements Serializable {
+@IdClass(Work_ScheduleKey.class)
+public class Work_Schedule implements Serializable {
 
     @Id
     private int num;
@@ -37,7 +36,7 @@ public class Work_Shedule  implements Serializable {
     @Column(name = "region_id")
     private int id;
 
-    public Work_Shedule(int num, Timestamp start, Timestamp end, String email, String resname, int id) {
+    public Work_Schedule(int num, Timestamp start, Timestamp end, String email, String resname, int id) {
         this.num = num;
         this.start = start;
         this.end = end;
@@ -46,7 +45,7 @@ public class Work_Shedule  implements Serializable {
         this.id = id;
     }
 
-    public Work_Shedule() {
+    public Work_Schedule() {
     }
 
     public int getNum() {

@@ -1,6 +1,6 @@
 package com.desha.Beans;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.Id;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  * Created by Viktor on 2/28/2017.
  */
 @Embeddable
-public class Work_SheduleKey implements Serializable {
+public class Work_ScheduleKey implements Serializable {
 
     @Id
     private int num;
@@ -30,7 +30,7 @@ public class Work_SheduleKey implements Serializable {
     @Column(name = "region_id")
     private int id;
 
-    public Work_SheduleKey(int num, String email, String resname, int id) {
+    public Work_ScheduleKey(int num, String email, String resname, int id) {
         this.num = num;
 
         this.email = email;
@@ -38,7 +38,7 @@ public class Work_SheduleKey implements Serializable {
         this.id = id;
     }
 
-    public Work_SheduleKey() {
+    public Work_ScheduleKey() {
     }
 
     public int getNum() {
