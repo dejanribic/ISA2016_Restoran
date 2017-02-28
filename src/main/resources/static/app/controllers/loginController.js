@@ -6,9 +6,9 @@
         .module('app')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$cookies', '$scope', '$http', '$location'];
+    LoginController.$inject = ['$cookies', '$scope', '$http', '$location', '$window'];
 
-    function LoginController($cookies, $scope, $http, $location) {
+    function LoginController($cookies, $scope, $http, $location, $window) {
 
         $scope.register = function () {
 
@@ -24,7 +24,8 @@
             else {
                 // User creation
                 $http.put('/users/create', $scope.newUser).success(function (response) {
-                    $location.url('/restorani');
+                    $location.url('/');
+                    $window.location.reload();
                 });
             }
         };

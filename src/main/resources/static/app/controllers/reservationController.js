@@ -5,8 +5,8 @@
         .module('app')
         .controller('ReservationController', ReservationController);
 
-    ReservationController.$inject = ['$cookies', '$http', '$scope'];
-    function ReservationController($cookies, $http, $scope) {
+    ReservationController.$inject = ['$cookies', '$http', '$scope', '$route', '$window', "$location"];
+    function ReservationController($cookies, $http, $scope, $route, $window, $location) {
 
         if ($cookies.get("name") != null && $cookies.get("name") != "")
             $scope.profileName = $cookies.get("name");
@@ -22,9 +22,6 @@
             return local
         });
 
-        //var datum = $scope.datum;
-        //$scope.datum.ispis = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getTime());
-
         $scope.reservationsWithInvitations = new Array();
 
         var refresh = function () {
@@ -33,15 +30,12 @@
                 $scope.reservations = response;
 
                 var currRes = response;
+
                 /*
-                 for (var i = 0; i < response.length; i++) {
-
-
-                 var datum = new Date(currRes[i].start);
-                 currRes[i].ispisDatuma = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
-                 $scope.reservationsWithInvitations.push(currRes[i]);
-                 }
-                 */
+                 var x = new Array(1000);
+                 for (var i = 0; i < 1000; i++) {
+                 x[i] = new Array(20);
+                 }*/
 
                 for (var i = 0; i < response.length; i++) {
                     //console.log('Usli smo u rezervaciju broj: ' + i);
@@ -49,27 +43,33 @@
                     (function (i) {
                         $http.put('/invitations/getInvited', currRes[i]).success(function (response) {
 
-                            //console.log(response2);
+                            //console.log(response);
 
-                            for (var j = 0; j < response.length; j++) {
-                                //noinspection JSUnresolvedVariable
-                                //console.log(response2[j].friendEmail);
+                            /*
+                             for (var j = 0; j < response.length; j++) {
+                             //noinspection JSUnresolvedVariable
+                             //console.log(response[j].friendEmail);
 
-                                //noinspection JSUnresolvedVariable
-                                $http.get('/users/getOne/' + response[j].friendEmail).success(function (response) {
-                                    //console.log(response);
-                                    var ime = response.name;
-                                    var prezime = response.surname;
-                                    console.log(ime + prezime);
-                                    //response2[j].ime = ime;
-                                    //response2[j].prezime = surname;
-                                });
-                            }
+                             var ime = null;
+                             var prezime = null;
+
+                             //noinspection JSUnresolvedVariable
+                             $http.get('/users/getOne/' + response[j].friendEmail).success(function (response) {
+                             //console.log(response);
+                             //ime = response.name;
+                             //prezime = response.surname;
+                             //console.log(ime + prezime);
+                             });
+
+                             response[j].ime = ime;
+                             response[j].prezime = prezime;
+                             }
+
+                             */
 
                             //noinspection JSUnusedAssignment
                             var datum = new Date(currRes[i].start);
                             currRes[i].ispisDatuma = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
-
 
                             $scope.reservationsWithInvitations.push({
                                 reservation: currRes[i],
@@ -79,35 +79,69 @@
                     })(i);
                 }
             });
+
+            /*
+             var k = $scope.reservationsWithInvitations.length;
+             //console.log(k);
+
+             for (var brojac1 = 0; brojac1 < k; brojac1++) {
+
+             var p = $scope.reservationsWithInvitations[brojac1].invitations.length;
+             console.log(p);
+
+             for (var brojac2 = 0; brojac2 < p; p++) {
+
+             console.log('invite #: ' + $scope.reservationsWithInvitations[brojac1].invitations[brojac2].friendEmail);
+
+             $http.get('/users/getOne/' + $scope.reservationsWithInvitations[brojac1].invitations[brojac2].friendEmail).success(function (response) {
+             console.log(response);
+             $scope.reservationsWithInvitations[brojac1].invitations[brojac2].ime = response.name;
+             $scope.reservationsWithInvitations[brojac1].invitations[brojac2].prezime = response.surname;
+             });
+             }
+             }
+             */
+
             console.log($scope.reservationsWithInvitations);
         }
+
+        refresh();
 
         var currentReservation;
 
         $scope.getInvitable = function (res) {
 
-            //OVDE SKINUTI currRes.start.ispis
+            console.log(res);
 
-            // delete res.ispisDatuma
+            //OVDE SKIDAMO ispisDatuma
+            var newRes = jQuery.extend({}, res);
+            delete newRes.ispisDatuma;
 
-            // var propertyToDelete = "ispisDatuma";
-            // delete res[propertyToDelete];
+            console.log(newRes);
 
-            currentReservation = res;
-            $http.put('/invitations/invitableFriends', res).success(function (response) {
-                console.log("I got the data I requested!");
+            //currentReservation = res;
+            currentReservation = newRes;
+
+            $http.put('/invitations/invitableFriends', newRes).success(function (response) {
                 $scope.invitable = response;
             });
         }
 
-
-        $scope.invite = function (invited_id) {
-            $http.put('/invitations/add/' + invited_id, currentReservation).success(function (response) {
-                console.log("I got the data I requested!");
+        $scope.invite = function (invited_email) {
+            $http.put('/invitations/add/' + invited_email, currentReservation).success(function (response) {
                 $scope.getInvitable(currentReservation);
             });
-            refresh();
+            $window.location.reload();
         }
-        refresh();
+
+        // Log out
+        $scope.logout = function () {
+            var cookies = $cookies.getAll();
+            angular.forEach(cookies, function (v, k) {
+                console.log(cookies);
+                $cookies.remove(k);
+            });
+            $location.url('/');
+        };
     }
 })();

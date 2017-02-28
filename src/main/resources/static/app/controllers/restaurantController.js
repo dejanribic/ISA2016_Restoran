@@ -6,8 +6,8 @@
         .module('app')
         .controller('RestaurantController', RestaurantController);
 
-    RestaurantController.$inject = ['$cookies', '$http', '$scope'];
-    function RestaurantController($cookies, $http, $scope) {
+    RestaurantController.$inject = ['$cookies', '$http', '$scope', '$location'];
+    function RestaurantController($cookies, $http, $scope, $location) {
 
         if ($cookies.get("name") != null && $cookies.get("name") != "")
             $scope.profileName = $cookies.get("name");
@@ -25,23 +25,26 @@
             $scope.friends = response;
         });
 
+        $http.get('/reservations/allInactive/' + $cookies.get('email')).success(function (response) {
+            $scope.visited = response;
+            console.log(response);
+            /*
+             $http.get('/invitations/pastVisits/' + $cookies.get('email')).success(function (response) {
+             $scope.visited = $scope.visited.concat(response);
+             });
+             */
+        });
+
         $scope.zapocniRezervaciju = function (res) {
-
-            Date.prototype.toDateInputValue = (function () {
-                var local = new Date(this);
-                local.setDate(local.getDate() + 1);
-                // Offset vremenske zone
-                //local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-                return local
-            });
-
             $scope.restoran = res;
             $scope.trajanje = '1';
-            $scope.datum = new Date().toDateInputValue();
-            var datum = $scope.datum;
-            $scope.datum.ispis = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getTime());
             $scope.broj_stola = '1';
 
+            $scope.datum = new Date();
+            //$scope.datum.ispis = ($scope.datum.getDate() + '/' + $scope.datum.getMonth() + '/' + $scope.datum.getFullYear() + ' - ' + $scope.datum.getTime());
+
+            console.log($scope.datum);
+//            console.log($scope.datum.ispis);
         }
 
         $scope.pozoviPrijatelja = function (email) {
@@ -77,16 +80,6 @@
                 });
             });
         };
-
-        //// DOVDE URADJENO
-
-        $http.get('/reservations/allInactive/' + $cookies.get('id')).success(function (response) {
-            $scope.visited = response;
-            $http.get('/invitations/pastVisits/' + $cookies.get('id')).success(function (response) {
-                $scope.visited = $scope.visited.concat(response);
-            });
-        });
-
 
         // JQUERY SEATING
 
@@ -182,5 +175,15 @@
 
             return total;
         }
+
+        // Log out
+        $scope.logout = function () {
+            var cookies = $cookies.getAll();
+            angular.forEach(cookies, function (v, k) {
+                console.log(cookies);
+                $cookies.remove(k);
+            });
+            $location.url('/');
+        };
     }
 })();

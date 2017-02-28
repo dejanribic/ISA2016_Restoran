@@ -3,9 +3,11 @@ package com.desha.Beans;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Blob;
 
 @Entity
+@Table(name = "Guest")
 public class Guest {// extends User {
 
     @Id

@@ -1,70 +1,75 @@
 <div class="container">
+
+    <!-- NAV -->
     <nav class="navbar navbar-default">
         <div class="container-fluid">
-            <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="#/restorani">Restorani <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#/rezervacije">Rezervacije</a></li>
-                    <li class="active"><a href="#/pozivnice">Pozivnice</a></li>
+                    <li><a href="#/restorani">Restaurants<span class="sr-only">(current)</span></a></li>
+                    <li><a href="#/rezervacije">Reservations</a></li>
+                    <li class="active"><a href="#/pozivnice">Invitations</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li ><a href="#/nalog">Moj nalog</a></li>
-                    <li><a href="#">Izloguj se</a></li>
+                    <li><a href="#/nalog">{{profileName}}</a></li>
+                    <li><a href="" ng-click="logout()">Log out</a></li>
                 </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
+            </div>
+        </div>
     </nav>
+    <!-- NAV END -->
+
+    <div class="col-md-6">
+        <h1>Incoming invitations</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>From</th>
+                <th>Restaurant</th>
+                <th>Date/Time</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="inv in notConfirmed">
+                <td>{{inv.fullName}}</td>
+                <td>{{inv.restaurantName}}</td>
+                <td>{{inv.ispisDatum}}</td>
+                <td>
+                    <button class="btn btn-success" ng-click="potvrdi(inv)">Confirm</button>
+                </td>
+                <td>
+                    <button class="btn btn-danger" ng-click="otkazi(inv)">Cancel</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
     <div class="row">
-        <div class="col-md-6" style="border: 1px solid black">
-            <h1>Dolazece posete:</h1>
-            <table class="table" >
+        <div class="col-md-6">
+            <h1>My confirmed invites:</h1>
+            <table class="table">
                 <thead>
                 <tr>
-                    <th>Naziv</th>
-                    <th>Datum</th>
-                    <th>Trajanje</th>
-                    <th>Pozivalac</th>
+                    <th>From</th>
+                    <th>Restaurant</th>
+                    <th>Date/Time</th>
                     <th>&nbsp;</th>
                     <th>&nbsp;</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="inv in confirmed">
-                    <td>{{inv.reservation.restaurant.name}}</td>
-                    <td>{{inv.reservation.dateTime}}</td>
-                    <td>{{inv.reservation.duration + " sata"}}</td>
-                    <td>{{inv.reservation.host.name}}</td>
-                    <td><button class="btn btn-danger">Naruci</button></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-6" style="border: 1px solid black">
-            <h1>Moje pozivnice</h1>
-            <table class="table" >
-                <thead>
-                <tr>
-                    <th>Naziv</th>
-                    <th>Datum</th>
-                    <th>Trajanje</th>
-                    <th>Pozivalac</th>
-                    <th>&nbsp;</th>
-                    <th>&nbsp;</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="inv in notConfirmed">
-                    <td>{{inv.reservation.rastaurant.name}}</td>
-                    <td>{{inv.reservation.dateTime}}</td>
-                    <td>{{inv.reservation.duration + " sata"}}</td>
-                    <td>{{inv.reservation.host.name}}</td>
-                    <td><button class="btn btn-success" ng-click="potvrdi(inv)">Dolazim</button></td>
+                    <td>{{inv.fullName}}</td>
+                    <td>{{inv.restaurantName}}</td>
+                    <td>{{inv.ispisDatum}}</td>
+                    <td>
+                        <button class="btn btn-danger">Order?</button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
-
 </div>

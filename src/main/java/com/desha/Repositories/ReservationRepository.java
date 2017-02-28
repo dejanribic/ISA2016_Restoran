@@ -18,4 +18,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Reserv
     ArrayList<Reservation> findByGuestEmailAndStartAfter(String guestEmail, Date date);
 
     Reservation findByGuestEmailAndRestaurantNameAndStartAndForh(String guestEmail, String restaurantName, Date start, int forh);
+
+    Reservation findById(int id);
+
+    ArrayList<Reservation> findByGuestEmailAndStartBefore(String email, Date date);
+
 }

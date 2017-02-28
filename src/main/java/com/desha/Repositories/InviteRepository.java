@@ -5,15 +5,14 @@ import com.desha.Beans.InviteKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @Repository
 public interface InviteRepository extends JpaRepository<Invite, InviteKey> {
-    List<Invite> findByReservationId(int id);
+    ArrayList<Invite> findByReservationId(int id);
 
-//    List<Invite> findByInvited(Guest guest);
+    ArrayList<Invite> findByFriendEmailAndAccepted(String email, boolean accepted);
 
-    //List<Invite> findByReservation(Reservation reservation);
+    Invite findByReservationIdAndGuestEmailAndFriendEmailAndRestaurantNameAndAccepted(int reservationId, String guestEmail, String friendEmail, String restaurantName, boolean accepted);
 
-    //  Invite findByInvitedAndReservation(Guest invited, Reservation reservation);
 }

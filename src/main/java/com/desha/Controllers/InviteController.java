@@ -1,14 +1,19 @@
 package com.desha.Controllers;
 
+import com.desha.Beans.Friend;
 import com.desha.Beans.Guest;
 import com.desha.Beans.Invite;
 import com.desha.Beans.Reservation;
 import com.desha.Repositories.FriendRepository;
 import com.desha.Repositories.GuestRepository;
 import com.desha.Repositories.InviteRepository;
+import com.sendgrid.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,10 +26,14 @@ public class InviteController {
 
 
     @Autowired
-    public InviteController(GuestRepository guestRepository, InviteRepository repository) {
+    public InviteController(GuestRepository guestRepository, InviteRepository repository, FriendRepository friendRepository) {
         this.guestRepository = guestRepository;
         this.repository = repository;
+        this.friendRepository = friendRepository;
     }
+
+    @Value("${sendGridAPIKey}")
+    private String sendGridAPIKey;
 
     @RequestMapping(value = "/all")
     public List<Invite> getAll() {
@@ -49,52 +58,104 @@ public class InviteController {
         invite.setReservationId(reservation.getId());
 
         repository.save(invite);
+
+        // Slanje mail-a:
+
+        // Regular EMAIL
+        String contentString = "Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n";
+        contentString += host.getName() + " " + host.getSurname() + " has invited you to a restaurant with them! \n \n";
+        contentString += "After logging in, please click the following link to confirm or cancel the inviration:\n\n";
+        contentString += "http://localhost:3000/#/pozivnice" + "\n\n Thanks!";
+
+        // HTML EMAIL
+        // String contentString = "<h2>Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n Please confirm your  = = = email address by clicking on the following link:</h2>\n\n<a href=\"localhost:3000/users/confirmUser/" + newGuest.getEmail() + "\">Click me!</a>\n\n";
+
+        Content content = new Content("text/html", contentString);
+        //Content content = new Content("text/plain", contentString);
+
+        Email from = new Email("ISA.DAEMON@ISA2016.BRT");
+        Email to = new Email(invitedGuest.getEmail());
+
+        String subject = "ISA 2016 - User confirmation";
+
+        Mail mail = new Mail(from, subject, to, content);
+
+        SendGrid sg = new SendGrid(sendGridAPIKey);
+        Request request = new Request();
+        try {
+            request.method = Method.POST;
+            request.endpoint = "mail/send";
+            request.body = mail.build();
+            Response response = sg.api(request);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @RequestMapping(value = "/getInvited", method = RequestMethod.PUT)
     public List<Invite> getInvited(@RequestBody Reservation reservation) {
-        System.out.println("-----");
-        System.out.println("reservation: " + reservation.toString());
-        List<Invite> spisakBrt = repository.findByReservationId(reservation.getId());
-        for (Invite i : spisakBrt) {
-            System.out.println("invite: " + i.toString());
+        return repository.findByReservationId(reservation.getId());
+    }
+
+    @RequestMapping(value = "/invitableFriends", method = RequestMethod.PUT)
+    public List<Guest> getInvitableFriends(@RequestBody Reservation reservation) {
+        // Host rezervacije
+        Guest host = guestRepository.findByEmail(reservation.getGuestEmail());
+
+        // Sva prijateljstva
+        ArrayList<Friend> allFriendshipsOfHost = friendRepository.findByGuestEmailAndAccepted(host.getEmail(), 1);
+
+
+        // Svi prijatelji
+        ArrayList<Guest> allFriendsOfHost = new ArrayList<>();
+        for (Friend friendship : allFriendshipsOfHost) {
+            allFriendsOfHost.add(guestRepository.findByEmail(friendship.getFriendMail()));
         }
-        return spisakBrt;
+
+        //Svi pozivi
+        ArrayList<Invite> currentInvites = repository.findByReservationId(reservation.getId());
+
+        //Svi vec pozvani prijatelji
+        ArrayList<Guest> invitedFriendsOfHost = new ArrayList<>();
+        for (Invite invite : currentInvites) {
+            invitedFriendsOfHost.add(guestRepository.findByEmail(invite.getFriendEmail()));
+        }
+
+        //Razlika svih i svih pozvanih
+        allFriendsOfHost.removeAll(invitedFriendsOfHost);
+
+        // Novo "ime" za spisak
+        ArrayList<Guest> inviteable = allFriendsOfHost;
+
+        return inviteable;
     }
 
-    /*
-
-    @RequestMapping(value = "/activeConfirmed/{id}")
-    public List<Invite> getActiveConfimedReservations(@PathVariable long id) {
-        Guest guest = guestRepository.findOne(id);
-        List<Invite> Invites = repository.findByInvited(guest);
-        ArrayList<Invite> activeConfirmed = new ArrayList<>();
-        for (Invite inv : Invites)
-            if (inv.getReservation().getDateTime().after(new Date()))
-                if (inv.isConfirmed())
-                    activeConfirmed.add(inv);
-        return activeConfirmed;
+    @RequestMapping(value = "/activeNotConfirmed/{email:.+}")
+    public List<Invite> getUnconfirmedInvites(@PathVariable String email) {
+        Guest me = guestRepository.findByEmail(email);
+        return repository.findByFriendEmailAndAccepted(me.getEmail(), false);
     }
 
-    @RequestMapping(value = "/activeNotConfirmed/{id}")
-    public List<Invite> getActiveNotConfimedReservations(@PathVariable long id) {
-        Guest guest = guestRepository.findOne(id);
-        List<Invite> Invites = repository.findByInvited(guest);
-        ArrayList<Invite> activeConfirmed = new ArrayList<>();
-        for (Invite inv : Invites)
-            if (inv.getReservation().getDateTime().after(new Date()))
-                if (!inv.isConfirmed())
-                    activeConfirmed.add(inv);
-        return activeConfirmed;
+    @RequestMapping(value = "/activeConfirmed/{email:.+}")
+    public List<Invite> getConfimedInvites(@PathVariable String email) {
+        Guest me = guestRepository.findByEmail(email);
+        return repository.findByFriendEmailAndAccepted(me.getEmail(), true);
     }
 
     @RequestMapping(value = "/confirmInvite", method = RequestMethod.PUT)
-    public void confirmReservation(@RequestBody Invite Invite) {
-        Invite.setConfirmed(true);
-        repository.save(Invite);
+    public void confirmInvite(@RequestBody Invite invite) {
+        Invite confirmedInvite = repository.findByReservationIdAndGuestEmailAndFriendEmailAndRestaurantNameAndAccepted(invite.getReservationId(), invite.getGuestEmail(), invite.getFriendEmail(), invite.getRestaurantName(), invite.isAccepted());
+        confirmedInvite.setAccepted(true);
+        repository.save(confirmedInvite);
     }
 
+    @RequestMapping(value = "/cancelInvite", method = RequestMethod.PUT)
+    public void cancelInvite(@RequestBody Invite invite) {
+        Invite confirmedInvite = repository.findByReservationIdAndGuestEmailAndFriendEmailAndRestaurantNameAndAccepted(invite.getReservationId(), invite.getGuestEmail(), invite.getFriendEmail(), invite.getRestaurantName(), invite.isAccepted());
+        repository.delete(confirmedInvite);
+    }
 
+    /*
     @RequestMapping(value = "/pastVisits/{id}")
     public List<Reservation> getInactiveReservations(@PathVariable long id) {
         Guest guest = guestRepository.findOne(id);
@@ -107,17 +168,7 @@ public class InviteController {
         return reservations;
     }
 
-    @RequestMapping(value = "/invitableFriends", method = RequestMethod.PUT)
-    public List<Guest> getInvitableFriends(@RequestBody Reservation reservation) {
-        ArrayList<Guest> invitable = new ArrayList<>();
-        Guest host = guestRepository.findOne(reservation.getHost().getUser_id());
 
-        for (Guest friend : host.getFriends()) {
-            if (repository.findByInvitedAndReservation(friend, reservation) == null)
-                invitable.add(friend);
-        }
-        return invitable;
-    }
 
 
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +30,12 @@ public class ReservationController {
         return repository.findAll();
     }
 
+    @RequestMapping(value = "/getOne/{id}")
+    public Reservation getById(@PathVariable int id) {
+        return repository.findById(id);
+    }
+
+
     @RequestMapping(value = "/add", method = RequestMethod.PUT)
     Reservation addReservation(@RequestBody Reservation reservation) {
         Timestamp sq = reservation.getStart();
@@ -49,10 +56,20 @@ public class ReservationController {
     }
 
 
-    @RequestMapping(value = "/allInactive/{id}")
-    List<Reservation> getAllInactive(@PathVariable long id) {
-        Guest host = guestRepository.findOne(id);
-        return null;
-        //return repository.findByHostAndDateTimeBefore(host, new Date());
+    @RequestMapping(value = "/allInactive/{email:.+}")
+    List<Reservation> getAllInactive(@PathVariable String email) {
+        if (email != null) {
+
+            Guest host = guestRepository.findByEmail(email);
+            ArrayList<Reservation> res = new ArrayList<>();
+            res = repository.findByGuestEmailAndStartBefore(host.getEmail(), new Date());
+            for (Reservation r : res) {
+                System.out.println(r.toString());
+            }
+            if (res.isEmpty())
+                return null;
+            else
+                return res;
+        } else return null;
     }
 }
