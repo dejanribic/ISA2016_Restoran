@@ -55,17 +55,12 @@ public class ReservationController {
         return repository.findByGuestEmailAndStartAfter(email, new Date());
     }
 
-
     @RequestMapping(value = "/allInactive/{email:.+}")
     List<Reservation> getAllInactive(@PathVariable String email) {
         if (email != null) {
-
             Guest host = guestRepository.findByEmail(email);
             ArrayList<Reservation> res = new ArrayList<>();
             res = repository.findByGuestEmailAndStartBefore(host.getEmail(), new Date());
-            for (Reservation r : res) {
-                System.out.println(r.toString());
-            }
             if (res.isEmpty())
                 return null;
             else
