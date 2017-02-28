@@ -21,8 +21,8 @@ public class Menu_Item implements Serializable{
     private String type_name;
 
     @Id
-    //@JoinColumn(foreignKey = @ForeignKey(name = "fk_Menu_Item_Restaurant1"))
-    private String restaurant_name;
+    @Column(name = "restaurant_name")
+    private String restname;
 
     public Menu_Item(){
 
@@ -33,7 +33,7 @@ public class Menu_Item implements Serializable{
         this.description = description;
         this.price = price;
         this.type_name = type_name;
-        this.restaurant_name = restaurant_name;
+        this.restname = restaurant_name;
     }
 
     public String getName() {
@@ -68,14 +68,13 @@ public class Menu_Item implements Serializable{
         this.type_name = type_name;
     }
 
-    public String getRestaurant_name() {
-        return restaurant_name;
+    public String getRestname() {
+        return restname;
     }
 
-    public void setRestaurant_name(String restaurant_name) {
-        this.restaurant_name = restaurant_name;
+    public void setRestname(String restname) {
+        this.restname = restname;
     }
-
 }
 
 

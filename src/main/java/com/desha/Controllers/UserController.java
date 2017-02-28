@@ -1,10 +1,7 @@
 package com.desha.Controllers;
 
 import com.desha.Beans.*;
-import com.desha.Repositories.GuestRepository;
-import com.desha.Repositories.ManagerRepository;
-import com.desha.Repositories.SupplierRepository;
-import com.desha.Repositories.Sys_ManagerRepository;
+import com.desha.Repositories.*;
 import com.sendgrid.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,16 +20,20 @@ public class UserController {
     private Sys_ManagerRepository sys_managers;
     private ManagerRepository managers;
     private SupplierRepository suppliers;
+    private EmployeeRepository employees;
+    private CanWorkWithRepository cwws;
 
     @Value("${sendGridAPIKey}")
     private String sendGridAPIKey;
 
     @Autowired
-    public UserController(GuestRepository guests, Sys_ManagerRepository sys_managers, ManagerRepository managers, SupplierRepository suppliers) {
+    public UserController(GuestRepository guests, Sys_ManagerRepository sys_managers, ManagerRepository managers, SupplierRepository suppliers, EmployeeRepository employees , CanWorkWithRepository cwws) {
         this.sys_managers = sys_managers;
         this.suppliers = suppliers;
         this.managers = managers;
         this.guests = guests;
+        this.employees = employees;
+        this.cwws = cwws;
     }
 
     @RequestMapping(value = "/allUsers", method = RequestMethod.GET)
@@ -97,8 +98,13 @@ public class UserController {
         Manager manager = managers.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
         Sys_Manager sys_manager = sys_managers.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
         Supplier supplier = suppliers.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
+        Employee employee = employees.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
+
+        Can_Work_With CWW = cwws.findByEmail(sentUser.getEmail());
 
         UserLogin returnGuest = new UserLogin();
+
+
 
         // User Types:
         // Guest = 0
@@ -130,6 +136,34 @@ public class UserController {
             returnGuest.setPassword(sys_manager.getPassword());
             returnGuest.setType(4);
         }
+        if (employee != null) {
+            returnGuest.setEmail(employee.getEmail());
+            returnGuest.setPassword(employee.getPassword());
+            returnGuest.setType(5);
+            returnGuest.setRestname(employee.getRestaurantName());
+                 if (CWW.getMenu_item_type_name().equals("pice")) {
+                    returnGuest.setEtype("pice");
+                    System.out.println("ja sam sanker");
+                } else if (CWW.getMenu_item_type_name().equals("pecenje")) {
+                    returnGuest.setEtype("pecenje");
+                    System.out.println("ja sam pecenje");
+                } else if (CWW.getMenu_item_type_name().equals("salata")) {
+                    returnGuest.setEtype("salata");
+                    System.out.println("ja sam kuvar_za_salate");
+                } else if (CWW.getMenu_item_type_name().equals("riba")) {
+                    returnGuest.setEtype("riba");
+                    System.out.println("ja sam kuvar_za_ribu");
+                } else if (CWW.getMenu_item_type_name().equals("supa")) {
+                    returnGuest.setEtype("supa");
+                    System.out.println("ja sam kuvar_za_kuvano_jelo");
+                } else {
+                    returnGuest.setEtype("konobar");
+                    System.out.println("ja sam konobar");
+                }
+
+            }
+
+
 
 
 

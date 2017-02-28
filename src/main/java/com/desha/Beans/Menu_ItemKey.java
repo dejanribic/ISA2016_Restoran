@@ -1,9 +1,6 @@
 package com.desha.Beans;
 
-import javax.persistence.Embeddable;
-import javax.persistence.ForeignKey;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -15,12 +12,12 @@ public class Menu_ItemKey implements Serializable {
     private String name;
 
     @Id
-    //@JoinColumn(foreignKey = @ForeignKey(name = "fk_Menu_Item_Restaurant1"))
-    private String restaurant_name;
+    @Column(name = "restaurant_name")
+    private String restname;
 
     public Menu_ItemKey(String name, String restaurant_name) {
         this.name = name;
-        this.restaurant_name = restaurant_name;
+        this.restname = restaurant_name;
     }
 
     public Menu_ItemKey() {
@@ -34,13 +31,12 @@ public class Menu_ItemKey implements Serializable {
         this.name = name;
     }
 
-    public String getRestaurant_name() {
-        return restaurant_name;
+
+    public String getRestname() {
+        return restname;
     }
 
-    public void setRestaurant_name(String restaurant_name) {
-        this.restaurant_name = restaurant_name;
+    public void setRestname(String restname) {
+        this.restname = restname;
     }
-
-
 }
