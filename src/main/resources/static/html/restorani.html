@@ -5,20 +5,14 @@
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li ng-if="etype == 'nista'" class="active"><a href="#/restorani">Restorani <span class="sr-only">(current)</span></a></li>
-                    <li ng-if="etype == 'nista'"><a href="#/rezervacije">Rezervacije</a></li>
-                    <li ng-if="etype == 'nista'"><a href="#/pozivnice">Pozivnice</a></li>
-
-
-                    <li ng-if="etype !== 'nista'"><a href="#/">Raspored Stolova</a></li>
-                    <li ng-if="etype !== 'nista'"><a href="#/raspored">Raspored Rada</a></li>
-
-                    <li ng-if="etype !== 'nista' && etype !== 'konobar'"><a href="#/order">Porudzbine</a></li>
-
-                    <li ng-if="etype == 'konobar'"><a href="#/racuni">Racuni</a></li>
-
-
-
+                    <li ng-if="etype == 'nista'" class="active"><a href="#/restorani">Restaurants<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li ng-if="etype == 'nista'"><a href="#/rezervacije">Reservations</a></li>
+                    <li ng-if="etype == 'nista'"><a href="#/pozivnice">Invitations</a></li>
+                    <li ng-if="etype !== 'nista'"><a href="#/">Table chart</a></li>
+                    <li ng-if="etype !== 'nista'"><a href="#/raspored">Work schedule</a></li>
+                    <li ng-if="etype !== 'nista' && etype !== 'konobar'"><a href="#/order">Orders</a></li>
+                    <li ng-if="etype == 'konobar'"><a href="#/racuni">Bills</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#/nalog">{{profileName}}</a></li>
@@ -29,15 +23,15 @@
     </nav>
     <!-- NAV END -->
 
-    <div  class="row" ng-if="etype == 'nista'">
-        <div class="col-md-6" style="border: 1px solid black">
+    <div class="row" ng-if="etype == 'nista'">
+        <div class="col-md-6">
             <h1>All restaurants:</h1>
             <table class="table">
                 <thead>
                 <tr>
                     <th>Name</th>
                     <th>Rating</th>
-                    <th>Friends Rating</th>
+                    <th>F Rating</th>
                     <th>Description</th>
                     <th>Action</th>
                     <th>&nbsp;</th>
@@ -51,14 +45,14 @@
                     <td>{{res.description}}</td>
                     <td>
                         <button type="button" class="btn btn-success" data-toggle="modal"
-                                ng-click="zapocniRezervaciju(res)" data-target="#modal-1">Rezervisi
+                                ng-click="zapocniRezervaciju(res)" data-target="#modal-1">Reserve
                         </button>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col-md-6" style="border: 1px solid black;">
+        <div class="col-md-6">
             <h1>Visited Restaurants:</h1>
             <table class="table">
                 <thead>
@@ -72,9 +66,9 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="res in visited">
-                    <td>{{res.restaurant.name}}</td>
-                    <td>{{res.dateTime | date:'dd/MM/yyyy HH:mm:ss'}}</td>
-                    <td>4.7</td>
+                    <td>{{res.restaurantName}}</td>
+                    <td>{{res.start | date:'dd/MM/yyyy - HH:mm:ss'}}</td>
+                    <td>{{res.restaurant.rating}}</td>
                     <td>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-4">Oceni
                         </button>
@@ -85,7 +79,7 @@
         </div>
     </div>
 
-    <div class="container" ng-if="etype == 'nista'>
+    <div class="container" ng-if="etype == 'nista'">
         <div class="modal fade" id="modal-1">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -158,8 +152,8 @@
                                         <td>{{restoran.name}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Date:</td>
-                                        <td>{{datum.ispis}}</td>
+                                        <td>Date/Time:</td>
+                                        <td ng-bind="datum | date:'dd/MM/yyyy - HH:mm:ss'"></td>
                                     </tr>
                                     <tr>
                                         <td>Length of reservation:</td>
@@ -195,7 +189,7 @@
                     <div class="modal-footer">
                         <a href="" class="btn btn-default" data-dismiss="modal">Odustani</a>
                         <button type="button" ng-disabled="broj_stola==null" data-dismiss="modal"
-                                class="btn btn-primary" data-toggle="modal" data-target="#modal-3">Dalje
+                                class="btn btn-primary" data-toggle="modal" data-target="#modal-3">Reserve
                         </button>
                     </div>
                 </div>
@@ -221,8 +215,8 @@
                                         <td>{{restoran.name}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Date:</td>
-                                        <td>{{datum.ispis}}</td>
+                                        <td>Date/Time:</td>
+                                        <td ng-bind="datum | date:'dd/MM/yyyy - HH:mm:ss'"></td>
                                     </tr>
                                     <tr>
                                         <td>Length of reservation:</td>
@@ -269,7 +263,7 @@
                     <div class="modal-footer">
                         <a href="" class="btn btn-default" data-dismiss="modal">Cancel</a>
                         <button type="button" data-dismiss="modal" class="btn btn-primary" ng-click="rezervisi()"
-                                data-toggle="modal">Next
+                                data-toggle="modal">Reserve
                         </button>
                     </div>
                 </div>
@@ -294,7 +288,7 @@
                             </tr>
                             <tr>
                                 <td>Datum:</td>
-                                <td>12.12.2016.</td>
+                                <td>{{datum}}</td>
                             </tr>
                             <tr>
                                 <td>Trajanje:</td>

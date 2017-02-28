@@ -24,7 +24,6 @@ public class InviteController {
     private GuestRepository guestRepository;
     private FriendRepository friendRepository;
 
-
     @Autowired
     public InviteController(GuestRepository guestRepository, InviteRepository repository, FriendRepository friendRepository) {
         this.guestRepository = guestRepository;

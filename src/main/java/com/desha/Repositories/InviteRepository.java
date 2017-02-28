@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 @Repository
 public interface InviteRepository extends JpaRepository<Invite, InviteKey> {
@@ -16,5 +15,4 @@ public interface InviteRepository extends JpaRepository<Invite, InviteKey> {
 
     Invite findByReservationIdAndGuestEmailAndFriendEmailAndRestaurantNameAndAccepted(int reservationId, String guestEmail, String friendEmail, String restaurantName, boolean accepted);
 
-    ArrayList<Invite> findByFriendEmailAndAcceptedAndStartBefore(String email, boolean b, Date date);
 }
