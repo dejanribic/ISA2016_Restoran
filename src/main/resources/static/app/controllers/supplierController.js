@@ -17,7 +17,7 @@
         });
         $http.get('/supplier/get').success(function (response){
             $scope.user = response;
-            $scope.pass = {'new':'','newr':'','old':''};
+            $scope.pass = {'new':'','newr':'','old':'zlzl'};
         });
 
         $scope.addOffer = function () {
