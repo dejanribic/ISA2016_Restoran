@@ -1,5 +1,6 @@
 package com.desha.Beans;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Id;
 import java.io.Serializable;
@@ -16,12 +17,13 @@ public class EmployeeKey implements Serializable {
     private String email;
 
     @Id
-    private String restaurant_name;
+    @Column( name = "restaurant_name")
+    private String restaurantName;
 
-    public EmployeeKey( String email , String restaurant_name)
+    public EmployeeKey( String email , String restaurantName)
     {
         this.email = email;
-        this.restaurant_name=restaurant_name;
+        this.restaurantName = restaurantName;
     }
 
     public EmployeeKey(){}
@@ -34,11 +36,11 @@ public class EmployeeKey implements Serializable {
         this.email = email;
     }
 
-    public String getRestaurant_name() {
-        return restaurant_name;
+    public String getRestaurantName() {
+        return restaurantName;
     }
 
-    public void setRestaurant_name(String restaurant_name) {
-        this.restaurant_name = restaurant_name;
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 }

@@ -97,7 +97,7 @@ public class UserController {
         Guest guest = guests.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
         Manager manager = managers.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
         Sys_Manager sys_manager = sys_managers.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
-   //     Supplier supplier = suppliers.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
+        Supplier supplier = suppliers.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
         Employee employee = employees.findByEmailAndPassword(sentUser.getEmail(), sentUser.getPassword());
 
         Can_Work_With CWW = cwws.findByEmail(sentUser.getEmail());
@@ -126,11 +126,11 @@ public class UserController {
             returnGuest.setType(2);
         }
 
-     /*   if (supplier != null) {
+        if (supplier != null) {
             returnGuest.setEmail(supplier.getEmail());
             returnGuest.setPassword(supplier.getPassword());
             returnGuest.setType(3);
-        }*/
+        }
         if (sys_manager != null) {
             returnGuest.setEmail(sys_manager.getEmail());
             returnGuest.setPassword(sys_manager.getPassword());
@@ -140,7 +140,7 @@ public class UserController {
             returnGuest.setEmail(employee.getEmail());
             returnGuest.setPassword(employee.getPassword());
             returnGuest.setType(5);
-            returnGuest.setRestname(employee.getRestaurant_name());
+            returnGuest.setRestname(employee.getRestaurantName());
                  if (CWW.getMenu_item_type_name().equals("pice")) {
                     returnGuest.setEtype("pice");
                     System.out.println("ja sam sanker");

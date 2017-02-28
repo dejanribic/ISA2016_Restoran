@@ -5,6 +5,7 @@ package com.desha.Beans;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Date;
 
 /**
  * Created by Viktor on 2/26/2017.
@@ -20,18 +21,33 @@ public class Employee implements Serializable {
     private String email;
 
     @Id
-    private String restaurant_name;
+    @Column(name =  "restaurant_name")
+    private String restaurantName;
 
-    @Column
     private String password;
 
-    public Employee(){}
+    private int size;
 
-    public Employee(String email , String restaurant_name , String password)
-    {
-        this.email= email;
-        this.restaurant_name = restaurant_name;
-        this.password= password;
+    private int shoeSize;
+
+    private Date birthday;
+
+    private String name;
+
+    private String surname;
+
+    public Employee() {
+    }
+
+    public Employee(String email, String restaurantName, String password, int size, int shoeSize, Date birthday, String name, String surname) {
+        this.email = email;
+        this.restaurantName = restaurantName;
+        this.password = password;
+        this.size = size;
+        this.shoeSize = shoeSize;
+        this.birthday = birthday;
+        this.name = name;
+        this.surname = surname;
     }
 
     public String getEmail() {
@@ -42,12 +58,12 @@ public class Employee implements Serializable {
         this.email = email;
     }
 
-    public String getRestaurant_name() {
-        return restaurant_name;
+    public String getRestaurantName() {
+        return restaurantName;
     }
 
-    public void setRestaurant_name(String restaurant_name) {
-        this.restaurant_name = restaurant_name;
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 
     public String getPassword() {
@@ -58,5 +74,43 @@ public class Employee implements Serializable {
         this.password = password;
     }
 
+    public int getSize() {
+        return size;
+    }
 
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public int getShoeSize() {
+        return shoeSize;
+    }
+
+    public void setShoeSize(int shoeSize) {
+        this.shoeSize = shoeSize;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
 }

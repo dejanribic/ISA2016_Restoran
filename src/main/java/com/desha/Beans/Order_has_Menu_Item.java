@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 
 @Entity
-@IdClass(Order_has_Menu_Item.class)
+@IdClass(Order_has_Menu_ItemKey.class)
 public class Order_has_Menu_Item implements Serializable {
 
 
