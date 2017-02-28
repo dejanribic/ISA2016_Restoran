@@ -1,0 +1,59 @@
+<div class="container">
+
+    <!-- NAV -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+
+
+
+                    <li ><a href="#/raspored">Raspored Rada</a></li>
+                    <li ><a href="#/raspored_stolova">Raspored Stolova</a></li>
+                    <li ng-if="etype !== 'konobar'"><a href="#/order">Porudzbine</a></li>
+                    <li ng-if="etype == 'konobar'"><a href="#/racuni">Racuni</a></li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#/nalog">Moj Profil</a></li>
+                    <li><a href="#">Log out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- NAV END -->
+
+    <div  ng-if="etype !== 'konobar'" class="col-md-6" style="border: 1px solid black">
+        <h1>Porudzbine:</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Sifra</th>
+                <th>Naziv Jela</th>
+                <th>Pending</th>
+
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr  ng-repeat="o in orders"  ng-if="rname == o.restname && o.done == 0" >
+
+                <td>{{o.num}}</td>
+                <td>{{o.menuitemname}}</td>
+
+                <td>
+                    <button type="button" class="btn btn-success" data-toggle="modal"
+                            ng-click="done(o.num,o.id,o.restname,o.email,o.menuitemname)" data-target="#modal-1">Gotovo
+                    </button>
+                </td>
+
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+</div>

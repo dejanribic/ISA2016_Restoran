@@ -1,8 +1,10 @@
 package com.desha.Controllers;
 
 import com.desha.Beans.Menu_Item;
+import com.desha.Beans.Order;
 import com.desha.Beans.Order_has_Menu_Item;
 import com.desha.Repositories.Menu_ItemRepository;
+import com.desha.Repositories.OrderRepository;
 import com.desha.Repositories.Order_has_Menu_ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,11 +23,13 @@ public class OrderController {
 
     private Order_has_Menu_ItemRepository repository;
     private Menu_ItemRepository menurepo;
+    private OrderRepository orderrepo ;
 
     @Autowired
-    public OrderController(Order_has_Menu_ItemRepository repository , Menu_ItemRepository menurepo)  {
+    public OrderController(Order_has_Menu_ItemRepository repository , Menu_ItemRepository menurepo , OrderRepository orderrepo)  {
         this.repository = repository;
         this.menurepo = menurepo;
+        this.orderrepo = orderrepo;
 
     }
 
@@ -38,23 +42,30 @@ public class OrderController {
         Order_has_Menu_Item temp = repository.findByNumAndIdAndRestnameAndEmailAndMenuitemname
                 (  order_num ,  reservation_id ,  restaurant_name ,  guest_email ,  menu_item_name );
 
-
-
-
         temp.setDone(true);
 
-        /*
-        System.out.println(temp.getId());
-        System.out.println(temp.getEmail());
-        System.out.println(temp.getMenuitemname());
-        System.out.println(temp.getNum());
-        System.out.println(temp.getRestname());
-        System.out.println(temp.getDone());
-        */
 
-    //    repository.save(temp);
 
-        return repository.findAll();
+        List<Order_has_Menu_Item> fml = repository.findByNumAndIdAndRestnameAndEmail(order_num, reservation_id ,restaurant_name,guest_email );
+
+        int flag = 0 ;
+
+        for(Order_has_Menu_Item o : fml)
+        {
+            if(!o.getDone())
+                flag=1;
+        }
+
+        if (flag == 0)
+        {
+            Order plsradi = orderrepo.findByNumAndResidAndResnameAndGmail(order_num,reservation_id ,restaurant_name,guest_email );
+            plsradi.setDone(true);
+            orderrepo.save(plsradi);
+        }
+
+        repository.save(temp);
+
+        return repository.findByRestname(temp.getRestname());
 
     }
 

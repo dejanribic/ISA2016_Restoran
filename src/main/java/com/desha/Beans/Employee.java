@@ -24,27 +24,33 @@ public class Employee implements Serializable {
     @Column(name =  "restaurant_name")
     private String restaurantName;
 
+    @Column
     private String password;
 
+    @Column
     private int size;
 
+    @Column
     private int shoe;
 
+    @Column
     private Date birthday;
 
+    @Column
     private String name;
 
+    @Column
     private String surname;
 
     public Employee() {
     }
 
-    public Employee(String email, String restaurantName, String password, int size, int shoe, Date birthday, String name, String surname) {
+    public Employee(String email, String restaurantName, String password, int size, int shoeSize, Date birthday, String name, String surname) {
         this.email = email;
         this.restaurantName = restaurantName;
         this.password = password;
         this.size = size;
-        this.shoe = shoe;
+        this.shoe = shoeSize;
         this.birthday = birthday;
         this.name = name;
         this.surname = surname;

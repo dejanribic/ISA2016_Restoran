@@ -1,0 +1,37 @@
+<div class="container">
+
+    <!-- NAV -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+
+
+
+                    <li ><a href="#/raspored">Raspored Rada</a></li>
+                    <li ><a href="#/raspored">Raspored Stolova</a></li>
+                    <li ng-if="etype !== 'konobar'"><a href="#/order">Porudzbine</a></li>
+                    <li ng-if="etype == 'konobar'"><a href="#/racuni">Racuni</a></li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#/nalog">Moj Profil</a></li>
+                    <li><a href="#">Log out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- NAV END -->
+
+    <div class="container-fluid">
+
+        <div class="col-md-6 col-lg-6 form">
+            <div id="timetable">
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

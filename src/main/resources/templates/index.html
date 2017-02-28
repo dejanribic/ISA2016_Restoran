@@ -4,6 +4,8 @@
     <meta charset="UTF-8"/>
     <title>ISA 2016</title>
 
+
+
     <!-- Bootstrap and custom CSS -->
     <link rel="stylesheet" href="../static/bootstrap.css" th:href="@{bootstrap.css}"/>
     <link rel="stylesheet" href="../static/app/style.css" th:href="@{app/style.css}"/>
@@ -52,13 +54,29 @@
             th:src="@{/app/controllers/menuItemController.js}"></script>
     <script type="text/javascript" src="/static/app/controllers/demandController.js"
             th:src="@{/app/controllers/demandController.js}"></script>
-    <script type="text/javascript" src="/static/app/controllers/restaurantCreateController.js.js"
+    <script type="text/javascript" src="/static/app/controllers/restaurantCreateController.js."
             th:src="@{/app/controllers/restaurantCreateController.js}"></script>
-    <script type="text/javascript" src="/static/app/controllers/supplierController.js.js"
+    <script type="text/javascript" src="/static/app/controllers/supplierController.js."
             th:src="@{/app/controllers/supplierController.js}"></script>
+    <script type="text/javascript" src="/static/app/controllers/orderController.js."
+            th:src="@{/app/controllers/orderController.js}"></script>
+    <script type="text/javascript" src="/static/app/controllers/racuniController.js."
+            th:src="@{/app/controllers/racuniController.js}"></script>
+    <script type="text/javascript" src="/static/app/controllers/rasporedController.js"
+            th:src="@{/app/controllers/rasporedController.js}"></script>
+
+    <!-- Kalendar -->
+    <script src="/static/fullcalendar/lib/moment.min.js" th:src="@{/fullcalendar/lib/moment.min.js}" ></script>
+    <link rel='stylesheet' href="../static/fullcalendar/fullcalendar.css"  th:href="@{/fullcalendar/fullcalendar.css}"/>
+    <script src="/static/fullcalendar/fullcalendar.min.js" th:src="@{/fullcalendar/fullcalendar.min.js}" ></script>
+    <script src="/static/fullcalendar/gcal.min.js"  th:src="@{/fullcalendar/gcal.min.js}"></script>
+    <script src="/static/fullcalendar/locale/sr.js" th:src="@{/fullcalendar/locale/sr.js}"></script>
+
 
 </head>
 <body ng-app="app">
+
+<script src="/static/moment.min.js" th:src="@{/moment.min.js}"></script>
 
 <div ng-view="">
 </div>

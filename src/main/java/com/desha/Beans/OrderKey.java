@@ -18,7 +18,7 @@ public class OrderKey implements Serializable
 
     @Id
     @Column(name="reservation_id")
-    private String resid;
+    private int resid;
 
     @Id
     @Column(name="restaurant_name")
@@ -28,7 +28,7 @@ public class OrderKey implements Serializable
     @Column(name="guest_email")
     private String gmail;
 
-    public OrderKey(int num, String resid, String resname, String gmail) {
+    public OrderKey(int num, int resid, String resname, String gmail) {
         this.num = num;
 
         this.resid = resid;
@@ -48,11 +48,11 @@ public class OrderKey implements Serializable
     }
 
 
-    public String getResid() {
+    public int getResid() {
         return resid;
     }
 
-    public void setResid(String resid) {
+    public void setResid(int resid) {
         this.resid = resid;
     }
 

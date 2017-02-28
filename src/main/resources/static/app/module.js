@@ -39,6 +39,9 @@
             templateUrl: 'html/restaurant-administration.html',
             controller: 'MenuItemController'
         });
+
+
+
         $routeProvider.when('/demand', {
             templateUrl: 'html/demand.html',
             controller: 'DemandController'
@@ -65,10 +68,27 @@
         });
 
 
+        $routeProvider.when('/order', {
+            templateUrl: 'html/order.html',
+            controller: 'OrderController'
+        });
+
+        $routeProvider.when('/racuni', {
+            templateUrl: 'html/racuni.html',
+            controller: 'RacuniController'
+        });
+
+        $routeProvider.when('/raspored', {
+            templateUrl: 'html/raspored.html',
+            controller: 'RasporedController'
+        });
+
         //noinspection JSUnresolvedFunction
         $routeProvider.otherwise('/', {
             templateUrl: 'html/login.html',
             controller: 'LoginController'
         });
+
+
     }]);
 })();

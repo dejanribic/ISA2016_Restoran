@@ -26,7 +26,7 @@ public class Order implements Serializable {
 
     @Id
     @Column(name="reservation_id")
-    private String resid;
+    private int resid;
 
     @Id
     @Column(name="restaurant_name")
@@ -36,7 +36,7 @@ public class Order implements Serializable {
     @Column(name="guest_email")
     private String gmail;
 
-    public Order(int num, Boolean done, Boolean accepted, Boolean paid, String resid, String resname, String gmail) {
+    public Order(int num, Boolean done, Boolean accepted, Boolean paid, int resid, String resname, String gmail) {
         this.num = num;
         this.done = done;
         this.accepted = accepted;
@@ -81,11 +81,11 @@ public class Order implements Serializable {
         this.paid = paid;
     }
 
-    public String getResid() {
+    public int getResid() {
         return resid;
     }
 
-    public void setResid(String resid) {
+    public void setResid(int resid) {
         this.resid = resid;
     }
 

@@ -13,6 +13,6 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, OrderKey> {
 
     List<Order> findByResname(String resname);
-
+    Order findByNumAndResidAndResnameAndGmail(int num , int id , String restname , String email );
 
 }
