@@ -56,7 +56,7 @@ public class RestaurantManagerController {
 
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
     public Restaurant_Manager create(@RequestBody Restaurant_Manager newManager) {
-        Manager nm = new Manager(newManager.getManagerEmail(), "");
+        Manager nm = new Manager(newManager.getManagerEmail(), "1");
 
         if (managerRepository.findByEmail(newManager.getManagerEmail()) == null) {
             managerRepository.save(nm);
@@ -66,29 +66,4 @@ public class RestaurantManagerController {
         return newManager;
     }
 
-    private void sendMail(String email){
-        //TODO change localhost:8080 to domain
-        String contentString = "Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n Please confirm your email address by clicking on the following link:\n\nhttp://localhost:8080/dkjasdHHHasldkeeeeads/" + email + "\n\n Thanks!";
-
-        Content content = new Content("text/html", contentString);
-        //Content content = new Content("text/plain", contentString);
-
-        Email from = new Email("ISA.DAEMON@ISA2016.BRT");
-        Email to = new Email(email);
-
-        String subject = "ISA 2016 - User confirmation";
-
-        Mail mail = new Mail(from, subject, to, content);
-
-        SendGrid sg = new SendGrid(sendGridAPIKey);
-        Request request = new Request();
-        try {
-            request.method = Method.POST;
-            request.endpoint = "mail/send";
-            request.body = mail.build();
-            Response response = sg.api(request);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
 }
