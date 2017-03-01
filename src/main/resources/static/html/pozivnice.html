@@ -65,7 +65,7 @@
                     <td>{{inv.restaurantName}}</td>
                     <td ng-bind="inv.datum | date:'dd/MM/yyyy - HH:mm:ss'"></td>
                     <td>
-                        <button class="btn btn-danger">Order?</button>
+                        <button ng-hide="showDate(inv.datum)" class="btn btn-danger">Order?</button>
                     </td>
                 </tr>
                 </tbody>

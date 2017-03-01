@@ -27,7 +27,7 @@ public class UserController {
     private String sendGridAPIKey;
 
     @Autowired
-    public UserController(GuestRepository guests, Sys_ManagerRepository sys_managers, ManagerRepository managers, SupplierRepository suppliers, EmployeeRepository employees , CanWorkWithRepository cwws) {
+    public UserController(GuestRepository guests, Sys_ManagerRepository sys_managers, ManagerRepository managers, SupplierRepository suppliers, EmployeeRepository employees, CanWorkWithRepository cwws) {
         this.sys_managers = sys_managers;
         this.suppliers = suppliers;
         this.managers = managers;
@@ -72,13 +72,16 @@ public class UserController {
 
         SendGrid sg = new SendGrid(sendGridAPIKey);
         Request request = new Request();
-        try {
-            request.method = Method.POST;
-            request.endpoint = "mail/send";
-            request.body = mail.build();
-            Response response = sg.api(request);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+
+        if (newGuest.getEmail().equals("dejanribic021@gmail.com")) {
+            try {
+                request.method = Method.POST;
+                request.endpoint = "mail/send";
+                request.body = mail.build();
+                Response response = sg.api(request);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -103,7 +106,6 @@ public class UserController {
         Can_Work_With CWW = cwws.findByEmail(sentUser.getEmail());
 
         UserLogin returnGuest = new UserLogin();
-
 
 
         // User Types:
@@ -143,8 +145,8 @@ public class UserController {
             returnGuest.setEtype("nesto");
             returnGuest.setRestname(employee.getRestaurantName());
             returnGuest.setEtype("konobar");
-           try{
-                 if (CWW.getMenu_item_type_name().equals("pice")) {
+            try {
+                if (CWW.getMenu_item_type_name().equals("pice")) {
                     returnGuest.setEtype("pice");
                     System.out.println("ja sam sanker");
                 } else if (CWW.getMenu_item_type_name().equals("meso")) {
@@ -163,13 +165,10 @@ public class UserController {
                     returnGuest.setEtype("konobar");
                     System.out.println("ja sam konobar");
                 }
-            }
-            catch(NullPointerException  e){ }
-
+            } catch (NullPointerException e) {
             }
 
-
-
+        }
 
 
         // Employee
