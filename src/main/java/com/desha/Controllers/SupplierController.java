@@ -36,7 +36,7 @@ public class SupplierController {
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
     public ReturnMessage create(@RequestBody Restaurant_has_Supplier newSupplier) {
         ReturnMessage ret = new ReturnMessage("Error");
-        Supplier sup = new Supplier(newSupplier.getSupplierEmail(), "", "");
+        Supplier sup = new Supplier(newSupplier.getSupplierEmail(), "1", "");
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         Restaurant res = (Restaurant) attr.getAttribute("activeRestaurant", ServletRequestAttributes.SCOPE_SESSION);
         newSupplier.setRestaurantName(res.getName());
@@ -45,8 +45,7 @@ public class SupplierController {
             supplierRepository.save(sup);
             restaurant_has_SupplierRepository.save(newSupplier);
             ret.setMessage("Supplier successfully registered");
-            // TODO send mail
-            sendMail(sup.getEmail());
+
             return ret;
         } else if (restaurant_has_SupplierRepository.exists(new Restaurant_has_SupplierKey(newSupplier.getRestaurantName(), newSupplier.getSupplierEmail()))) {
             ret.setMessage("Supplier already registered");
@@ -95,29 +94,5 @@ public class SupplierController {
 
         return ret;
     }
-    private void sendMail(String email){
-        //TODO change localhost:8080 to domain
-        String contentString = "Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n Please confirm your email address by clicking on the following link:\n\nhttp://localhost:8080/dkjasdHHHasldkeeeeads/" + email + "\n\n Thanks!";
 
-        Content content = new Content("text/html", contentString);
-        //Content content = new Content("text/plain", contentString);
-
-        Email from = new Email("ISA.DAEMON@ISA2016.BRT");
-        Email to = new Email(email);
-
-        String subject = "ISA 2016 - User confirmation";
-
-        Mail mail = new Mail(from, subject, to, content);
-
-        SendGrid sg = new SendGrid(sendGridAPIKey);
-        Request request = new Request();
-        try {
-            request.method = Method.POST;
-            request.endpoint = "mail/send";
-            request.body = mail.build();
-            Response response = sg.api(request);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
 }

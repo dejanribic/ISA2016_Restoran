@@ -5,12 +5,12 @@ package com.desha.Beans;
  */
 public class MenuItemWithRating {
     private Menu_Item menuItem;
-    private int rating;
+    private double rating;
 
     public MenuItemWithRating() {
     }
 
-    public MenuItemWithRating(Menu_Item menuItem, int rating) {
+    public MenuItemWithRating(Menu_Item menuItem, double rating) {
         this.menuItem = menuItem;
         this.rating = rating;
     }
@@ -23,11 +23,11 @@ public class MenuItemWithRating {
         this.menuItem = menuItem;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 }

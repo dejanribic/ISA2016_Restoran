@@ -1,12 +1,17 @@
 package com.desha.Controllers;
 
 import com.desha.Beans.Guest;
+import com.desha.Beans.Invite;
 import com.desha.Beans.Reservation;
 import com.desha.Repositories.GuestRepository;
+import com.desha.Repositories.InviteRepository;
 import com.desha.Repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.LockModeType;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,12 +63,17 @@ public class ReservationController {
     @RequestMapping(value = "/allInactive/{email:.+}")
     List<Reservation> getAllInactive(@PathVariable String email) {
         if (email != null) {
+
             Guest host = guestRepository.findByEmail(email);
             ArrayList<Reservation> res = new ArrayList<>();
             try {
                 res = repository.findByGuestEmailAndStartBefore(host.getEmail(), new Date());
             } catch (NullPointerException e){};
             if (res.isEmpty())
+            ArrayList<Reservation> finalListRest = new ArrayList<>();
+            finalListRest = reservationRepository.findByGuestEmailAndStartBefore(host.getEmail(), new Date());
+
+            if (finalListRest.isEmpty())
                 return null;
             else
                 return res;

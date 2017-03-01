@@ -16,4 +16,6 @@ public interface Menu_ItemRepository extends JpaRepository<Menu_Item, Menu_ItemK
     Menu_Item findByNameAndRestname(String name, String restname);
 
     List<Menu_Item> findByRestname(String restname);
+    ArrayList<Menu_Item> findByRestname(String restname);
+
 }

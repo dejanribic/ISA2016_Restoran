@@ -5,9 +5,9 @@
         .module('app')
         .controller('InvitationsController', InvitationsController);
 
-    InvitationsController.$inject = ['$scope', '$http', '$cookies', '$location'];
+    InvitationsController.$inject = ['$scope', '$http', '$cookies', '$location', '$filter'];
 
-    function InvitationsController($scope, $http, $cookies, $location) {
+    function InvitationsController($scope, $http, $cookies, $location, $filter) {
 
         if ($cookies.get("name") != null && $cookies.get("name") != "")
             $scope.profileName = $cookies.get("name");
@@ -26,6 +26,18 @@
         $scope.notConfirmed = new Array();
         $scope.confirmed = new Array();
 
+        $scope.showDate = function (date) {
+            $scope.passedDate = $filter('date')(date, 'shortDate');
+            $scope.currentDate = $filter('date')(new Date(), 'shortDate');
+
+            $scope.parsedPassed = Date.parse($scope.passedDate);
+            $scope.parsedCurrent = Date.parse($scope.currentDate);
+
+            if ($scope.parsedPassed < $scope.parsedCurrent) {
+                return true;
+            } else return false;
+        }
+
         var refresh = function () {
 
 
@@ -38,8 +50,9 @@
                         $http.get('/users/getOne/' + allNotConfirmed[i].guestEmail).success(function (response) {
                             allNotConfirmed[i].fullName = (response.name + ' ' + response.surname);
                             $http.get('/reservations/getOne/' + allNotConfirmed[i].reservationId).success(function (response) {
-                                var datum = new Date(response.start);
-                                allNotConfirmed[i].ispisDatum = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
+                                //var datum = new Date(response.start);
+                                //allNotConfirmed[i].ispisDatum = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
+                                allNotConfirmed[i].datum = response.start;
                             });
                         });
                         $scope.notConfirmed.push(allNotConfirmed[i]);
@@ -56,8 +69,9 @@
                         $http.get('/users/getOne/' + allConfirmed[i].guestEmail).success(function (response) {
                             allConfirmed[i].fullName = (response.name + ' ' + response.surname);
                             $http.get('/reservations/getOne/' + allConfirmed[i].reservationId).success(function (response) {
-                                var datum = new Date(response.start);
-                                allConfirmed[i].ispisDatum = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
+                                //var datum = new Date(response.start);
+                                //allConfirmed[i].ispisDatum = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
+                                allConfirmed[i].datum = response.start;
                             });
                         });
                         $scope.confirmed.push(allConfirmed[i]);

@@ -1,12 +1,13 @@
 (function () {
     'use strict';
 
+    //noinspection JSUnresolvedFunction
     angular
         .module('app')
         .controller('ReservationController', ReservationController);
 
-    ReservationController.$inject = ['$cookies', '$http', '$scope', '$route', '$window', "$location"];
-    function ReservationController($cookies, $http, $scope, $route, $window, $location) {
+    ReservationController.$inject = ['$cookies', '$http', '$scope', '$window', '$location'];
+    function ReservationController($cookies, $http, $scope, $window, $location) {
 
         if ($cookies.get("name") != null && $cookies.get("name") != "")
             $scope.profileName = $cookies.get("name");
@@ -14,15 +15,7 @@
             $scope.profileName = $cookies.get("email");
         }
 
-        Date.prototype.toDateInputValue = (function () {
-            var local = new Date(this);
-            local.setDate(local.getDate() + 1);
-            // Offset vremenske zone
-            //local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-            return local
-        });
-
-        $scope.reservationsWithInvitations = new Array();
+        $scope.reservationsWithInvitations = [];
 
         var refresh = function () {
             $http.get('/reservations/allActive/' + $cookies.get('email')).success(function (response) {
@@ -31,46 +24,9 @@
 
                 var currRes = response;
 
-                /*
-                 var x = new Array(1000);
-                 for (var i = 0; i < 1000; i++) {
-                 x[i] = new Array(20);
-                 }*/
-
                 for (var i = 0; i < response.length; i++) {
-                    //console.log('Usli smo u rezervaciju broj: ' + i);
-
                     (function (i) {
                         $http.put('/invitations/getInvited', currRes[i]).success(function (response) {
-
-                            //console.log(response);
-
-                            /*
-                             for (var j = 0; j < response.length; j++) {
-                             //noinspection JSUnresolvedVariable
-                             //console.log(response[j].friendEmail);
-
-                             var ime = null;
-                             var prezime = null;
-
-                             //noinspection JSUnresolvedVariable
-                             $http.get('/users/getOne/' + response[j].friendEmail).success(function (response) {
-                             //console.log(response);
-                             //ime = response.name;
-                             //prezime = response.surname;
-                             //console.log(ime + prezime);
-                             });
-
-                             response[j].ime = ime;
-                             response[j].prezime = prezime;
-                             }
-
-                             */
-
-                            //noinspection JSUnusedAssignment
-                            var datum = new Date(currRes[i].start);
-                            currRes[i].ispisDatuma = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
-
                             $scope.reservationsWithInvitations.push({
                                 reservation: currRes[i],
                                 invitations: response
@@ -79,66 +35,57 @@
                     })(i);
                 }
             });
+        };
 
-            /*
-             var k = $scope.reservationsWithInvitations.length;
-             //console.log(k);
-
-             for (var brojac1 = 0; brojac1 < k; brojac1++) {
-
-             var p = $scope.reservationsWithInvitations[brojac1].invitations.length;
-             console.log(p);
-
-             for (var brojac2 = 0; brojac2 < p; p++) {
-
-             console.log('invite #: ' + $scope.reservationsWithInvitations[brojac1].invitations[brojac2].friendEmail);
-
-             $http.get('/users/getOne/' + $scope.reservationsWithInvitations[brojac1].invitations[brojac2].friendEmail).success(function (response) {
-             console.log(response);
-             $scope.reservationsWithInvitations[brojac1].invitations[brojac2].ime = response.name;
-             $scope.reservationsWithInvitations[brojac1].invitations[brojac2].prezime = response.surname;
-             });
-             }
-             }
-             */
-
-            console.log($scope.reservationsWithInvitations);
-        }
+        var fillNames = function () {
+            for (var i = 0; i < $scope.reservationsWithInvitations.length; i++) {
+                for (var j = 0; j < $scope.reservationsWithInvitations[i].invitations.length; j++) {
+                    //noinspection JSUnresolvedVariable
+                    var email = $scope.reservationsWithInvitations[i].invitations[j].friendEmail;
+                    $http.get('/users/getOne/' + email).success(function (response) {
+                        var ime = response.name;
+                        var prezime = response.surname;
+                        //console.log(ime + ' ' + prezime);
+                        $scope.reservationsWithInvitations[i].invitations[j].fullName = ime + ' ' + prezime;
+                    });
+                }
+            }
+        };
 
         refresh();
+        //setTimeout(fillNames, 5000);
 
         var currentReservation;
 
         $scope.getInvitable = function (res) {
-
-            console.log(res);
-
-            //OVDE SKIDAMO ispisDatuma
-            var newRes = jQuery.extend({}, res);
-            delete newRes.ispisDatuma;
-
-            console.log(newRes);
-
-            //currentReservation = res;
-            currentReservation = newRes;
-
-            $http.put('/invitations/invitableFriends', newRes).success(function (response) {
+            currentReservation = res;
+            $http.put('/invitations/invitableFriends', res).success(function (response) {
                 $scope.invitable = response;
             });
-        }
+        };
+
+        $scope.cancel = function (res) {
+            $http.put('/reservations/delete', res).success(function () {
+                $window.location.reload();
+            });
+        };
+
+        $scope.showDate = function (date) {
+            return Math.round((((new Date(date) - new Date()) % 86400000) % 3600000) / 60000) < 30;
+        };
 
         $scope.invite = function (invited_email) {
-            $http.put('/invitations/add/' + invited_email, currentReservation).success(function (response) {
+            $http.put('/invitations/add/' + invited_email, currentReservation).success(function () {
                 $scope.getInvitable(currentReservation);
             });
             $window.location.reload();
-        }
+        };
 
         // Log out
         $scope.logout = function () {
+            //noinspection JSUnresolvedFunction
             var cookies = $cookies.getAll();
             angular.forEach(cookies, function (v, k) {
-                console.log(cookies);
                 $cookies.remove(k);
             });
             $location.url('/');

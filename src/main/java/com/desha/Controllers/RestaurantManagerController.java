@@ -5,11 +5,14 @@ import com.desha.Beans.Restaurant_Manager;
 import com.desha.Beans.UserLogin;
 import com.desha.Repositories.ManagerRepository;
 import com.desha.Repositories.Restaurant_ManagerRepository;
+import com.sendgrid.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -20,6 +23,9 @@ import java.util.List;
 public class RestaurantManagerController {
     private ManagerRepository managerRepository;
     private Restaurant_ManagerRepository restaurantManagerRepository;
+
+    @Value("${sendGridAPIKey}")
+    private String sendGridAPIKey;
 
     @Autowired
     public RestaurantManagerController(ManagerRepository managerRepository, Restaurant_ManagerRepository restaurantManagerRepository) {
@@ -50,14 +56,14 @@ public class RestaurantManagerController {
 
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
     public Restaurant_Manager create(@RequestBody Restaurant_Manager newManager) {
-        Manager nm = new Manager(newManager.getManagerEmail(), "");
+        Manager nm = new Manager(newManager.getManagerEmail(), "1");
 
         if (managerRepository.findByEmail(newManager.getManagerEmail()) == null) {
             managerRepository.save(nm);
-            // TODO send mail
         }
         restaurantManagerRepository.save(newManager);
         managerRepository.save(nm);
         return newManager;
     }
+
 }

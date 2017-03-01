@@ -118,7 +118,9 @@ public class RestaurantController {
 
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
     public void create(@RequestBody Restaurant newRestaurant) {
-        restaurantRepository.save(newRestaurant);
+        Restaurant r = restaurantRepository.save(newRestaurant);
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        attr.setAttribute("activeRestaurant", r, ServletRequestAttributes.SCOPE_SESSION);
     }
 
 

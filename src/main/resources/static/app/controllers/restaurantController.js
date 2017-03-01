@@ -33,12 +33,6 @@
 
         $http.get('/reservations/allInactive/' + $cookies.get('email')).success(function (response) {
             $scope.visited = response;
-            console.log(response);
-            /*
-             $http.get('/invitations/pastVisits/' + $cookies.get('email')).success(function (response) {
-             $scope.visited = $scope.visited.concat(response);
-             });
-             */
         });
 
         $scope.zapocniRezervaciju = function (res) {
@@ -47,10 +41,6 @@
             $scope.broj_stola = '1';
 
             $scope.datum = new Date();
-            //$scope.datum.ispis = ($scope.datum.getDate() + '/' + $scope.datum.getMonth() + '/' + $scope.datum.getFullYear() + ' - ' + $scope.datum.getTime());
-
-            console.log($scope.datum);
-//            console.log($scope.datum.ispis);
         }
 
         $scope.pozoviPrijatelja = function (email) {
@@ -106,7 +96,7 @@
                         a: {
                             price: 100,
                             classes: 'first-class', //your custom CSS class
-                            category: 'First Class'
+                            category: 'Redovan sto'
                         },
                     },
                     naming: {
@@ -204,7 +194,6 @@
         $scope.logout = function () {
             var cookies = $cookies.getAll();
             angular.forEach(cookies, function (v, k) {
-                console.log(cookies);
                 $cookies.remove(k);
             });
             $location.url('/');

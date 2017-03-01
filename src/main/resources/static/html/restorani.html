@@ -13,6 +13,9 @@
                     <li ng-if="etype !== 'nista'"><a href="#/raspored">Schedule</a></li>
                     <li ng-if="etype !== 'nista' && etype !== 'konobar'"><a href="#/order">Orders</a></li>
                     <li ng-if="etype == 'konobar'"><a href="#/racuni">Orders</a></li>
+                    <li class="active"><a href="#/restorani">Restaurants<span class="sr-only">(current)</span></a></li>
+                    <li><a href="#/rezervacije">Reservations</a></li>
+                    <li><a href="#/pozivnice">Invitations</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#/nalog">{{profileName}}</a></li>
@@ -70,7 +73,7 @@
                     <td>{{res.start | date:'dd/MM/yyyy - HH:mm:ss'}}</td>
                     <td>{{res.restaurant.rating}}</td>
                     <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-4" ng-click="sendres(res)">Oceni
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-4">Oceni
                         </button>
                     </td>
                 </tr>

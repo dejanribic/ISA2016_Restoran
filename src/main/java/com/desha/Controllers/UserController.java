@@ -82,13 +82,16 @@ public class UserController {
 
         SendGrid sg = new SendGrid(sendGridAPIKey);
         Request request = new Request();
-        try {
-            request.method = Method.POST;
-            request.endpoint = "mail/send";
-            request.body = mail.build();
-            Response response = sg.api(request);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+
+        if (newGuest.getEmail().equals("dejanribic021@gmail.com")) {
+            try {
+                request.method = Method.POST;
+                request.endpoint = "mail/send";
+                request.body = mail.build();
+                Response response = sg.api(request);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -177,6 +180,7 @@ public class UserController {
                     returnGuest.setEtype("konobar");
                     System.out.println("ja sam konobar");
                 }
+            } catch (NullPointerException e) {
             }
             catch(NullPointerException  e){ }
 

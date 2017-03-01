@@ -34,7 +34,7 @@
             <tr ng-repeat="inv in notConfirmed">
                 <td>{{inv.fullName}}</td>
                 <td>{{inv.restaurantName}}</td>
-                <td>{{inv.ispisDatum}}</td>
+                <td ng-bind="inv.datum | date:'dd/MM/yyyy - HH:mm:ss'"></td>
                 <td>
                     <button class="btn btn-success" ng-click="potvrdi(inv)">Confirm</button>
                 </td>
@@ -63,9 +63,9 @@
                 <tr ng-repeat="inv in confirmed">
                     <td>{{inv.fullName}}</td>
                     <td>{{inv.restaurantName}}</td>
-                    <td>{{inv.ispisDatum}}</td>
+                    <td ng-bind="inv.datum | date:'dd/MM/yyyy - HH:mm:ss'"></td>
                     <td>
-                        <button class="btn btn-danger">Order?</button>
+                        <button ng-hide="showDate(inv.datum)" class="btn btn-danger">Order?</button>
                     </td>
                 </tr>
                 </tbody>

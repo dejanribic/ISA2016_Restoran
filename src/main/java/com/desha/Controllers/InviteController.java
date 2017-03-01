@@ -7,34 +7,41 @@ import com.desha.Beans.Reservation;
 import com.desha.Repositories.FriendRepository;
 import com.desha.Repositories.GuestRepository;
 import com.desha.Repositories.InviteRepository;
+import com.desha.Repositories.ReservationRepository;
 import com.sendgrid.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.LockModeType;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/invitations")
 public class InviteController {
 
+    private ReservationRepository reservationRepository;
     private InviteRepository repository;
     private GuestRepository guestRepository;
     private FriendRepository friendRepository;
 
     @Autowired
-    public InviteController(GuestRepository guestRepository, InviteRepository repository, FriendRepository friendRepository) {
+    public InviteController(GuestRepository guestRepository, InviteRepository repository, FriendRepository friendRepository, ReservationRepository reservationRepository) {
         this.guestRepository = guestRepository;
         this.repository = repository;
         this.friendRepository = friendRepository;
+        this.reservationRepository = reservationRepository;
     }
 
     @Value("${sendGridAPIKey}")
     private String sendGridAPIKey;
 
     @RequestMapping(value = "/all")
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     public List<Invite> getAll() {
         return repository.findAll();
     }
@@ -50,44 +57,54 @@ public class InviteController {
         Guest invitedGuest = guestRepository.findByEmail(email);
 
         Invite invite = new Invite();
-        invite.setAccepted(false);
         invite.setGuestEmail(host.getEmail());
         invite.setFriendEmail(invitedGuest.getEmail());
         invite.setRestaurantName(reservation.getRestaurantName());
         invite.setReservationId(reservation.getId());
 
-        repository.save(invite);
+        if (reservation.getStart().before(new Date())) {
+            invite.setAccepted(true);
+            repository.save(invite);
+        } else {
 
-        // Slanje mail-a:
+            invite.setAccepted(false);
 
-        // Regular EMAIL
-        String contentString = "Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n";
-        contentString += host.getName() + " " + host.getSurname() + " has invited you to a restaurant with them! \n \n";
-        contentString += "After logging in, please click the following link to confirm or cancel the inviration:\n\n";
-        contentString += "http://localhost:3000/#/pozivnice" + "\n\n Thanks!";
+            repository.save(invite);
 
-        // HTML EMAIL
-        // String contentString = "<h2>Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n Please confirm your  = = = email address by clicking on the following link:</h2>\n\n<a href=\"localhost:3000/users/confirmUser/" + newGuest.getEmail() + "\">Click me!</a>\n\n";
+            // Slanje mail-a:
 
-        Content content = new Content("text/html", contentString);
-        //Content content = new Content("text/plain", contentString);
+            // Regular EMAIL
+            String contentString = "Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n";
+            contentString += host.getName() + " " + host.getSurname() + " has invited you to a restaurant with them! \n \n";
+            contentString += "After logging in, please click the following link to confirm or cancel the inviration:\n\n";
+            contentString += "http://localhost:3000/#/pozivnice" + "\n\n Thanks!";
 
-        Email from = new Email("ISA.DAEMON@ISA2016.BRT");
-        Email to = new Email(invitedGuest.getEmail());
+            // HTML EMAIL
+            // String contentString = "<h2>Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n Please confirm your  = = = email address by clicking on the following link:</h2>\n\n<a href=\"localhost:3000/users/confirmUser/" + newGuest.getEmail() + "\">Click me!</a>\n\n";
 
-        String subject = "ISA 2016 - User confirmation";
+            Content content = new Content("text/html", contentString);
+            //Content content = new Content("text/plain", contentString);
 
-        Mail mail = new Mail(from, subject, to, content);
+            Email from = new Email("ISA.DAEMON@ISA2016.BRT");
+            Email to = new Email(invitedGuest.getEmail());
 
-        SendGrid sg = new SendGrid(sendGridAPIKey);
-        Request request = new Request();
-        try {
-            request.method = Method.POST;
-            request.endpoint = "mail/send";
-            request.body = mail.build();
-            Response response = sg.api(request);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            String subject = "ISA 2016 - User confirmation";
+
+            Mail mail = new Mail(from, subject, to, content);
+
+            SendGrid sg = new SendGrid(sendGridAPIKey);
+            Request request = new Request();
+
+            if (invitedGuest.getEmail().equals("dejanribic021@gmail.com")) {
+                try {
+                    request.method = Method.POST;
+                    request.endpoint = "mail/send";
+                    request.body = mail.build();
+                    Response response = sg.api(request);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
     }
 
@@ -131,8 +148,14 @@ public class InviteController {
 
     @RequestMapping(value = "/activeNotConfirmed/{email:.+}")
     public List<Invite> getUnconfirmedInvites(@PathVariable String email) {
-        Guest me = guestRepository.findByEmail(email);
-        return repository.findByFriendEmailAndAccepted(me.getEmail(), false);
+        ArrayList<Invite> invites = repository.findByFriendEmailAndAccepted(guestRepository.findByEmail(email).getEmail(), false);
+        ArrayList<Invite> finalInvites = new ArrayList<>();
+        Date now = new Date();
+        for (Invite i : invites) {
+            if (now.before(reservationRepository.findById(i.getReservationId()).getStart()))
+                finalInvites.add(i);
+        }
+        return finalInvites;
     }
 
     @RequestMapping(value = "/activeConfirmed/{email:.+}")
