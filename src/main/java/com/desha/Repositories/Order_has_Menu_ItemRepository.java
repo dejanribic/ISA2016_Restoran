@@ -15,4 +15,5 @@ public interface Order_has_Menu_ItemRepository extends JpaRepository<Order_has_M
     List<Order_has_Menu_Item>  findByNumAndIdAndRestnameAndEmail(int num , int id , String restname , String email );
     Order_has_Menu_Item findByNumAndIdAndRestnameAndEmailAndMenuitemname(int num , int id , String restname , String email , String menuitemname);
 
+    List<Order_has_Menu_Item> findByIdAndRestnameAndEmailAndMenuitemname(int resid, String restname, String gmail, String menuitemname);
 }

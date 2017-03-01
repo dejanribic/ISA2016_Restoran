@@ -18,6 +18,9 @@
 
         $scope.etype = $cookies.get('etype');
         $scope.rname = $cookies.get('rname');
+        $scope.email = $cookies.get('email');
+
+        console.log($cookies.get('email'));
 
         $http.get('/racuni/all').success(function (response) {
             $scope.racuni = response;
@@ -30,7 +33,13 @@
             });
         }
 
+        $scope.accepted = function (a,b,c,d){
+          //  alert("uso");
+            $http.get('/racuni/accepted/'+a+'/'+b+'/'+c+'/'+d+'/'+ $cookies.get('email')).success(function (response) {
+                $scope.racuni = response;
+            });
+        }
 
-    }
-})();
+
+}})();
 

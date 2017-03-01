@@ -53,7 +53,12 @@
 
                     $cookies.put('email', response.email);
                     $cookies.put('type', response.type);
+
                     $cookies.put('name', response.name);
+
+                    console.log("zzzzzzzzzzzzzzzzz");
+                    console.log($cookies.get('name'));
+
                     $cookies.put('etype', response.etype);
                     $cookies.put('rname', response.restname);
 
@@ -61,11 +66,11 @@
                     $scope.etype = $cookies.get('etype') ;
 
 
-           /*         console.log($cookies.get('etype'));
+                    console.log($cookies.get('etype'));
                     console.log(response.etype);
                     console.log($scope.etype);
 
-                */
+
 
 /*                    console.log(response.email);
                     console.log(response.password);
@@ -82,6 +87,7 @@
                      console.log("Cookie type: " + $cookies.get('type'));
                      */
 
+
                     if (response.type == 1) {
                         $location.url('/restorani');
                     }
@@ -95,7 +101,13 @@
                         $location.url('/restorani');
                     }
                     else if (response.type == 5) {
-                        console.log("Uso");
+                        console.log(response.firstlog);
+                        if(response.firstlog==0)
+                        {
+                            console.log("nice try");
+                            $location.url('/first');
+                        }
+                        else
                         $location.url('/restorani');
 
                     }

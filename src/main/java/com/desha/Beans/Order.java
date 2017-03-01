@@ -25,18 +25,22 @@ public class Order implements Serializable {
     private Boolean paid;
 
     @Id
-    @Column(name="reservation_id")
+    @Column(name = "reservation_id")
     private int resid;
 
     @Id
-    @Column(name="restaurant_name")
+    @Column(name = "restaurant_name")
     private String resname;
 
     @Id
-    @Column(name="guest_email")
+    @Column(name = "guest_email")
     private String gmail;
 
-    public Order(int num, Boolean done, Boolean accepted, Boolean paid, int resid, String resname, String gmail) {
+    @Column
+    private String empolyeeemail;
+
+
+    public Order(int num, Boolean done, Boolean accepted, Boolean paid, int resid, String resname, String gmail, String empolyeeemail) {
         this.num = num;
         this.done = done;
         this.accepted = accepted;
@@ -44,6 +48,7 @@ public class Order implements Serializable {
         this.resid = resid;
         this.resname = resname;
         this.gmail = gmail;
+        this.empolyeeemail = empolyeeemail;
     }
 
     public Order() {
@@ -104,4 +109,12 @@ public class Order implements Serializable {
     public void setGmail(String gmail) {
         this.gmail = gmail;
     }
+    public String getEmpolyeeemail() {
+        return empolyeeemail;
+    }
+
+    public void setEmpolyeeemail(String empolyeeemail) {
+        this.empolyeeemail = empolyeeemail;
+    }
+
 }

@@ -1,9 +1,7 @@
 package com.desha.Controllers;
 
-import com.desha.Beans.Restaurant;
-import com.desha.Beans.Restaurant_Rating;
-import com.desha.Repositories.RestaurantRepository;
-import com.desha.Repositories.Restaurant_RatingRepository;
+import com.desha.Beans.*;
+import com.desha.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -18,11 +16,23 @@ public class RestaurantController {
 
     private RestaurantRepository restaurantRepository;
     private Restaurant_RatingRepository restaurant_ratingRepository;
+    private OrderRepository orderRepository ;
+    private Menu_ItemRepository menu_itemRepository;
+    private Order_has_Menu_ItemRepository orderHasMenuItemRepository;
+    private Menu_Item_RatingRepository menu_item_ratingRepository;
+   private Employee_RatingRepository employee_ratingRepository;
 
     @Autowired
-    public RestaurantController(RestaurantRepository restaurantRepository, Restaurant_RatingRepository restaurant_ratingRepository) {
+    public RestaurantController(RestaurantRepository restaurantRepository,
+                                Restaurant_RatingRepository restaurant_ratingRepository ,
+                                OrderRepository orderRepository , Menu_ItemRepository menu_itemRepository , Order_has_Menu_ItemRepository orderHasMenuItemRepository , Menu_Item_RatingRepository menu_item_ratingRepository, Employee_RatingRepository employee_ratingRepository) {
         this.restaurantRepository = restaurantRepository;
         this.restaurant_ratingRepository = restaurant_ratingRepository;
+        this.orderRepository = orderRepository;
+        this.menu_itemRepository = menu_itemRepository;
+        this.orderHasMenuItemRepository = orderHasMenuItemRepository;
+        this.menu_item_ratingRepository = menu_item_ratingRepository;
+        this.employee_ratingRepository = employee_ratingRepository;
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -43,6 +53,43 @@ public class RestaurantController {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         Restaurant ret = (Restaurant) attr.getAttribute("activeRestaurant", ServletRequestAttributes.SCOPE_SESSION);
         return ret;
+    }
+
+    @RequestMapping(value = "/oceni/{restrating}/{konobarrating}/{jelorating}/{gmail}/{restname}/{resid}", method = RequestMethod.GET)
+    public Restaurant oceni(@PathVariable String restrating , @PathVariable String konobarrating , @PathVariable String jelorating , @PathVariable String gmail , @PathVariable String restname , @PathVariable int resid  ) {
+
+        int r = Integer.parseInt(restrating);
+        int k = Integer.parseInt(konobarrating);
+        int j = Integer.parseInt(jelorating);
+
+        System.out.println(restname);
+
+        Restaurant_Rating rr = new Restaurant_Rating(restname,gmail,r);
+
+        restaurant_ratingRepository.save(rr);
+
+        List<Menu_Item> milist = menu_itemRepository.findByRestname(restname);
+
+        for (Menu_Item m : milist) {
+            List<Order_has_Menu_Item> ohmilist = orderHasMenuItemRepository.findByIdAndRestnameAndEmailAndMenuitemname(resid, restname, gmail, m.getName());
+            for(Order_has_Menu_Item oh : ohmilist)
+            {
+                Menu_Item_Rating mir = new Menu_Item_Rating( oh.getMenuitemname() , restname , gmail , j);
+                menu_item_ratingRepository.save(mir);
+
+            }
+        }
+
+        List<Order> mo = orderRepository.findByResidAndResnameAndGmail(resid, restname, gmail);
+        for(Order ord : mo)
+        {
+            Employee_Rating er = new Employee_Rating(restname , ord.getEmpolyeeemail() , gmail , k);
+
+            employee_ratingRepository.save(er);
+        }
+
+
+        return null;
     }
 
     @RequestMapping(value = "/getRating", method = RequestMethod.GET)

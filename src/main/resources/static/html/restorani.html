@@ -9,10 +9,10 @@
                     </li>
                     <li ng-if="etype == 'nista'"><a href="#/rezervacije">Reservations</a></li>
                     <li ng-if="etype == 'nista'"><a href="#/pozivnice">Invitations</a></li>
-                    <li ng-if="etype !== 'nista'"><a href="#/">Table chart</a></li>
-                    <li ng-if="etype !== 'nista'"><a href="#/raspored">Work schedule</a></li>
+                    <li ng-if="etype == 'konobar'" ><a href="#/">Table chart</a></li>
+                    <li ng-if="etype !== 'nista'"><a href="#/raspored">Schedule</a></li>
                     <li ng-if="etype !== 'nista' && etype !== 'konobar'"><a href="#/order">Orders</a></li>
-                    <li ng-if="etype == 'konobar'"><a href="#/racuni">Bills</a></li>
+                    <li ng-if="etype == 'konobar'"><a href="#/racuni">Orders</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#/nalog">{{profileName}}</a></li>
@@ -70,7 +70,7 @@
                     <td>{{res.start | date:'dd/MM/yyyy - HH:mm:ss'}}</td>
                     <td>{{res.restaurant.rating}}</td>
                     <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-4">Oceni
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-4" ng-click="sendres(res)">Oceni
                         </button>
                     </td>
                 </tr>
@@ -284,7 +284,7 @@
                             <tbody>
                             <tr>
                                 <td>Naziv:</td>
-                                <td>Moj Naziv</td>
+                                <td>{{restoran.name}}</td>
                             </tr>
                             <tr>
                                 <td>Datum:</td>
@@ -296,26 +296,45 @@
                             </tr>
                             <tr>
                                 <td>Ocena restorana:</td>
-                                <td>
-                                    <div class="rating">
-                                        <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-                                    </div>
-                                </td>
+                               <td> <form>
+                                    <select ng-model="restrating" >
+                                        <option value="1"> 1 </option>
+                                        <option value="2"> 2 </option>
+                                        <option value="3"> 3 </option>
+                                        <option value="4"> 4 </option>
+                                        <option value="5"> 5 </option>
+                                    </select>
+
+                                </form>
+                               </td>
                             </tr>
                             <tr>
                                 <td>Ocena konobara:</td>
-                                <td>
-                                    <div class="rating">
-                                        <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-                                    </div>
+                                <td> <form>
+                                    <select ng-model="konobarrating" >
+                                        <option value="1"> 1 </option>
+                                        <option value="2"> 2 </option>
+                                        <option value="3"> 3 </option>
+                                        <option value="4"> 4 </option>
+                                        <option value="5"> 5 </option>
+                                    </select>
+
+                                </form>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Ocena jela:</td>
-                                <td>
-                                    <div class="rating">
-                                        <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-                                    </div>
+                                <td> <form>
+
+                                    <select ng-model="jelorating" >
+                                        <option value="1"> 1 </option>
+                                        <option value="2"> 2 </option>
+                                        <option value="3"> 3 </option>
+                                        <option value="4"> 4 </option>
+                                        <option value="5"> 5 </option>
+                                    </select>
+
+                                </form>
                                 </td>
                             </tr>
                             </tbody>
@@ -324,7 +343,7 @@
 
                     <div class="modal-footer">
                         <a href="" class="btn btn-default" data-dismiss="modal">Odustani</a>
-                        <button type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal">Oceni
+                        <button type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"  ng-click="oceni()">Oceni
                         </button>
                     </div>
                 </div>

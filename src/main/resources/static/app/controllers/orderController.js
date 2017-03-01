@@ -16,6 +16,7 @@
 
         //   $scope.etype = $cookies.get('etype') ;
         $scope.rname = $cookies.get('rname');
+        $scope.mail = $cookies.get('email');
 
     /*    $scope.checktype = function (x,y) {
             $http.get('/orders/checktype/'+x+'/'+y ).success(function (response) {
@@ -37,7 +38,21 @@
         });
 
         $scope.done = function (a, b, c, d, e) {
-            $http.get('/orders/done/' + a + '/' + b + '/' + c + '/' + d + '/' + e).success(function (response) {
+            $http.get('/orders/done/' + a + '/' + b + '/' + c + '/' + d + '/' + e ).success(function (response) {
+                $scope.orders = [];
+                angular.forEach(response,function(value,index) {
+                    $http.get('/orders/checktype/'+value.menuitemname+'/'+value.restname ).success(function (res) {
+                        $scope.temp=res.type_name;
+                        if ($scope.temp == $scope.etype)
+                            $scope.orders.push(value);
+                    });
+                })
+
+            });
+        }
+
+        $scope.accept = function (a, b, c, d, e) {
+            $http.get('/orders/accept/' + a + '/' + b + '/' + c + '/' + d + '/' + e + '/' + $cookies.get('email')).success(function (response) {
                 $scope.orders = [];
                 angular.forEach(response,function(value,index) {
                     $http.get('/orders/checktype/'+value.menuitemname+'/'+value.restname ).success(function (res) {

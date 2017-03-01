@@ -83,6 +83,11 @@
             controller: 'RasporedController'
         });
 
+        $routeProvider.when('/first', {
+            templateUrl: 'html/first.html',
+            controller: 'FirstController'
+        });
+
         //noinspection JSUnresolvedFunction
         $routeProvider.otherwise('/', {
             templateUrl: 'html/login.html',

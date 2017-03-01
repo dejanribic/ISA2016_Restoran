@@ -14,22 +14,35 @@
 
     function RasporedController($cookies, $scope, $http, $location) {
 
-
-
         $scope.etype = $cookies.get('etype');
         $scope.rname = $cookies.get('rname');
 
+        $http.get('/raspored/getEmployee/'+$cookies.get('email')).success(function (emp) {
+            $http.get('/raspored/smene/'+emp.email+'/'+emp.restaurantName).success(function (response) {
+                var smena;
+                var i;
+                $scope.smene = [];
+                for (i = 0; i < response.length; i++) {
+                    smena = {
+                        color: "#64e6ff",
+                        title: "Raspored",
+                        start: new Date(response[i].start),
+                        end: new Date(response[i].end)
+                    };
 
-        $('#timetable').fullCalendar({
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month, agendaWeek, agendaDay'
-            },
-            editable: false/*,
-             events: $scope.shifts*/
+                    $scope.smene.push(smena);
+                }
+                $('#timetable').fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month, agendaWeek, agendaDay'
+                    },
+                    editable: false,
+                    events: $scope.smene
+                });
+
+            });
         });
-
-
     }
 })();

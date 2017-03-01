@@ -14,6 +14,8 @@ public class UserLogin {
 
     private String restname;
 
+    private boolean firstlog;
+
     public UserLogin ()
     {
         this.etype = "nista";
@@ -66,5 +68,13 @@ public class UserLogin {
 
     public void setRestname(String restname) {
         this.restname = restname;
+    }
+
+    public boolean isFirstlog() {
+        return firstlog;
+    }
+
+    public void setFirstlog(boolean firstlog) {
+        this.firstlog = firstlog;
     }
 }

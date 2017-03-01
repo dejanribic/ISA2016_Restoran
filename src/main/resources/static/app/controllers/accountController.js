@@ -10,23 +10,28 @@
     function AccountController($scope, $http, $cookies, $location) {
 
         $scope.friendSearch = "";
+        $scope.etype = $cookies.get('etype');
+
+
 
         // Refresh page function
-        var refresh = function () {
-            $scope.friendSearch = "";
+   //     if($scope.etype == "nista") {
+            var refresh = function () {
+                $scope.friendSearch = "";
 
-            $http.get('/guests/friends/' + $cookies.get("email")).success(function (response) {
-                $scope.friends = response;
-            });
+                $http.get('/guests/friends/' + $cookies.get("email")).success(function (response) {
+                    $scope.friends = response;
+                });
 
-            $http.get('/guests/addable/' + $cookies.get('email')).success(function (response) {
-                $scope.addable = response;
-            });
+                $http.get('/guests/addable/' + $cookies.get('email')).success(function (response) {
+                    $scope.addable = response;
+                });
 
-            $http.get('/guests/requests/' + $cookies.get('email')).success(function (response) {
-                $scope.requests = response;
-            });
-        }
+                $http.get('/guests/requests/' + $cookies.get('email')).success(function (response) {
+                    $scope.requests = response;
+                });
+            }
+    //   }
 
         // Cookie loading
         if ($cookies.get("name") != null) {
@@ -39,16 +44,43 @@
         }
 
         // Filling the scope with the current user
-        $http.get('/users/getOne/' + $cookies.get('email')).success(function (response) {
-            $scope.user = response;
-        });
+
+
+
+        console.log("*******************");
+        console.log($scope.etype);
+        console.log("*******************");
+        console.log("*******************");
+        console.log($scope.profileName);
+        console.log("*******************");
+
+        if($scope.etype == "nista") {
+            console.log("Uso if");
+            $http.get('/users/getOne/' + $cookies.get('email')).success(function (response) {
+                console.log("Uso if");
+                $scope.user = response;
+            });
+        }
+        else
+        {
+            console.log("Uso else");
+            $http.get('/users/getOneEmp/' + $cookies.get('email')).success(function (response) {
+                console.log("Uso else");
+                $scope.user = response;
+            });
+        }
 
         // Filling the scope with friends, addable friends, and friend requests
         refresh();
 
         // Profile change
         $scope.izmeniNalog = function () {
-            $http.put('/guests/change', $scope.user);
+            if($scope.etype == "nista")
+                $http.put('/guests/change', $scope.user);
+            else {
+                $http.put('/users/changeEmp', $scope.user);
+            }
+
         };
 
         // Prepare for friend deletion

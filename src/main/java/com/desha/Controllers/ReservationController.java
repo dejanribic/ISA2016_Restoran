@@ -60,7 +60,9 @@ public class ReservationController {
         if (email != null) {
             Guest host = guestRepository.findByEmail(email);
             ArrayList<Reservation> res = new ArrayList<>();
-            res = repository.findByGuestEmailAndStartBefore(host.getEmail(), new Date());
+            try {
+                res = repository.findByGuestEmailAndStartBefore(host.getEmail(), new Date());
+            } catch (NullPointerException e){};
             if (res.isEmpty())
                 return null;
             else

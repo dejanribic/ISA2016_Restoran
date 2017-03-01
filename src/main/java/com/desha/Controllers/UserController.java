@@ -46,6 +46,16 @@ public class UserController {
         return guests.findByEmail(email);
     }
 
+    @RequestMapping(value = "/getOneEmp/{email:.+}")
+    public Employee getOneEmp(@PathVariable String email) {
+        return employees.findByEmail(email);
+    }
+
+    @RequestMapping(value = "/changeEmp", method = RequestMethod.PUT)
+    public void change(@RequestBody Employee emp) {
+        employees.save(emp);
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
     public void create(@RequestBody Guest newGuest) {
 
@@ -143,6 +153,10 @@ public class UserController {
             returnGuest.setEtype("nesto");
             returnGuest.setRestname(employee.getRestaurantName());
             returnGuest.setEtype("konobar");
+            returnGuest.setFirstlog(employee.getFirstlog());
+            returnGuest.setName(employee.getName());
+
+
            try{
                  if (CWW.getMenu_item_type_name().equals("pice")) {
                     returnGuest.setEtype("pice");

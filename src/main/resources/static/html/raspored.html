@@ -9,10 +9,10 @@
 
 
 
-                    <li ><a href="#/raspored">Raspored Rada</a></li>
-                    <li ><a href="#/raspored">Raspored Stolova</a></li>
-                    <li ng-if="etype !== 'konobar'"><a href="#/order">Porudzbine</a></li>
-                    <li ng-if="etype == 'konobar'"><a href="#/racuni">Racuni</a></li>
+                    <li ><a href="#/raspored">Schedule</a></li>
+                    <li ng-if="etype == 'konobar'" ><a href="#/raspored">Region</a></li>
+                    <li ng-if="etype !== 'konobar'"><a href="#/order">Orders</a></li>
+                    <li ng-if="etype == 'konobar'"><a href="#/racuni">Orders</a></li>
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

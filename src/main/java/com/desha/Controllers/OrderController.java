@@ -79,4 +79,25 @@ public class OrderController {
 
     }
 
+    @RequestMapping(value = "accept/{order_num}/{reservation_id}/{restaurant_name}/{guest_email}/{menu_item_name}/{employeeemail}")
+    public  List<Order_has_Menu_Item> accept(@PathVariable int order_num, @PathVariable int reservation_id , @PathVariable String restaurant_name, @PathVariable String guest_email , @PathVariable String menu_item_name , @PathVariable String employeeemail ) {
+        Order_has_Menu_Item temp = repository.findByNumAndIdAndRestnameAndEmailAndMenuitemname
+                (order_num, reservation_id, restaurant_name, guest_email, menu_item_name);
+
+        temp.setAccepted(true);
+        temp.setEmployeeemail(employeeemail);
+
+        repository.save(temp);
+
+        System.out.print(temp.getMenuitemname());
+        System.out.print(temp.getAccepted());
+        System.out.print(temp.getEmployeeemail());
+
+
+
+        return repository.findByRestname(temp.getRestname());
+
+
+    }
+
 }

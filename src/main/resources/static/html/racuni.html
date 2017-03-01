@@ -9,13 +9,13 @@
 
 
 
-                    <li ><a href="#/raspored">Raspored Rada</a></li>
-                    <li ><a href="#/raspored">Raspored Stolova</a></li>
-                    <li ng-if="etype == 'konobar'"><a href="#/racuni">Racuni</a></li>
+                    <li ><a href="#/raspored">Schedule</a></li>
+                    <li ng-if="etype == 'konobar'" ><a href="#/raspored">Region</a></li>
+                    <li ng-if="etype == 'konobar'"><a href="#/racuni">Orders</a></li>
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#/nalog">Moj Profil</a></li>
+                    <li><a href="#/nalog">My Profile</a></li>
                     <li><a href="#">Log out</a></li>
                 </ul>
             </div>
@@ -24,7 +24,7 @@
     <!-- NAV END -->
 
     <div   class="col-md-6" style="border: 1px solid black">
-        <h1>Porudzbine:</h1>
+        <h1>Accepted:</h1>
         <table class="table">
             <thead>
             <tr>
@@ -37,7 +37,7 @@
             </thead>
             <tbody>
 
-            <tr  ng-repeat="r in racuni" ng-if="rname == r.resname && r.paid != 1 "  >
+            <tr  ng-repeat="r in racuni" ng-if="rname == r.resname && r.paid != 1 && r.accepted == 1 && email == r.empolyeeemail " >
 
                 <td>{{r.num}}</td>
                 <td>{{r.resid}}</td>
@@ -46,6 +46,37 @@
                     <button type="button" class="btn btn-success" data-toggle="modal" ng-click="naplati(r.num,r.resid,r.resname,r.gmail)" data-target="#modal-1" >Naplati</button>
                 </td>
                 <td ng-if="r.done == 0">Pending</td>
+
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <div   class="col-md-6" style="border: 1px solid black">
+        <h1>Pending:</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Sifra</th>
+                <th>Naziv Jela</th>
+                <th>Pending</th>
+
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr  ng-repeat="r in racuni" ng-if="rname == r.resname && r.paid != 1 && r.accepted == 0"  >
+
+                <td>{{r.num}}</td>
+                <td>{{r.resid}}</td>
+
+                <td >
+                    <button type="button" class="btn btn-success" data-toggle="modal" ng-click="accepted(r.num,r.resid,r.resname,r.gmail)" data-target="#modal-1" >Accept</button>
+                </td>
+
 
             </tr>
 

@@ -42,18 +42,23 @@ public class Employee implements Serializable {
     @Column
     private String surname;
 
+    @Column
+    private Boolean firstlog;
+
+
     public Employee() {
     }
 
-    public Employee(String email, String restaurantName, String password, int size, int shoeSize, Date birthday, String name, String surname) {
+    public Employee(String email, String restaurantName, String password, int size, int shoe, Date birthday, String name, String surname, Boolean firstlog) {
         this.email = email;
         this.restaurantName = restaurantName;
         this.password = password;
         this.size = size;
-        this.shoe = shoeSize;
+        this.shoe = shoe;
         this.birthday = birthday;
         this.name = name;
         this.surname = surname;
+        this.firstlog = firstlog;
     }
 
     public String getEmail() {
@@ -118,5 +123,13 @@ public class Employee implements Serializable {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public Boolean getFirstlog() {
+        return firstlog;
+    }
+
+    public void setFirstlog(Boolean firstlog) {
+        this.firstlog = firstlog;
     }
 }

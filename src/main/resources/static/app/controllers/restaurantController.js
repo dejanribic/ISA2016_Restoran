@@ -9,6 +9,11 @@
     RestaurantController.$inject = ['$cookies', '$http', '$scope', '$location'];
     function RestaurantController($cookies, $http, $scope, $location) {
 
+        $scope.restrating = 1;
+        $scope.konobarrating = 1;
+        $scope.jelorating = 1;
+
+
         $scope.etype = $cookies.get('etype');
         if ($cookies.get("name") != null && $cookies.get("name") != "")
             $scope.profileName = $cookies.get("name");
@@ -177,6 +182,24 @@
             return total;
         }
 
+        $scope.oceni = function()
+        {
+            console.log( $scope.restrating);
+            console.log( $scope.konobarrating);
+            console.log( $scope.jelorating);
+
+            $http.get('/restaurants/oceni/'+$scope.restrating+'/'+$scope.konobarrating+'/'+$scope.jelorating+'/'+$cookies.get("email")+'/'+$scope.current.restaurantName+'/'+$scope.current.id ).success(function (response) {
+
+            });
+
+        }
+
+        $scope.sendres = function (res)
+        {
+            $scope.current = res;
+            console.log(res);
+        }
+
         // Log out
         $scope.logout = function () {
             var cookies = $cookies.getAll();
@@ -186,5 +209,6 @@
             });
             $location.url('/');
         };
+
     }
 })();
