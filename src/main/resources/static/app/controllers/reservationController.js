@@ -14,14 +14,6 @@
             $scope.profileName = $cookies.get("email");
         }
 
-        Date.prototype.toDateInputValue = (function () {
-            var local = new Date(this);
-            local.setDate(local.getDate() + 1);
-            // Offset vremenske zone
-            //local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-            return local
-        });
-
         $scope.reservationsWithInvitations = new Array();
 
         var refresh = function () {
@@ -68,8 +60,11 @@
                              */
 
                             //noinspection JSUnusedAssignment
-                            var datum = new Date(currRes[i].start);
-                            currRes[i].ispisDatuma = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
+                            //var datum = new Date(currRes[i].start);
+                            //console.log(datum);
+
+                            //currRes[i].ispisDatuma = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
+                            //console.log(currRes[i].ispisDatuma);
 
                             $scope.reservationsWithInvitations.push({
                                 reservation: currRes[i],

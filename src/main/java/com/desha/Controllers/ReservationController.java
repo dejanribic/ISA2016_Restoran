@@ -61,6 +61,7 @@ public class ReservationController {
             Guest host = guestRepository.findByEmail(email);
             ArrayList<Reservation> res = new ArrayList<>();
             res = repository.findByGuestEmailAndStartBefore(host.getEmail(), new Date());
+            // TODO :: ovde iscupati invite i samo ako je prihvacen bio staviti u spisak
             if (res.isEmpty())
                 return null;
             else

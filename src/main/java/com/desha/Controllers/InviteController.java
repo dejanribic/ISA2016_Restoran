@@ -7,6 +7,7 @@ import com.desha.Beans.Reservation;
 import com.desha.Repositories.FriendRepository;
 import com.desha.Repositories.GuestRepository;
 import com.desha.Repositories.InviteRepository;
+import com.desha.Repositories.ReservationRepository;
 import com.sendgrid.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,21 +15,24 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/invitations")
 public class InviteController {
 
+    private ReservationRepository reservationRepository;
     private InviteRepository repository;
     private GuestRepository guestRepository;
     private FriendRepository friendRepository;
 
     @Autowired
-    public InviteController(GuestRepository guestRepository, InviteRepository repository, FriendRepository friendRepository) {
+    public InviteController(GuestRepository guestRepository, InviteRepository repository, FriendRepository friendRepository, ReservationRepository reservationRepository) {
         this.guestRepository = guestRepository;
         this.repository = repository;
         this.friendRepository = friendRepository;
+        this.reservationRepository = reservationRepository;
     }
 
     @Value("${sendGridAPIKey}")
@@ -131,8 +135,14 @@ public class InviteController {
 
     @RequestMapping(value = "/activeNotConfirmed/{email:.+}")
     public List<Invite> getUnconfirmedInvites(@PathVariable String email) {
-        Guest me = guestRepository.findByEmail(email);
-        return repository.findByFriendEmailAndAccepted(me.getEmail(), false);
+        ArrayList<Invite> invites = repository.findByFriendEmailAndAccepted(guestRepository.findByEmail(email).getEmail(), false);
+        ArrayList<Invite> finalInvites = new ArrayList<>();
+        Date now = new Date();
+        for (Invite i : invites) {
+            if (now.before(reservationRepository.findById(i.getReservationId()).getStart()))
+                finalInvites.add(i);
+        }
+        return finalInvites;
     }
 
     @RequestMapping(value = "/activeConfirmed/{email:.+}")

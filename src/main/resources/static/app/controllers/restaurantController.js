@@ -42,10 +42,7 @@
             $scope.broj_stola = '1';
 
             $scope.datum = new Date();
-            //$scope.datum.ispis = ($scope.datum.getDate() + '/' + $scope.datum.getMonth() + '/' + $scope.datum.getFullYear() + ' - ' + $scope.datum.getTime());
-
             console.log($scope.datum);
-//            console.log($scope.datum.ispis);
         }
 
         $scope.pozoviPrijatelja = function (email) {

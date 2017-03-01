@@ -38,8 +38,9 @@
                         $http.get('/users/getOne/' + allNotConfirmed[i].guestEmail).success(function (response) {
                             allNotConfirmed[i].fullName = (response.name + ' ' + response.surname);
                             $http.get('/reservations/getOne/' + allNotConfirmed[i].reservationId).success(function (response) {
-                                var datum = new Date(response.start);
-                                allNotConfirmed[i].ispisDatum = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
+                                //var datum = new Date(response.start);
+                                //allNotConfirmed[i].ispisDatum = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
+                                allNotConfirmed[i].datum = response.start;
                             });
                         });
                         $scope.notConfirmed.push(allNotConfirmed[i]);
@@ -56,8 +57,9 @@
                         $http.get('/users/getOne/' + allConfirmed[i].guestEmail).success(function (response) {
                             allConfirmed[i].fullName = (response.name + ' ' + response.surname);
                             $http.get('/reservations/getOne/' + allConfirmed[i].reservationId).success(function (response) {
-                                var datum = new Date(response.start);
-                                allConfirmed[i].ispisDatum = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
+                                //var datum = new Date(response.start);
+                                //allConfirmed[i].ispisDatum = (datum.getDate() + '/' + datum.getMonth() + '/' + datum.getFullYear() + '/' + datum.getHours() + ':' + datum.getMinutes() + ':' + datum.getSeconds());
+                                allConfirmed[i].datum = response.start;
                             });
                         });
                         $scope.confirmed.push(allConfirmed[i]);

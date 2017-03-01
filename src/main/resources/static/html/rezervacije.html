@@ -36,7 +36,7 @@
                     <tbody>
                     <tr ng-repeat="res in reservationsWithInvitations">
                         <td>{{res.reservation.restaurantName}}</td>
-                        <td>{{res.reservation.ispisDatuma}}</td>
+                        <td ng-bind="res.reservation.start | date:'dd/MM/yyyy - HH:mm:ss'"></td>
                         <td>{{res.reservation.forh + " hours"}}</td>
                         <td>
                             <ul class="list-group">

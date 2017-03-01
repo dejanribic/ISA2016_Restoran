@@ -5,25 +5,20 @@
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li ng-if="etype == 'nista'" class="active"><a href="#/restorani">Restaurants<span class="sr-only">(current)</span></a>
-                    </li>
-                    <li ng-if="etype == 'nista'"><a href="#/rezervacije">Reservations</a></li>
-                    <li ng-if="etype == 'nista'"><a href="#/pozivnice">Invitations</a></li>
-                    <li ng-if="etype !== 'nista'"><a href="#/">Table chart</a></li>
-                    <li ng-if="etype !== 'nista'"><a href="#/raspored">Work schedule</a></li>
-                    <li ng-if="etype !== 'nista' && etype !== 'konobar'"><a href="#/order">Orders</a></li>
-                    <li ng-if="etype == 'konobar'"><a href="#/racuni">Bills</a></li>
+                    <li class="active"><a href="#/restorani">Restaurants<span class="sr-only">(current)</span></a></li>
+                    <li><a href="#/rezervacije">Reservations</a></li>
+                    <li><a href="#/pozivnice">Invitations</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#/nalog">{{profileName}}</a></li>
-                    <li><a href="#">Log out</a></li>
+                    <li><a href="" ng-click="logout()">Log out</a></li>
                 </ul>
             </div>
         </div>
     </nav>
     <!-- NAV END -->
 
-    <div class="row" ng-if="etype == 'nista'">
+    <div class="row">
         <div class="col-md-6">
             <h1>All restaurants:</h1>
             <table class="table">
@@ -79,7 +74,7 @@
         </div>
     </div>
 
-    <div class="container" ng-if="etype == 'nista'">
+    <div class="container">
         <div class="modal fade" id="modal-1">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -225,16 +220,6 @@
                                     <tr>
                                         <td>Table number:</td>
                                         <td>{{broj_stola}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Add friends:
-                                        </td>
-                                        <td>
-                                            <div class="form-group" style="width:250px;">
-                                                <input type="text" class="form-control" placeholder="Search...">
-                                            </div>
-                                        </td>
                                     </tr>
                                     <tr>
                                         <td></td>
