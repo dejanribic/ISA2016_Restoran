@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface Menu_Item_RatingRepository extends JpaRepository<Menu_Item_Rating, Menu_Item_RatingKey> {
 
-    List<Menu_Item_Rating> findByMenuItemName(String name);
+    List<Menu_Item_Rating> findByMenuItemNameAndRestaurantName(String name,String restaurantName);
 
 
 }

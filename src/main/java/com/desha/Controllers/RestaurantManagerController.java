@@ -5,11 +5,14 @@ import com.desha.Beans.Restaurant_Manager;
 import com.desha.Beans.UserLogin;
 import com.desha.Repositories.ManagerRepository;
 import com.desha.Repositories.Restaurant_ManagerRepository;
+import com.sendgrid.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -20,6 +23,9 @@ import java.util.List;
 public class RestaurantManagerController {
     private ManagerRepository managerRepository;
     private Restaurant_ManagerRepository restaurantManagerRepository;
+
+    @Value("${sendGridAPIKey}")
+    private String sendGridAPIKey;
 
     @Autowired
     public RestaurantManagerController(ManagerRepository managerRepository, Restaurant_ManagerRepository restaurantManagerRepository) {
@@ -54,10 +60,35 @@ public class RestaurantManagerController {
 
         if (managerRepository.findByEmail(newManager.getManagerEmail()) == null) {
             managerRepository.save(nm);
-            // TODO send mail
         }
         restaurantManagerRepository.save(newManager);
         managerRepository.save(nm);
         return newManager;
+    }
+
+    private void sendMail(String email){
+        //TODO change localhost:8080 to domain
+        String contentString = "Hello, welcome to the \"ISA 2016\" Restaurant app! \n \n Please confirm your email address by clicking on the following link:\n\nhttp://localhost:8080/dkjasdHHHasldkeeeeads/" + email + "\n\n Thanks!";
+
+        Content content = new Content("text/html", contentString);
+        //Content content = new Content("text/plain", contentString);
+
+        Email from = new Email("ISA.DAEMON@ISA2016.BRT");
+        Email to = new Email(email);
+
+        String subject = "ISA 2016 - User confirmation";
+
+        Mail mail = new Mail(from, subject, to, content);
+
+        SendGrid sg = new SendGrid(sendGridAPIKey);
+        Request request = new Request();
+        try {
+            request.method = Method.POST;
+            request.endpoint = "mail/send";
+            request.body = mail.build();
+            Response response = sg.api(request);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }

@@ -57,9 +57,7 @@ public class Sys_ManagerController {
         if(repository.findByEmail(newSys_Manager.getEmail())!=null){
             ret.setMessage("System manager with that email already exists.");
         }else{
-            newSys_Manager.setPassword("");
             if(repository.save(newSys_Manager)!=null){
-                //TODO send mail
                 ret.setMessage("System manager "+newSys_Manager.getEmail() +" registered.");
             }
         }

@@ -126,7 +126,24 @@
         }
 
         var reloadEmployees = function () {
+            $http.get('empman/allWithEarningAndRating').success(function (response) {
+                $scope.employees = response;
+                $http.get('empman/getSchedules').success(function (response) {
+                    $scope.schedules = response;
+                    $scope.dp = new DayPilot.Scheduler("dp");
+                    $scope.dp.init();
+                    $scope.dp.treeEnabled = true;
+                    $scope.dp.resources = makeResources();
+                    $scope.dp.events.list = makeEvents();
+                    $scope.dp.onTimeRangeSelected = addSchEvent;
+                    $scope.schDate.setHours(1,0,0,0);
+                    $scope.dp.eventMoveHandling = 'Disabled';
+                    $scope.dp.startDate = new DayPilot.Date($scope.schDate);
+                    $scope.dp.days = $scope.dp.startDate.daysInMonth();
+                    $scope.dp.update();
 
+                });
+            });
         }
 
     }

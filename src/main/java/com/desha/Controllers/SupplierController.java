@@ -105,7 +105,7 @@ public class SupplierController {
         Email from = new Email("ISA.DAEMON@ISA2016.BRT");
         Email to = new Email(email);
 
-        String subject = "ISA 2016 - User confirmation";
+        String subject = "ISA 2016 - Accepted offer";
 
         Mail mail = new Mail(from, subject, to, content);
 

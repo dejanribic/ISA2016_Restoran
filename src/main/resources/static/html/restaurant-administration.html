@@ -1,6 +1,8 @@
+<a href="#/demand">Supplies</a>
+<a href="#/employeeManagement">Employees</a>
+<a href="#/regionz">Employees</a>
 <div class="col-md-6" style="border: 1px solid black">
-    <a href="#/demands">Supplies</a>
-    <a href="#/employeeManagement">Supplies</a>
+
     <h1>{{restaurant.name}}</h1>
     <div>Rating {{restaurantRating}}</div>
     <div>Visit graph</div>
@@ -10,7 +12,7 @@
 
     <label for="map">Location</label>
     <div style="width:600px;height:400px">
-        <div id="map" style="width:600px;height:400px" >My map will go here</div>
+        <div id="map" style="width:600px;height:400px">No map data</div>
     </div>
     <!-- TODO http://stackoverflow.com/questions/18571001/file-upload-using-angularjs-->
     <label>Table grid size:</label>
@@ -41,27 +43,31 @@
             <td>{{it.menuItem.type_name}}</td>
             <td ng-if="it.rating!=0">{{it.rating}}</td>
             <td ng-if="it.rating==0">Not rated</td>
-            <td><button type="button" class="btn btn-success" data-toggle="modal" ng-click="removeMenuItem(it)">Remove</button></td>
+            <td>
+               <!-- <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-changeMenuItem"
+                        ng-click="setMenuItem(it)">Change
+                </button>-->
+            </td>
         </tr>
         </tbody>
     </table>
 
     <form id="add-menu-item-form" role="form" style="display: block;">
         <div class="form-group">
-            <input type="text"  class="form-control" maxlength="30"
+            <input type="text" class="form-control" maxlength="30"
                    placeholder="Name" value="" ng-model="menuItem.name">
         </div>
         <div class="form-group">
-            <input type="text"  class="form-control"
+            <input type="text" class="form-control"
                    placeholder="Description" value="" ng-model="menuItem.description">
         </div>
         <div class="form-group">
-            <input type="number"  class="form-control"
+            <input type="number" class="form-control"
                    placeholder="Price" value="" ng-model="menuItem.price">
         </div>
         <div class="form-group">
             <label for="type">Type</label>
-            <select neme="type" id="type" >
+            <select neme="type" id="type">
                 <option ng-repeat="ty in menuItemTypes" value="{{ty.name}}">{{ty.name}}</option>
             </select>
         </div>
@@ -69,10 +75,48 @@
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
                     <input type="submit"
-                           class="form-control btn btn-login" value="Add menu item"
+                           class="form-control btn btn-login" value="Add/Change menu item"
                            ng-click="createMenuItem()">
                 </div>
             </div>
         </div>
     </form>
+</div>
+
+
+<div class="container">
+    <div class="modal fade" id="modal-changeMenuItem">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Change menu item</h3>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <div class="form-group">
+                                <input type="text" class="form-control"
+                                       placeholder="Description" value="" ng-model="menuItem.description">
+                            </div>
+                        </tr>
+                        <tr>
+                            <div class="form-group">
+                                <input type="number" class="form-control"
+                                       placeholder="Price" value="" ng-model="menuItem.price">
+                            </div>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="modal-footer">
+                    <a href="" class="btn btn-default" data-dismiss="modal" ng-click="createMenuItem()">Change</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
