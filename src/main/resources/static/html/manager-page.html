@@ -1,15 +1,26 @@
-<div class="col-md-6" style="border: 1px solid black">
-    <h1>My restaurants:</h1>
-    <table id="restaurants" class="table">
-        <thead>
-        <tr>
-            <th>Name</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="res in restaurants">
-            <td><a ng-click="goToRestaurant(res)">{{res.restaurantName}}</a></td>
-        </tr>
-        </tbody>
-    </table>
+<div class="container">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="" ng-click="logout()">Log out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="col-md-6" style="border: 1px solid black">
+        <h1>My restaurants:</h1>
+        <table id="restaurants" class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="res in restaurants">
+                <td><a ng-click="goToRestaurant(res)">{{res.restaurantName}}</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

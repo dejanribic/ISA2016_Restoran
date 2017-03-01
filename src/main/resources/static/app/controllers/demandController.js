@@ -62,6 +62,14 @@
 
         }
 
+        $scope.logout = function () {
+            var cookies = $cookies.getAll();
+            angular.forEach(cookies, function (v, k) {
+                console.log(cookies);
+                $cookies.remove(k);
+            });
+            $location.url('/');
+        };
 
 
     }

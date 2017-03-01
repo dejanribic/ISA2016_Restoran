@@ -13,4 +13,5 @@ public interface WorkScheduleRepository extends JpaRepository<Work_Schedule, Wor
     ArrayList<Work_Schedule> findByEmailAndResname(String email, String resname);
 
     ArrayList<Work_Schedule> findByResname(String resname);
+
 }

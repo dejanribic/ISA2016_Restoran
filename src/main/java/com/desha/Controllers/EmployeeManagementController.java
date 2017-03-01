@@ -88,6 +88,10 @@ public class EmployeeManagementController {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         Restaurant res = (Restaurant) attr.getAttribute("activeRestaurant", ServletRequestAttributes.SCOPE_SESSION);
         ArrayList<Region> regions = regionRepository.findByResname(res.getName());
+        ArrayList<Work_Schedule> wsz =workScheduleRepository.findByResname(res.getName());
+        for(Work_Schedule a:wsz){
+            workScheduleRepository.delete(a);
+        }
         if(regions.size()==0){
             ret.setMessage("No regions");
             return ret;

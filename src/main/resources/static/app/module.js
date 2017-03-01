@@ -66,7 +66,10 @@
             controller: 'SupplierController'
         });
 
-
+        $routeProvider.when('/regionz', {
+            templateUrl: 'html/regionz.html',
+            controller: 'RegionsController'
+        });
         $routeProvider.when('/order', {
             templateUrl: 'html/order.html',
             controller: 'OrderController'

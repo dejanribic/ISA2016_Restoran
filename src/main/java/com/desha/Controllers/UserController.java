@@ -27,7 +27,7 @@ public class UserController {
     private String sendGridAPIKey;
 
     @Autowired
-    public UserController(GuestRepository guests, Sys_ManagerRepository sys_managers, ManagerRepository managers, SupplierRepository suppliers, EmployeeRepository employees , CanWorkWithRepository cwws) {
+    public UserController(GuestRepository guests, Sys_ManagerRepository sys_managers, ManagerRepository managers, SupplierRepository suppliers, EmployeeRepository employees, CanWorkWithRepository cwws) {
         this.sys_managers = sys_managers;
         this.suppliers = suppliers;
         this.managers = managers;
@@ -118,7 +118,6 @@ public class UserController {
         UserLogin returnGuest = new UserLogin();
 
 
-
         // User Types:
         // Guest = 0
         // Manager = 1
@@ -160,8 +159,8 @@ public class UserController {
             returnGuest.setName(employee.getName());
 
 
-           try{
-                 if (CWW.getMenu_item_type_name().equals("pice")) {
+            try {
+                if (CWW.getMenu_item_type_name().equals("pice")) {
                     returnGuest.setEtype("pice");
                     System.out.println("ja sam sanker");
                 } else if (CWW.getMenu_item_type_name().equals("meso")) {
@@ -182,12 +181,8 @@ public class UserController {
                 }
             } catch (NullPointerException e) {
             }
-            catch(NullPointerException  e){ }
 
-            }
-
-
-
+        }
 
 
         // Employee

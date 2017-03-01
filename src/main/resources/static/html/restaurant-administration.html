@@ -1,120 +1,143 @@
-<a href="#/demand">Supplies</a>
-<a href="#/employeeManagement">Employees</a>
-<a href="#/regionz">Employees</a>
-<div class="col-md-6" style="border: 1px solid black">
-
-    <h1>{{restaurant.name}}</h1>
-    <div>Rating {{restaurantRating}}</div>
-    <div>Visit graph</div>
-    <h5>Description:</h5>
-    <textarea rows="4" cols="50" ng-model="restaurant.description">{{restaurant.description}}</textarea>
-
-
-    <label for="map">Location</label>
-    <div style="width:600px;height:400px">
-        <div id="map" style="width:600px;height:400px">No map data</div>
-    </div>
-    <!-- TODO http://stackoverflow.com/questions/18571001/file-upload-using-angularjs-->
-    <label>Table grid size:</label>
-    <input type="text" ng-model="restaurant.tablegrid_width"/>
-    <input type="text" ng-model="restaurant.tablegrid_height"/>
-    <h5>Tables</h5>
-    <button ng-click="updateRestaurant()">Apply changes</button>
-
-</div>
-
-<div class="col-md-6" style="border: 1px solid black">
-    <h1>Menu:</h1>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Type</th>
-            <th>Rating</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="it in menuItems">
-            <td>{{it.menuItem.name}}</td>
-            <td>{{it.menuItem.description}}</td>
-            <td>{{it.menuItem.price}}</td>
-            <td>{{it.menuItem.type_name}}</td>
-            <td ng-if="it.rating!=0">{{it.rating}}</td>
-            <td ng-if="it.rating==0">Not rated</td>
-            <td>
-               <!-- <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-changeMenuItem"
-                        ng-click="setMenuItem(it)">Change
-                </button>-->
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-    <form id="add-menu-item-form" role="form" style="display: block;">
-        <div class="form-group">
-            <input type="text" class="form-control" maxlength="30"
-                   placeholder="Name" value="" ng-model="menuItem.name">
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control"
-                   placeholder="Description" value="" ng-model="menuItem.description">
-        </div>
-        <div class="form-group">
-            <input type="number" class="form-control"
-                   placeholder="Price" value="" ng-model="menuItem.price">
-        </div>
-        <div class="form-group">
-            <label for="type">Type</label>
-            <select neme="type" id="type">
-                <option ng-repeat="ty in menuItemTypes" value="{{ty.name}}">{{ty.name}}</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <input type="submit"
-                           class="form-control btn btn-login" value="Add/Change menu item"
-                           ng-click="createMenuItem()">
-                </div>
+<div class="container">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="#/manager">Restaurants</a></li>
+                    <li><a href="#/resadm">Restaurant</a></li>
+                    <li><a href="#/demand">Supplies</a></li>
+                    <li><a href="#/employeeManagement">Employees</a></li>
+                    <li><a href="#/regionz">Regions and tables</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="" ng-click="logout()">Log out</a></li>
+                </ul>
             </div>
         </div>
-    </form>
-</div>
+    </nav>
+    <div class="col-md-6" style="border: 1px solid black">
 
+        <h1>{{restaurant.name}}</h1>
+        <div class="form-group">
+            <label for="rtg">Rating: </label>
+            <div id="rtg">{{restaurantRating}}</div>
+        </div>
+        <form role="form" style="display: block;">
 
-<div class="container">
-    <div class="modal fade" id="modal-changeMenuItem">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 class="modal-title">Change menu item</h3>
+            <div class="form-group">
+                <label for="desc">Description</label>
+                <textarea id="desc" rows="4" cols="50" class="form-control"
+                          ng-model="restaurant.description">{{restaurant.description}}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="map">Location</label>
+                <div class="form-control" style="width:500px;height:400px">
+                    <div id="map" style="width:500px;height:400px">No map data</div>
                 </div>
-                <div class="modal-body">
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <div class="form-group">
-                                <input type="text" class="form-control"
-                                       placeholder="Description" value="" ng-model="menuItem.description">
-                            </div>
-                        </tr>
-                        <tr>
-                            <div class="form-group">
-                                <input type="number" class="form-control"
-                                       placeholder="Price" value="" ng-model="menuItem.price">
-                            </div>
-
-                        </tr>
-
-                        </tbody>
-                    </table>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <button class="form-control btn btn-success" ng-click="updateRestaurant()">Apply changes</button>
+                    </div>
                 </div>
+            </div>
+    </div>
 
-                <div class="modal-footer">
-                    <a href="" class="btn btn-default" data-dismiss="modal" ng-click="createMenuItem()">Change</a>
+    <div class="col-md-6" style="border: 1px solid black">
+        <h1>Menu:</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Type</th>
+                <th>Rating</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="it in menuItems">
+                <td>{{it.menuItem.name}}</td>
+                <td>{{it.menuItem.description}}</td>
+                <td>{{it.menuItem.price}}</td>
+                <td>{{it.menuItem.type_name}}</td>
+                <td ng-if="it.rating!=0">{{it.rating}}</td>
+                <td ng-if="it.rating==0">Not rated</td>
+                <td>
+                    <!-- <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-changeMenuItem"
+                             ng-click="setMenuItem(it)">Change
+                     </button>-->
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <form id="add-menu-item-form" role="form" style="display: block;">
+            <div class="form-group">
+                <input type="text" class="form-control" maxlength="30"
+                       placeholder="Name" value="" ng-model="menuItem.name">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control"
+                       placeholder="Description" value="" ng-model="menuItem.description">
+            </div>
+            <div class="form-group">
+                <input type="number" class="form-control"
+                       placeholder="Price" value="" ng-model="menuItem.price">
+            </div>
+            <div class="form-group">
+                <label for="type">Type</label>
+                <select neme="type" id="type">
+                    <option ng-repeat="ty in menuItemTypes" value="{{ty.name}}">{{ty.name}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <input type="submit"
+                               class="form-control btn btn-success" value="Add/Change menu item"
+                               ng-click="createMenuItem()">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="container">
+        <div class="modal fade" id="modal-changeMenuItem">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3 class="modal-title">Change menu item</h3>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <div class="form-group">
+                                    <input type="text" class="form-control"
+                                           placeholder="Description" value="" ng-model="menuItem.description">
+                                </div>
+                            </tr>
+                            <tr>
+                                <div class="form-group">
+                                    <input type="number" class="form-control"
+                                           placeholder="Price" value="" ng-model="menuItem.price">
+                                </div>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="modal-footer">
+                        <a href="" class="form-control btn btn-success" data-dismiss="modal" ng-click="createMenuItem()">Change</a>
+                    </div>
                 </div>
             </div>
         </div>

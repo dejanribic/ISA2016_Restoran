@@ -53,7 +53,7 @@ public class Sys_ManagerController {
     @RequestMapping(value = "/create", method = RequestMethod.PUT)
     public ReturnMessage create(@RequestBody Sys_Manager newSys_Manager) {
         ReturnMessage ret = new ReturnMessage();
-
+        newSys_Manager.setPassword("1");
         if(repository.findByEmail(newSys_Manager.getEmail())!=null){
             ret.setMessage("System manager with that email already exists.");
         }else{

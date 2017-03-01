@@ -1,94 +1,113 @@
-<div class="col-md-6" style="border: 1px solid black">
-    <h1>Demands:</h1>
-    <table id="Demands" class="table">
-        <thead>
-        <tr>
-            <th>Article name</th>
-            <th>Amount</th>
-            <th>From date</th>
-            <th>To date</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="dm in demands">
-            <td>{{dm.name}}</td>
-            <td>{{dm.ammount}}</td>
-            <td>{{dm.start}}</td>
-            <td>{{dm.end}}</td>
-            <td ng-if="!dm.closed">
-                <button type="button" class="btn btn-success"  ng-click="showOffers(dm)">Show offers</button>
-            </td>
-            <td ng-if="dm.closed">
-                Closed
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-    <form id="add-demand-form" role="form" style="display: block;">
-        <div class="form-group">
-            <input type="text" class="form-control"
-                   placeholder="Article name" value="" ng-model="demand.name">
-        </div>
-        <div class="form-group">
-            <input type="number" class="form-control"
-                   placeholder="Amount"  ng-model="demand.ammount">
-        </div>
-        <div class="form-group">
-            <input type="date"  class="form-control"
-                   placeholder="To date" value="" ng-model="demand.end">
-        </div>
-
-
-        <div class="form-group">
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <input type="submit" class="form-control btn btn-success" value="Create demand"
-                           ng-click="createDemand()">
-                </div>
+<div class="container">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="#/manager">Restaurants</a></li>
+                    <li><a href="#/resadm">Restaurant</a></li>
+                    <li><a href="#/demand">Supplies</a></li>
+                    <li><a href="#/employeeManagement">Employees</a></li>
+                    <li><a href="#/regionz">Regions and tables</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="" ng-click="logout()">Log out</a></li>
+                </ul>
             </div>
         </div>
-    </form>
-</div>
-<div class="col-md-6" style="border: 1px solid black">
-    <h1 id="offer-head">Offers</h1>
-    <table id="offers" class="table">
-        <thead>
-        <tr>
-            <th>Delivery date</th>
-            <th>Price</th>
-            <th>Supplier</th>
-            <th>&nbsp;</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="of in offers">
-            <td>{{of.diliveredUntil}}</td>
-            <td>{{of.price}}</td>
-            <td>{{of.supplierEmail}}</td>
-            <td>
-                <button type="button" class="btn btn-success" ng-click="acceptOffer(of)">Accept offer</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div class="col-md-6" style="border: 1px solid black">
-    <h1>Suppliers</h1>
+    </nav>
 
-    <form id="add-supplier-form" role="form" style="display: block;">
-        <div class="form-group">
-            <input type="email" class="form-control"
-                   placeholder="Supplier email" ng-model="supplier.supplierEmail">
-        </div>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <input type="submit"
-                           class="form-control btn btn-login" value="Add supplier"
-                           ng-click="createSupplier()">
+    <div class="col-md-6" style="border: 1px solid black">
+        <h1>Demands:</h1>
+        <table id="Demands" class="table">
+            <thead>
+            <tr>
+                <th>Article name</th>
+                <th>Amount</th>
+                <th>From date</th>
+                <th>To date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="dm in demands">
+                <td>{{dm.name}}</td>
+                <td>{{dm.ammount}}</td>
+                <td>{{dm.start}}</td>
+                <td>{{dm.end}}</td>
+                <td ng-if="!dm.closed">
+                    <button type="button" class="btn btn-success" ng-click="showOffers(dm)">Show offers</button>
+                </td>
+                <td ng-if="dm.closed">
+                    Closed
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <form id="add-demand-form" role="form" style="display: block;">
+            <div class="form-group">
+                <input type="text" class="form-control"
+                       placeholder="Article name" value="" ng-model="demand.name">
+            </div>
+            <div class="form-group">
+                <input type="number" class="form-control"
+                       placeholder="Amount" ng-model="demand.ammount">
+            </div>
+            <div class="form-group">
+                <input type="date" class="form-control"
+                       placeholder="To date" value="" ng-model="demand.end">
+            </div>
+
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <input type="submit" class="form-control btn btn-success" value="Create demand"
+                               ng-click="createDemand()">
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
+    <div class="col-md-6" style="border: 1px solid black">
+        <h1 id="offer-head">Offers</h1>
+        <table id="offers" class="table">
+            <thead>
+            <tr>
+                <th>Delivery date</th>
+                <th>Price</th>
+                <th>Supplier</th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="of in offers">
+                <td>{{of.diliveredUntil}}</td>
+                <td>{{of.price}}</td>
+                <td>{{of.supplierEmail}}</td>
+                <td>
+                    <button type="button" class="btn btn-success" ng-click="acceptOffer(of)">Accept offer</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6" style="border: 1px solid black">
+        <h1>Suppliers</h1>
+
+        <form id="add-supplier-form" role="form" style="display: block;">
+            <div class="form-group">
+                <input type="email" class="form-control"
+                       placeholder="Supplier email" ng-model="supplier.supplierEmail">
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <input type="submit"
+                               class="form-control btn btn-success" value="Add supplier"
+                               ng-click="createSupplier()">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

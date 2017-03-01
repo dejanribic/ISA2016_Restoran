@@ -22,42 +22,49 @@ import java.util.List;
 public class ReservationController {
 
     private GuestRepository guestRepository;
-    private ReservationRepository repository;
+    private ReservationRepository reservationRepository;
+    private InviteRepository invitesRepository;
 
     @Autowired
-    public ReservationController(GuestRepository guestRepository, ReservationRepository repository) {
+    public ReservationController(GuestRepository guestRepository, ReservationRepository repository, InviteRepository invitesRepository) {
         this.guestRepository = guestRepository;
-        this.repository = repository;
+        this.reservationRepository = repository;
+        this.invitesRepository = invitesRepository;
     }
 
     @RequestMapping(value = "/all")
     List<Reservation> getAll() {
-        return repository.findAll();
+        return reservationRepository.findAll();
     }
 
     @RequestMapping(value = "/getOne/{id}")
     public Reservation getById(@PathVariable int id) {
-        return repository.findById(id);
+        return reservationRepository.findById(id);
     }
 
-
+    @Transactional
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @RequestMapping(value = "/add", method = RequestMethod.PUT)
     Reservation addReservation(@RequestBody Reservation reservation) {
         Timestamp sq = reservation.getStart();
         sq.setTime(1000 * (long) Math.floor(sq.getTime() / 1000));
         reservation.setStart(sq);
-        repository.save(reservation);
-        return repository.findByGuestEmailAndRestaurantNameAndStartAndForh(reservation.getGuestEmail(), reservation.getRestaurantName(), reservation.getStart(), reservation.getForh());
+        reservationRepository.save(reservation);
+        return reservationRepository.findByGuestEmailAndRestaurantNameAndStartAndForh(reservation.getGuestEmail(), reservation.getRestaurantName(), reservation.getStart(), reservation.getForh());
     }
 
-    // URADJENO
+    @RequestMapping(value = "/delete", method = RequestMethod.PUT)
+    void deleteReservation(@RequestBody Reservation reservation) {
+        ArrayList<Invite> invitesToDelete = invitesRepository.findByReservationId(reservation.getId());
+        for (Invite i : invitesToDelete) {
+            invitesRepository.delete(i);
+        }
+        reservationRepository.delete(reservation);
+    }
 
     @RequestMapping(value = "/allActive/{email:.+}")
     List<Reservation> getAllActive(@PathVariable String email) {
-        Guest host = guestRepository.findByEmail(email);
-        //return null;
-        //return repository.findByHostAndDateTimeAfter(host, new Date());
-        return repository.findByGuestEmailAndStartAfter(email, new Date());
+        return reservationRepository.findByGuestEmailAndStartAfter(email, new Date());
     }
 
     @RequestMapping(value = "/allInactive/{email:.+}")
@@ -65,18 +72,13 @@ public class ReservationController {
         if (email != null) {
 
             Guest host = guestRepository.findByEmail(email);
-            ArrayList<Reservation> res = new ArrayList<>();
-            try {
-                res = repository.findByGuestEmailAndStartBefore(host.getEmail(), new Date());
-            } catch (NullPointerException e){};
-            if (res.isEmpty())
             ArrayList<Reservation> finalListRest = new ArrayList<>();
             finalListRest = reservationRepository.findByGuestEmailAndStartBefore(host.getEmail(), new Date());
 
             if (finalListRest.isEmpty())
                 return null;
             else
-                return res;
+                return finalListRest;
         } else return null;
     }
 }

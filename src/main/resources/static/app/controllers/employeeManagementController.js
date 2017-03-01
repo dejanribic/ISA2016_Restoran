@@ -130,6 +130,15 @@
                 $scope.employees = response;
                 $http.get('empman/getSchedules').success(function (response) {
                     $scope.schedules = response;
+                    $scope.schedulerConfig = {
+                        scale: "Day",
+                        days: new DayPilot.Date().daysInMonth(),
+                        startDate: new DayPilot.Date().firstDayOfMonth(),
+                        timeHeaders: [
+                            {groupBy: "Month"},
+                            {groupBy: "Day", format: "d"}
+                        ]
+                    };
                     $scope.dp = new DayPilot.Scheduler("dp");
                     $scope.dp.init();
                     $scope.dp.treeEnabled = true;
@@ -146,6 +155,14 @@
             });
         }
 
+        $scope.logout = function () {
+            var cookies = $cookies.getAll();
+            angular.forEach(cookies, function (v, k) {
+                console.log(cookies);
+                $cookies.remove(k);
+            });
+            $location.url('/');
+        };
     }
 
 
