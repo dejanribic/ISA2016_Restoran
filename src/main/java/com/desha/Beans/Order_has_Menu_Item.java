@@ -37,15 +37,22 @@ public class Order_has_Menu_Item implements Serializable {
     @Column
     private Boolean done;
 
+    @Column
+    private Boolean accepted;
+
+    @Column(name="employee_email")
+    private String employeeemail;
 
 
-    public Order_has_Menu_Item(int order_num, int reservation_id, String restaurant_name, String guest_email, String menu_item_name , Boolean done) {
-        this.num = order_num;
-        this.id = reservation_id;
-        this.restname = restaurant_name;
-        this.email = guest_email;
-        this.menuitemname = menu_item_name;
+    public Order_has_Menu_Item(int num, int id, String restname, String email, String menuitemname, Boolean done, Boolean accepted, String employeeemail) {
+        this.num = num;
+        this.id = id;
+        this.restname = restname;
+        this.email = email;
+        this.menuitemname = menuitemname;
         this.done = done;
+        this.accepted = accepted;
+        this.employeeemail = employeeemail;
     }
 
     public Order_has_Menu_Item() {
@@ -97,5 +104,21 @@ public class Order_has_Menu_Item implements Serializable {
 
     public void setDone(Boolean done) {
         this.done = done;
+    }
+
+    public Boolean getAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(Boolean accepted) {
+        this.accepted = accepted;
+    }
+
+    public String getEmployeeemail() {
+        return employeeemail;
+    }
+
+    public void setEmployeeemail(String employeeemail) {
+        this.employeeemail = employeeemail;
     }
 }
