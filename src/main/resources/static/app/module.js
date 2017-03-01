@@ -40,7 +40,10 @@
             controller: 'MenuItemController'
         });
 
-
+        $routeProvider.when('/employeeManagement', {
+            templateUrl: 'html/employee-management.html',
+            controller: 'EmployeeManagementController'
+        });
 
         $routeProvider.when('/demand', {
             templateUrl: 'html/demand.html',
@@ -49,10 +52,6 @@
         $routeProvider.when('/sysman', {
             templateUrl: 'html/sys-manager-page.html',
             controller: 'RestaurantCreateController'
-        });
-        $routeProvider.when('/manager', {
-            templateUrl: 'html/manager-page.html',
-            controller: 'DemandController'
         });
         $routeProvider.when('/manager', {
             templateUrl: 'html/manager-page.html',

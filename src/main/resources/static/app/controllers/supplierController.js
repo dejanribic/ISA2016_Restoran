@@ -22,6 +22,7 @@
 
         $scope.addOffer = function () {
             $http.put('/offer/create',$scope.offerToAdd).success(function (response){
+                alert(response.message);
                 $scope.offerToAdd=undefined;
                 $http.get('/offer/getBySupplier').success(function (response){
                     $scope.offers = response;

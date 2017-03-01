@@ -5,6 +5,7 @@ import com.desha.Beans.ReservationKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -22,5 +23,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Reserv
     Reservation findById(int id);
 
     ArrayList<Reservation> findByGuestEmailAndStartBefore(String email, Date date);
+
+    ArrayList<Reservation> findByStartBetweenAndRestaurantName(Timestamp e, Timestamp s, String restaurantName);
 
 }

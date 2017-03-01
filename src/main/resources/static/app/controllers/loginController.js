@@ -86,13 +86,13 @@
                         $location.url('/restorani');
                     }
                     else if (response.type == 2) {
-                        $location.url('/restorani');
+                        $location.url('/manager');
                     }
                     else if (response.type == 3) {
-                        $location.url('/restorani');
+                        $location.url('/supplier');
                     }
                     else if (response.type == 4) {
-                        $location.url('/restorani');
+                        $location.url('/sysman');
                     }
                     else if (response.type == 5) {
                         console.log("Uso");
