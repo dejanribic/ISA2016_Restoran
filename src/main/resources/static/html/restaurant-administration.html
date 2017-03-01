@@ -1,16 +1,21 @@
 <div class="col-md-6" style="border: 1px solid black">
+    <a href="#/demands">Supplies</a>
+    <a href="#/employeeManagement">Supplies</a>
     <h1>{{restaurant.name}}</h1>
     <div>Rating {{restaurantRating}}</div>
     <div>Visit graph</div>
     <h5>Description:</h5>
-    <textarea rows="4" cols="50">{{restaurant.description}}</textarea>
-    <h5>Table grid size:</h5>
-    <input type="text" value="{{restaurant.tablegrid_width}}"/>
-    <input type="text" value="{{restaurant.tablegrid_height}}"/>
-    <h5>Location:</h5>
-    <!-- TODO https://www.w3schools.com/html/html_googlemaps.asp-->
-    <h5>Image:</h5>
+    <textarea rows="4" cols="50" ng-model="restaurant.description">{{restaurant.description}}</textarea>
+
+
+    <label for="map">Location</label>
+    <div style="width:600px;height:400px">
+        <div id="map" style="width:600px;height:400px" >My map will go here</div>
+    </div>
     <!-- TODO http://stackoverflow.com/questions/18571001/file-upload-using-angularjs-->
+    <label>Table grid size:</label>
+    <input type="text" ng-model="restaurant.tablegrid_width"/>
+    <input type="text" ng-model="restaurant.tablegrid_height"/>
     <h5>Tables</h5>
     <button ng-click="updateRestaurant()">Apply changes</button>
 
@@ -25,23 +30,25 @@
             <th>Description</th>
             <th>Price</th>
             <th>Type</th>
+            <th>Rating</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="it in menuItems">
-            <td>{{it.name}}</td>
-            <td>{{it.description}}</td>
-            <td>{{it.price}}</td>
-            <td>{{it.type_name}}</td>
-            <td>{{it.rating}}</td>
-            <td><button type="button" class="btn btn-success" data-toggle="modal" ng-click="remove(it)">Remove</button></td>
+            <td>{{it.menuItem.name}}</td>
+            <td>{{it.menuItem.description}}</td>
+            <td>{{it.menuItem.price}}</td>
+            <td>{{it.menuItem.type_name}}</td>
+            <td ng-if="it.rating!=0">{{it.rating}}</td>
+            <td ng-if="it.rating==0">Not rated</td>
+            <td><button type="button" class="btn btn-success" data-toggle="modal" ng-click="removeMenuItem(it)">Remove</button></td>
         </tr>
         </tbody>
     </table>
 
     <form id="add-menu-item-form" role="form" style="display: block;">
         <div class="form-group">
-            <input type="text"  class="form-control"
+            <input type="text"  class="form-control" maxlength="30"
                    placeholder="Name" value="" ng-model="menuItem.name">
         </div>
         <div class="form-group">

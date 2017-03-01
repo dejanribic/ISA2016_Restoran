@@ -6,14 +6,21 @@
             <th>Email</th>
             <th>Name</th>
             <th>Surname</th>
+            <th>Size</th>
+            <th>Shoe size</th>
+            <th>Rating</th>
+            <th>Earnings</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="emp in employees">
-            <td><a href="employee/{{emp.email}}">{{emp.email}}</a></td>
-            <!-- TODO go to dedicated employee page to see earnings and rating -->
-            <td>{{it.name}}</td>
-            <td>{{it.surname}}</td>
+            <td>{{emp.employee.email}}</td>
+            <td>{{emp.employee.name}}</td>
+            <td>{{emp.employee.surname}}</td>
+            <td>{{emp.employee.size}}</td>
+            <td>{{emp.employee.shoe}}</td>
+            <td>{{emp.rating}}</td>
+            <td>{{emp.earnings}}</td>
         </tr>
         </tbody>
     </table>
@@ -41,7 +48,7 @@
         </div>
         <div class="form-group">
             <input type="number"  class="form-control"
-                   placeholder="Shoe size" value="" ng-model="employee.shoeSize">
+                   placeholder="Shoe size" value="" ng-model="employee.shoe">
         </div>
         <div class="form-group">
             <div class="row">
@@ -54,8 +61,20 @@
         </div>
     </form>
 
+
+</div>
+
+
+<div class="col-md-6" style="border: 1px solid black">
     <h1>Schedule</h1>
-    <!--TODO http://angular-ui.github.io/ui-calendar/
-        if user etype konobar add region
-    -->
+    <!--<label for="schDate">Scheduler date</label>
+    <input id="schDate" name="schDate" type="date" ng-model="schDate" ng-change="changeSchDate()">-->
+    <div id="dp" ></div>
+    <div>&nbsp</div>
+    <div class="col-sm-6 col-sm-offset-3">
+        <input type="submit"
+               class="form-control btn btn-register" value="Save changes"
+               ng-click="saveSchChanges()">
+    </div>
+    <div>&nbsp</div><div>&nbsp</div><div>&nbsp</div><div>&nbsp</div>
 </div>
